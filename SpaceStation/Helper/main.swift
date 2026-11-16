@@ -2,10 +2,13 @@
 // Owns the XInput/IOUSBLib link to the controller; serves Codable requests over XPC.
 
 import Foundation
+import OSLog
 import XPC
 import FlydigiKit
 import FlydigiHelperProtocol
 import FlydigiTransport
+
+private let helperLog = Logger(subsystem: "com.uiltonlopes.spacestation", category: "helper")
 
 @available(macOS 14.0, *)
 final class HelperService: @unchecked Sendable {
@@ -94,7 +97,17 @@ final class HelperService: @unchecked Sendable {
                     var cfgs: [[UInt8]] = []
                     if loadConfigs {
                         s.configId = targetSlot; _ = try? s.readBlob(.config)   // burn quirk read
-                        for i in 0..<4 { s.configId = UInt8(i); cfgs.append(try s.readBlob(.config)) }
+                        for i in 0..<4 {
+                            if !info.isWired { usleep(25_000) }
+                            s.configId = UInt8(i)
+                            do {
+                                cfgs.append(try s.readBlob(.config))
+                            } catch {
+                                helperLog.error("loadSnapshot slot \(i) failed (wired=\(info.isWired)): \(String(describing: error), privacy: .public)")
+                                cfgs.removeAll()
+                                break
+                            }
+                        }
                     }
                     s.configId = targetSlot
                     let caps = DeviceCatalog.descriptor(for: info.deviceId)?.capabilities

@@ -34,20 +34,20 @@ public final class DeviceSession: @unchecked Sendable {
 
     public func deviceInfo() throws -> DeviceInfo {
         var lastError: Error?
-        for attempt in 0..<2 {
+        for attempt in 0..<3 {
             do {
                 link.discardPending()
                 switch channel {
                 case .xinput:
                     try link.write(XInput.command(XInput.Cmd.deviceInfo))
-                    return try link.waitForReport(timeout: 2) { XInputReply.deviceInfo($0) }
+                    return try link.waitForReport(timeout: 1.2) { XInputReply.deviceInfo($0) }
                 case .dinput:
                     try link.write(DInput.command(DInput.Cmd.deviceInfo))
-                    return try link.waitForReport(timeout: 2) { DInputReply.deviceInfo($0) }
+                    return try link.waitForReport(timeout: 1.2) { DInputReply.deviceInfo($0) }
                 }
             } catch {
                 lastError = error
-                if attempt == 0 { Thread.sleep(forTimeInterval: 0.12) }
+                if attempt < 2 { Thread.sleep(forTimeInterval: 0.12) }
             }
         }
         throw lastError ?? TransportError.timeout("deviceInfo failed")
@@ -57,10 +57,10 @@ public final class DeviceSession: @unchecked Sendable {
 
     public func readBlob(_ kind: BlobKind) throws -> [UInt8] {
         let length = kind == .config ? 790 : LEDConfig.length
+        var asm = BlobAssembler(expectedLength: length)
         var lastError: Error?
-        for attempt in 0..<2 {
+        for attempt in 0..<3 {
             do {
-                var asm = BlobAssembler(expectedLength: length)
                 link.discardPending()                                   // parcels left over from a previous read must not leak in
                 switch channel {
                 case .xinput: try link.write(XInput.readBlob(kind: kind, configId: configId))
@@ -70,7 +70,10 @@ public final class DeviceSession: @unchecked Sendable {
                 while !asm.isComplete {
                     let remaining = deadline.timeIntervalSinceNow
                     guard remaining > 0 else { throw TransportError.timeout("blob read incomplete") }
-                    let parcel: (index: Int, data: [UInt8]) = try link.waitForReport(timeout: remaining) { r in
+                    // Over 2.4 GHz, if a single parcel drops, detect the stall after 0.9 s instead of wasting 4 s,
+                    // keeping already-received parcels in `asm` so the next attempt fills any gaps immediately.
+                    let stepTimeout = min(remaining, 0.9)
+                    let parcel: (index: Int, data: [UInt8]) = try link.waitForReport(timeout: stepTimeout) { r in
                         switch self.channel {
                         case .xinput: return XInputReply.blobParcel(r, kind: kind)
                         case .dinput: return DInputReply.blobParcel(r, kind: kind)
@@ -85,7 +88,7 @@ public final class DeviceSession: @unchecked Sendable {
                 return data
             } catch {
                 lastError = error
-                if attempt == 0 { Thread.sleep(forTimeInterval: 0.15) }
+                if attempt < 2 { Thread.sleep(forTimeInterval: 0.12) }
             }
         }
         throw lastError ?? TransportError.timeout("blob read incomplete")

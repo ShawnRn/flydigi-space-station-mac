@@ -738,6 +738,7 @@ final class ControllerModel {
             onSuccess(v)
         case .failure(let e):
             let text = "\(e)"
+            Self.log.error("run failed: \(text, privacy: .public)")
             if text.contains("not found"), USBMonitor.currentConnection() == .none {
                 // The receiver / cable went away while we were talking to it: not an error, just gone.
                 consecutiveTimeouts = 0; lastSnapshotHandledSlots = false
