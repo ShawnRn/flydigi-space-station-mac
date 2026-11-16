@@ -426,7 +426,7 @@ struct SettingsPage: View {
                             Text(usbModeDescription)
                                 .font(.system(size: 13)).foregroundStyle(.white)
                             if model.connection != .newXInput {
-                                GhostButton(title: model.connection == .xinput ? "Switch to DInput" : "Switch to XInput", icon: "arrow.left.arrow.right", enabled: model.connection != .none && !model.busy) { Task { await model.switchMode() } }
+                                GhostButton(title: model.connection == .xinput ? "Switch to DInput" : "Switch to XInput", icon: "arrow.left.arrow.right", enabled: model.canSwitchMode && !model.busy) { Task { await model.switchMode() } }
                             }
                         }
                         Text("App Settings").font(.system(size: 16, weight: .semibold)).foregroundStyle(.white).padding(.top, 8).id("App Settings")
@@ -815,7 +815,7 @@ struct MenuBarView: View {
             HStack(spacing: 8) {
                 Button("Open") { openWindow(id: "main"); NSApp.activate() }
                 if model.connection != .newXInput {
-                    Button(model.connection == .xinput ? LocalizedStringKey("Switch to DInput") : LocalizedStringKey("Switch to XInput")) { Task { await model.switchMode() } }.disabled(!connected || model.busy)
+                    Button(model.connection == .xinput ? LocalizedStringKey("Switch to DInput") : LocalizedStringKey("Switch to XInput")) { Task { await model.switchMode() } }.disabled(!connected || !model.canSwitchMode || model.busy)
                 }
                 Button { Task { await model.refresh(); await profiles.loadAll() } } label: { Image(systemName: "arrow.trianglehead.2.clockwise") }.disabled(model.busy)
                 Spacer()

@@ -548,7 +548,15 @@ final class ControllerModel {
         set { UserDefaults.standard.set(newValue, forKey: "nickname.\(info?.mac ?? "")") }
     }
 
+    var canSwitchMode: Bool {
+        connection == .dinput || (connection == .xinput && info?.wired == true)
+    }
+
     func switchMode() async {
+        guard canSwitchMode else {
+            lastError = String(localized: "Use the USB cable to switch to DInput mode.")
+            return
+        }
         let conn = connection
         await run {
             switch conn {

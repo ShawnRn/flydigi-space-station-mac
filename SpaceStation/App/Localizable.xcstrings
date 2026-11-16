@@ -9119,6 +9119,16 @@
         }
       }
     },
+    "Use the USB cable to switch to DInput mode.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换到 DInput 模式请通过 USB-C 数据线直连（2.4 GHz 接收器不支持软件切入 DInput）。"
+          }
+        }
+      }
+    },
     "Use the model name": {
       "localizations": {
         "pt-BR": {

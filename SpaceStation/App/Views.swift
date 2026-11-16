@@ -265,18 +265,22 @@ struct Sidebar: View {
                             .padding(.horizontal, 6).frame(height: 20)
                             .background(SS.n600, in: RoundedRectangle(cornerRadius: 5, style: .continuous))
                     } else {
-                        // Click to switch; no chevron, the swap icon says it all.
+                        // Click to switch; software switching to DInput requires USB cable (2.4 GHz receivers lock into 04b4:2412).
                         Button { Task { await model.switchMode() } } label: {
                             HStack(spacing: 4) {
                                 Text(model.connection == .xinput ? "XInput" : "DInput").font(.system(size: 12)).foregroundStyle(SS.n300)
-                                Image(systemName: "arrow.left.arrow.right").font(.system(size: 9, weight: .semibold)).foregroundStyle(SS.n400)
+                                if model.canSwitchMode {
+                                    Image(systemName: "arrow.left.arrow.right").font(.system(size: 9, weight: .semibold)).foregroundStyle(SS.n400)
+                                }
                             }
                             .padding(.horizontal, 6).frame(height: 20)
                             .background(SS.n600, in: RoundedRectangle(cornerRadius: 5, style: .continuous))
                             .contentShape(Rectangle())
                         }
-                        .buttonStyle(.plain).disabled(model.busy)
-                        .help(model.connection == .xinput ? LocalizedStringKey("Switch to DInput mode") : LocalizedStringKey("Switch to XInput mode"))
+                        .buttonStyle(.plain).disabled(model.busy || !model.canSwitchMode)
+                        .help(model.canSwitchMode
+                              ? (model.connection == .xinput ? LocalizedStringKey("Switch to DInput mode") : LocalizedStringKey("Switch to XInput mode"))
+                              : LocalizedStringKey("Use the USB cable to switch to DInput mode."))
                     }
                 } else {
                     Text("—").font(.system(size: 12)).foregroundStyle(SS.n300)
