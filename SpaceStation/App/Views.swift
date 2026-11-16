@@ -570,6 +570,7 @@ struct HeroHotspots: View {
     }
 
     private func chip(_ h: Hotspot, scale s: CGFloat) -> some View {
+        let isSwitch = profiles.profileBank == .switchMode
         let selected = profiles.selectedKey == h.key
         let changed = isChanged(h.key)
         let pressed = live.pressedKeys.contains(h.key)
@@ -581,6 +582,7 @@ struct HeroHotspots: View {
         let shape = chipShape(h, scale: s)
         let stroke: Color = selected ? SS.brand500 : (changed ? SS.brand.opacity(0.9) : SS.n400)
         let fill: Color = pressed ? SS.brand500.opacity(0.85) : (silhouette ? SS.n600 : SS.chipFill.opacity(0.95))
+        let name = h.key.localizedName(switchMode: isSwitch)
         return Button { if h.clickable { onSelect(h.key) } } label: {
             ZStack {
                 if !isThumb {
@@ -593,11 +595,13 @@ struct HeroHotspots: View {
                 } else if selected || pressed {
                     Circle().stroke(pressed ? SS.brand500 : SS.brand500, lineWidth: 2).frame(width: size.width, height: size.height)
                 }
-                Text(h.label)
-                    .font(.system(size: max(8, min(12, size.height * (silhouette ? 0.3 : 0.42))), weight: .semibold, design: .rounded))
-                    .foregroundStyle(h.clickable ? (isThumb ? SS.n300 : .white) : SS.n400)
-                    .minimumScaleFactor(0.6).lineLimit(1)
-                    .offset(y: h.key == .m1 || h.key == .m2 ? size.height * 0.04 : 0)
+                KeyGlyph(
+                    key: h.key,
+                    switchMode: isSwitch,
+                    size: max(8, min(12, size.height * (silhouette ? 0.3 : 0.42))),
+                    foreground: h.clickable ? (isThumb ? SS.n300 : .white) : SS.n400
+                )
+                .offset(y: h.key == .m1 || h.key == .m2 ? size.height * 0.04 : 0)
             }
             .frame(width: size.width, height: size.height)
             .shadow(color: selected ? SS.brand500.opacity(0.7) : .clear, radius: 8)
@@ -608,7 +612,7 @@ struct HeroHotspots: View {
         .position(x: h.center.x * s, y: h.center.y * s)
         .allowsHitTesting(h.clickable)
         .opacity(h.clickable ? 1 : 0.6)
-        .accessibilityLabel(changed ? "\(h.key.localizedName) button, remapped" : "\(h.key.localizedName) button")
+        .accessibilityLabel(changed ? "\(name) button, remapped" : "\(name) button")
         .animation(.easeOut(duration: 0.12), value: pressed)
     }
 }
@@ -877,6 +881,16 @@ struct KeyEditor: View {
     private var mappableKeys: [ControllerKey] {
         Apex4Render.mappableKeys(for: model.descriptor?.family ?? .apex4, capabilities: model.capabilities)
     }
+    private var isSwitch: Bool { profiles.profileBank == .switchMode }
+    private var targetKeys: [ControllerKey] {
+        var list = mappableKeys
+        if isSwitch {
+            for extra in [ControllerKey.back, .home, .c] where !list.contains(extra) {
+                list.append(extra)
+            }
+        }
+        return list
+    }
 
     enum Kind: Hashable { case click, turbo, macro, special }
     private var kindOptions: [(Kind, String)] {
@@ -901,7 +915,7 @@ struct KeyEditor: View {
         }
         .frame(maxWidth: .infinity)
         .onChange(of: live.pressedKeys) { old, new in
-            guard armed, let k = new.subtracting(old).first, mappableKeys.contains(k) else { return }
+            guard armed, let k = new.subtracting(old).first, targetKeys.contains(k) else { return }
             setTarget(k); armed = false
         }
         .onChange(of: armed) { _, on in
@@ -911,7 +925,7 @@ struct KeyEditor: View {
             capture = Task { @MainActor in
                 let k = await model.captureKey(seconds: 6)
                 guard !Task.isCancelled, armed else { return }
-                if let k, mappableKeys.contains(k) { setTarget(k) }
+                if let k, targetKeys.contains(k) { setTarget(k) }
                 armed = false
             }
         }
@@ -920,7 +934,7 @@ struct KeyEditor: View {
 
     private var inputColumn: some View {
         VStack(spacing: 8) {
-            KeyBadge(label: Apex4Render.shortLabel(key), size: 32)
+            KeyBadge(label: Apex4Render.shortLabel(key, switchMode: isSwitch), key: key, switchMode: isSwitch, size: 32)
             Text("Input").font(.system(size: 12)).foregroundStyle(SS.n300)
         }
     }
@@ -931,7 +945,7 @@ struct KeyEditor: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8, style: .continuous).fill(SS.n700)
                     RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(armed ? SS.brand500 : SS.n500, lineWidth: armed ? 2 : 1)
-                    KeyBadge(label: Apex4Render.shortLabel(target), size: 34, highlighted: target != key)
+                    KeyBadge(label: Apex4Render.shortLabel(target, switchMode: isSwitch), key: target, switchMode: isSwitch, size: 34, highlighted: target != key)
                 }
                 .frame(width: 240, height: 100)
                 if armed {
@@ -952,10 +966,10 @@ struct KeyEditor: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Acts as").font(.system(size: 12)).foregroundStyle(.secondary)
             LazyVGrid(columns: Array(repeating: GridItem(.fixed(44)), count: 6), spacing: 8) {
-                ForEach(mappableKeys, id: \.self) { k in
+                ForEach(targetKeys, id: \.self) { k in
                     Button { setTarget(k); armed = false } label: {
-                        KeyBadge(label: Apex4Render.shortLabel(k), size: 36, highlighted: k == target)
-                    }.buttonStyle(.plain).help(k.localizedName)
+                        KeyBadge(label: Apex4Render.shortLabel(k, switchMode: isSwitch), key: k, switchMode: isSwitch, size: 36, highlighted: k == target)
+                    }.buttonStyle(.plain).help(k.localizedName(switchMode: isSwitch))
                 }
             }
             GhostButton(title: "Reset to default") { setTarget(key); armed = false }
@@ -1010,7 +1024,7 @@ struct KeyEditor: View {
             HStack(spacing: 6) {
                 if let m, !m.actions.isEmpty {
                     ForEach(Array(m.actions.prefix(12).enumerated()), id: \.offset) { _, a in
-                        Text("\(a.event == .release ? "↑" : "↓")\(Apex4Render.shortLabel(ControllerKey(rawValue: a.key) ?? .none))")
+                        Text("\(a.event == .release ? "↑" : "↓")\(Apex4Render.shortLabel(ControllerKey(rawValue: a.key) ?? .none, switchMode: isSwitch))")
                             .font(.system(size: 11, design: .monospaced)).foregroundStyle(.white)
                             .padding(.horizontal, 6).frame(height: 22).background(SS.n500, in: Capsule())
                     }

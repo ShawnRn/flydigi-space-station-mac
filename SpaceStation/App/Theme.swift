@@ -2,6 +2,7 @@
 // SwiftUI controls. Tokens mirror SS4's CSS variables (neutral-900…100, brand blue #285AFA).
 
 import SwiftUI
+import FlydigiKit
 
 enum SS {
     static let n900 = Color(hex: 0x181818)      // darkest: hero, page background
@@ -308,13 +309,21 @@ struct RailButton: View {
 /// Round key badge used for Input / Output.
 struct KeyBadge: View {
     let label: String
+    var key: ControllerKey? = nil
+    var switchMode: Bool = false
     var size: CGFloat = 28
     var highlighted = false
     var body: some View {
-        Text(label).font(.system(size: size * 0.4, weight: .semibold, design: .rounded)).foregroundStyle(.white)
-            .frame(width: size, height: size)
-            .background(SS.chipFill, in: Circle())
-            .overlay(Circle().strokeBorder(highlighted ? SS.brand500 : SS.n400, lineWidth: highlighted ? 1.5 : 1))
+        Group {
+            if let key {
+                KeyGlyph(key: key, switchMode: switchMode, size: size * 0.4, foreground: .white)
+            } else {
+                Text(label).font(.system(size: size * 0.4, weight: .semibold, design: .rounded)).foregroundStyle(.white)
+            }
+        }
+        .frame(width: size, height: size)
+        .background(SS.chipFill, in: Circle())
+        .overlay(Circle().strokeBorder(highlighted ? SS.brand500 : SS.n400, lineWidth: highlighted ? 1.5 : 1))
     }
 }
 

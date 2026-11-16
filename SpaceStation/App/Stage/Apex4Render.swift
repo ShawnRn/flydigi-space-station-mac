@@ -16,6 +16,7 @@ struct Hotspot: Identifiable, Hashable {
     var clickable = true
     var id: UInt8 { key.rawValue }
     var label: String { Apex4Render.shortLabel(key) }
+    func label(switchMode: Bool) -> String { Apex4Render.shortLabel(key, switchMode: switchMode) }
     var center: CGPoint { CGPoint(x: rect.midX, y: rect.midY) }
 
     init(_ key: ControllerKey, _ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat, _ shape: Shape = .rect, rotation: Double = 0, clickable: Bool = true) {
@@ -91,11 +92,25 @@ enum Apex4Render {
         hotspots(for: family, capabilities: capabilities).filter(\.clickable).map(\.key)
     }
 
-    static func shortLabel(_ k: ControllerKey) -> String {
+    static func shortLabel(_ k: ControllerKey, switchMode: Bool = false) -> String {
+        if switchMode {
+            switch k {
+            case .lt: return "ZL"
+            case .rt: return "ZR"
+            case .lb: return "L"
+            case .rb: return "R"
+            case .select: return "−"
+            case .start: return "+"
+            case .back: return "⊡"
+            case .home: return "⌂"
+            case .c: return "C"
+            default: break
+            }
+        }
         switch k {
-        case .up: "▲"; case .down: "▼"; case .left: "◀"; case .right: "▶"
-        case .thumbL: "LS"; case .thumbR: "RS"; case .select: "⧉"; case .start: "≡"; case .home: "⌂"; case .menu: "Fn"
-        default: "\(k)".uppercased()
+        case .up: return "▲"; case .down: return "▼"; case .left: return "◀"; case .right: return "▶"
+        case .thumbL: return "LS"; case .thumbR: return "RS"; case .select: return "⧉"; case .start: return "≡"; case .home: return "⌂"; case .menu: return "Fn"
+        default: return "\(k)".uppercased()
         }
     }
 

@@ -973,6 +973,16 @@
         }
       }
     },
+    "C button": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "C 键"
+          }
+        }
+      }
+    },
     "Calibrate sticks…": {
       "localizations": {
         "pt-BR": {
@@ -1049,6 +1059,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "取消"
+          }
+        }
+      }
+    },
+    "Capture (Screenshot)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "截图键"
           }
         }
       }
@@ -3481,6 +3501,16 @@
         }
       }
     },
+    "Home (NS)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home 键"
+          }
+        }
+      }
+    },
     "How to activate": {
       "localizations": {
         "pt-BR": {
@@ -4605,6 +4635,16 @@
         }
       }
     },
+    "Minus (−)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "减号 (−)"
+          }
+        }
+      }
+    },
     "Mode": {
       "localizations": {
         "pt-BR": {
@@ -5681,6 +5721,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "请使用 USB-C 数据线连接手柄，或插入充电底座/2.4 GHz 接收器后开机；设备会自动显示在此处（蓝牙模式不支持参数配置）。"
+          }
+        }
+      }
+    },
+    "Plus (+)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加号 (+)"
           }
         }
       }

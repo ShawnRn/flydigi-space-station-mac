@@ -117,3 +117,50 @@ struct StickWell: View {
         }
     }
 }
+
+/// Renders either crisp Switch-style hardware glyphs (-, +, Capture, Home, ZL/ZR/L/R, C) or standard Xbox labels.
+struct KeyGlyph: View {
+    let key: ControllerKey
+    var switchMode: Bool = false
+    var size: CGFloat = 12
+    var foreground: Color = .white
+
+    var body: some View {
+        if switchMode {
+            switch key {
+            case .select:
+                Image(systemName: "minus")
+                    .font(.system(size: max(8, size * 0.92), weight: .bold))
+                    .foregroundStyle(foreground)
+            case .start:
+                Image(systemName: "plus")
+                    .font(.system(size: max(8, size * 0.92), weight: .bold))
+                    .foregroundStyle(foreground)
+            case .home:
+                Image(systemName: "house.fill")
+                    .font(.system(size: max(7, size * 0.82), weight: .semibold))
+                    .foregroundStyle(foreground)
+            case .back:
+                // Authentic Nintendo Switch Capture (Screenshot) icon: rounded square with centred circle cutout.
+                ZStack {
+                    RoundedRectangle(cornerRadius: max(1.5, size * 0.16), style: .continuous)
+                        .fill(foreground)
+                        .frame(width: max(8, size * 0.9), height: max(8, size * 0.9))
+                    Circle()
+                        .fill(SS.chipFill)
+                        .frame(width: max(3.5, size * 0.44), height: max(3.5, size * 0.44))
+                }
+            default:
+                Text(Apex4Render.shortLabel(key, switchMode: true))
+                    .font(.system(size: size, weight: .semibold, design: .rounded))
+                    .foregroundStyle(foreground)
+                    .minimumScaleFactor(0.6).lineLimit(1)
+            }
+        } else {
+            Text(Apex4Render.shortLabel(key, switchMode: false))
+                .font(.system(size: size, weight: .semibold, design: .rounded))
+                .foregroundStyle(foreground)
+                .minimumScaleFactor(0.6).lineLimit(1)
+        }
+    }
+}

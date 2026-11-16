@@ -31,6 +31,24 @@ extension DeviceDescriptor {
 }
 
 extension ControllerKey {
+    func localizedName(switchMode: Bool) -> String {
+        if switchMode {
+            switch self {
+            case .lt: return "ZL"
+            case .rt: return "ZR"
+            case .lb: return "L"
+            case .rb: return "R"
+            case .select: return String(localized: "Minus (−)")
+            case .start: return String(localized: "Plus (+)")
+            case .back: return String(localized: "Capture (Screenshot)")
+            case .home: return String(localized: "Home (NS)")
+            case .c: return String(localized: "C button")
+            default: break
+            }
+        }
+        return localizedName
+    }
+
     var localizedName: String {
         switch self {
         case .up: return String(localized: "D-pad Up")

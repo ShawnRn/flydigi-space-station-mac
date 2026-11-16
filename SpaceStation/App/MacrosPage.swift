@@ -66,9 +66,10 @@ struct MacrosPage: View {
                         ForEach(Array((profiles.draft?.macros ?? []).enumerated()), id: \.offset) { i, m in
                             Button { selected = i } label: {
                                 HStack(spacing: 10) {
-                                    KeyBadge(label: shortName(m.key), size: 30, highlighted: selected == i)
+                                    let sw = profiles.profileBank == .switchMode
+                                    KeyBadge(label: shortName(m.key, switchMode: sw), key: ControllerKey(rawValue: m.key), switchMode: sw, size: 30, highlighted: selected == i)
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(shortName(m.key)).font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
+                                        Text(shortName(m.key, switchMode: sw)).font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
                                         Text("\(m.actions.count) steps · \(enableName(m.enable))").font(.system(size: 11)).foregroundStyle(SS.n400)
                                     }
                                     Spacer()
@@ -88,7 +89,7 @@ struct MacrosPage: View {
                 }
                 HStack(spacing: 8) {
                     Menu {
-                        ForEach(availableKeys, id: \.self) { k in Button(k.localizedName) { selected = profiles.addMacro(for: k) } }
+                        ForEach(availableKeys, id: \.self) { k in Button(k.localizedName(switchMode: profiles.profileBank == .switchMode)) { selected = profiles.addMacro(for: k) } }
                     } label: {
                         HStack(spacing: 6) { Image(systemName: "plus").font(.system(size: 12, weight: .semibold)); Text("New macro").font(.system(size: 13, weight: .semibold)).lineLimit(1).fixedSize() }
                             .foregroundStyle(.white).frame(maxWidth: .infinity).frame(height: 32)
@@ -112,9 +113,9 @@ struct MacrosPage: View {
 }
 
 
-private func shortName(_ raw: UInt8) -> String {
+private func shortName(_ raw: UInt8, switchMode: Bool = false) -> String {
     guard let k = ControllerKey(rawValue: raw) else { return "?" }
-    return Apex4Render.shortLabel(k)
+    return Apex4Render.shortLabel(k, switchMode: switchMode)
 }
 private func enableName(_ e: GamepadConfig.Macro.Enable) -> String {
     switch e {
