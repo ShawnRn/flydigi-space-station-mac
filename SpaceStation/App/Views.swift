@@ -213,7 +213,7 @@ struct Sidebar: View {
             }
             HStack(spacing: 8) {
                 Circle().fill(model.awaitingPad ? SS.yellow : (connected ? SS.green : SS.n400)).frame(width: 7, height: 7)
-                Text(model.awaitingPad ? "Waiting for controller" : (connected ? deviceName : "Not connected")).font(.system(size: 13, weight: .medium)).foregroundStyle(.white).lineLimit(1)
+                Text(model.awaitingPad ? String(localized: "Waiting for controller") : (connected ? deviceName : String(localized: "Not connected"))).font(.system(size: 13, weight: .medium)).foregroundStyle(.white).lineLimit(1)
                 Spacer()
             }
             if let r = updates.latest {
@@ -492,7 +492,7 @@ struct HeroHotspots: View {
             ZStack {
                 ForEach(wells.indices, id: \.self) { i in
                     let r = wells[i]
-                    StickWell()
+                    StickWell(stick: i == 0 ? live.currentLeft : live.currentRight)
                         .frame(width: r.width * s, height: r.height * s)
                         .position(x: r.midX * s, y: r.midY * s)
                 }

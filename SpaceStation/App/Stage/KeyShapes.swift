@@ -87,14 +87,17 @@ enum KeySilhouette {
     }
 }
 
-/// Stick well as SS4 draws it: dark disc, ring and a fine radial hatch.
+/// Stick well as SS4 draws it: dark disc, ring, radial hatch, and a live thumb-cap indicator.
 struct StickWell: View {
+    var stick: LiveInput.Stick = .init()
     var body: some View {
         GeometryReader { g in
             let r = min(g.size.width, g.size.height) / 2
+            let mag = min(1, hypot(CGFloat(stick.x), CGFloat(stick.y)))
+            let active = mag > 0.04
             ZStack {
                 Circle().fill(SS.chipFill)
-                Circle().strokeBorder(SS.n400, lineWidth: 1.5)
+                Circle().strokeBorder(active ? SS.brand500.opacity(0.95) : SS.n400, lineWidth: active ? 1.8 : 1.5)
                 Path { p in
                     for i in 0..<48 {
                         let a = Double(i) / 48 * .pi * 2
@@ -104,8 +107,13 @@ struct StickWell: View {
                     }
                 }
                 .stroke(SS.n400.opacity(0.7), lineWidth: 0.5)
-                Circle().strokeBorder(SS.n500, lineWidth: 1).frame(width: r * 1.2, height: r * 1.2)
+                Circle()
+                    .fill(active ? SS.brand500.opacity(0.28) : .clear)
+                    .overlay(Circle().strokeBorder(active ? SS.brand500 : SS.n500, lineWidth: active ? 1.5 : 1))
+                    .frame(width: r * 1.2, height: r * 1.2)
+                    .offset(x: CGFloat(stick.x) * r * 0.36, y: CGFloat(-stick.y) * r * 0.36)
             }
+            .animation(.easeOut(duration: 0.06), value: stick)
         }
     }
 }

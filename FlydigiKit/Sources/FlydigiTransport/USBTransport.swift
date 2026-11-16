@@ -62,15 +62,35 @@ public final class USBLink: Link, @unchecked Sendable {
 
         device = try Self.deviceInterface(for: service)
         var kr = device.pointee!.pointee.USBDeviceOpenSeize(device)
-        guard kr == kIOReturnSuccess || kr == kIOReturnExclusiveAccess else { Self.release(device); throw Self.err("USBDeviceOpenSeize", kr) }
+        guard kr == kIOReturnSuccess || kr == kIOReturnExclusiveAccess || kr == kIOReturnBusy else {
+            Self.release(device); throw Self.err("USBDeviceOpenSeize", kr)
+        }
 
-        // Capture: terminates Apple's driver stack for this device. Does not re-enumerate, but requires a re-open.
+        // Capture: terminates Apple's driver stack for this device asynchronously, so re-open can race briefly
+        // with XboxGamepad dext teardown (kIOReturnExclusiveAccess 0xe00002c5) and needs bounded retries.
         kr = device.pointee!.pointee.USBDeviceReEnumerate(device, captureMask)
-        guard kr == kIOReturnSuccess else { _ = device.pointee!.pointee.USBDeviceClose(device); Self.release(device); throw Self.err("USBDeviceReEnumerate(capture)", kr) }
-        // libusb's darwin_restore_state: close and re-open the *same* device interface (no re-creation).
+        guard kr == kIOReturnSuccess else {
+            _ = device.pointee!.pointee.USBDeviceClose(device)
+            Self.release(device)
+            throw Self.err("USBDeviceReEnumerate(capture)", kr)
+        }
         _ = device.pointee!.pointee.USBDeviceClose(device)
-        kr = device.pointee!.pointee.USBDeviceOpenSeize(device)
-        guard kr == kIOReturnSuccess else { Self.release(device); throw Self.err("USBDeviceOpenSeize (after capture)", kr) }
+
+        kr = kIOReturnExclusiveAccess
+        for attempt in 0..<30 {
+            kr = device.pointee!.pointee.USBDeviceOpenSeize(device)
+            if kr == kIOReturnSuccess { break }
+            guard kr == kIOReturnExclusiveAccess || kr == kIOReturnNotReady || kr == kIOReturnBusy else { break }
+            if attempt == 10 || attempt == 20 {
+                _ = device.pointee!.pointee.USBDeviceReEnumerate(device, captureMask)
+                _ = device.pointee!.pointee.USBDeviceClose(device)
+            }
+            usleep(25_000)
+        }
+        guard kr == kIOReturnSuccess else {
+            teardownDevice(reattach: true)
+            throw Self.err("USBDeviceOpenSeize (after capture)", kr)
+        }
 
         var config: UInt8 = 0
         _ = device.pointee!.pointee.GetConfiguration(device, &config)
@@ -88,7 +108,13 @@ public final class USBLink: Link, @unchecked Sendable {
             throw error
         }
         let intf = interface!
-        kr = intf.pointee!.pointee.USBInterfaceOpen(intf)
+        kr = kIOReturnExclusiveAccess
+        for _ in 0..<10 {
+            kr = intf.pointee!.pointee.USBInterfaceOpen(intf)
+            if kr == kIOReturnSuccess { break }
+            guard kr == kIOReturnExclusiveAccess || kr == kIOReturnNotReady || kr == kIOReturnBusy else { break }
+            usleep(20_000)
+        }
         guard kr == kIOReturnSuccess else { Self.release(intf); interface = nil; teardownDevice(reattach: true); throw Self.err("USBInterfaceOpen", kr) }
 
         // Map endpoint addresses to pipe references.

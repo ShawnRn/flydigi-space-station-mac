@@ -16,6 +16,8 @@ final class LiveInput {
     var leftTrigger: Float = 0
     var rightTrigger: Float = 0
     var pressed: Set<String> = []
+    var currentLeft: Stick { raw.map { Stick(x: $0.leftX, y: $0.leftY) } ?? left }
+    var currentRight: Stick { raw.map { Stick(x: $0.rightX, y: $0.rightY) } ?? right }
     var connected = false
     struct BatteryInfo: Equatable { var level: Float; var charging: Bool }
     var battery: BatteryInfo?
@@ -72,6 +74,7 @@ final class LiveInput {
     private var observers: [NSObjectProtocol] = []
 
     init() {
+        GCController.shouldMonitorBackgroundEvents = true
         observers.append(NotificationCenter.default.addObserver(forName: .GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
             Task { @MainActor in self?.attach() }
         })
@@ -92,7 +95,10 @@ final class LiveInput {
         // Prefer a Flydigi pad; otherwise the first extended gamepad.
         let all = GCController.controllers()
         let pad = all.first { ($0.vendorName ?? "").localizedCaseInsensitiveContains("flydigi") } ?? all.first { $0.extendedGamepad != nil }
-        connected = pad != nil
+        connected = pad != nil || raw != nil
+        if pad == nil && raw == nil {
+            left = Stick(); right = Stick(); leftTrigger = 0; rightTrigger = 0; pressed = []
+        }
         batteryTimer?.invalidate(); batteryTimer = nil; battery = nil
         if let pad, pad.battery != nil {
             readBattery(from: pad)
