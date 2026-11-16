@@ -5,6 +5,7 @@ import Foundation
 import OSLog
 import Observation
 import IOKit
+import GameController
 import FlydigiKit
 import FlydigiHelperProtocol
 import FlydigiTransport
@@ -18,7 +19,13 @@ final class ControllerModel {
         case newXInput              // 0x37D7 vendor HID (`5A A5 ...`), read-only identification
     }
 
+    enum ConnectionDiagnostic: Equatable, Sendable {
+        case usbEnumerationStalled
+        case unsupportedWirelessOrSwitchMode(String)
+    }
+
     var connection: Connection = .none
+    var connectionDiagnostic: ConnectionDiagnostic?
     var info: HelperDeviceInfo?
     var led: LEDConfig?
     var helperInstalled = false
@@ -93,9 +100,11 @@ final class ControllerModel {
                 consecutiveTimeouts = 0
                 lastSnapshotHandledSlots = false
                 info = nil; led = nil; joystickSettings = nil; manualReportRate = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil
+                connectionDiagnostic = USBMonitor.diagnostic()
                 profiles.resetBankOnDisconnect()
                 padPoll?.cancel(); padPoll = nil
             } else {
+                connectionDiagnostic = nil
                 await refresh()
             }
         } else if now != .none, info == nil, !busy, padPoll == nil {
@@ -119,8 +128,12 @@ final class ControllerModel {
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(4))
                 guard let self else { return }
-                if self.connection == .none, !self.busy, Date() >= self.suppressNotificationsUntil, USBMonitor.currentConnection() != .none {
-                    await self.reconcileConnection()
+                if self.connection == .none, !self.busy, Date() >= self.suppressNotificationsUntil {
+                    if USBMonitor.currentConnection() != .none {
+                        await self.reconcileConnection()
+                    } else {
+                        self.connectionDiagnostic = USBMonitor.diagnostic()
+                    }
                 }
             }
         }
@@ -154,8 +167,11 @@ final class ControllerModel {
         guard connection != .none else {
             consecutiveTimeouts = 0
             lastSnapshotHandledSlots = false
-            info = nil; led = nil; joystickSettings = nil; manualReportRate = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil; padPoll?.cancel(); padPoll = nil; return
+            info = nil; led = nil; joystickSettings = nil; manualReportRate = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil; padPoll?.cancel(); padPoll = nil
+            connectionDiagnostic = USBMonitor.diagnostic()
+            return
         }
+        connectionDiagnostic = nil
         let conn = connection, installed = helperInstalled
         let remembered = UInt8(clamping: UserDefaults.standard.integer(forKey: "activeSlot"))
         let shouldLoadConfigs = !profiles.isDirty && profiles.profileBank == .pc
@@ -830,6 +846,47 @@ final class USBMonitor: @unchecked Sendable {
             guard s != IO_OBJECT_NULL else { continue }
             defer { IOObjectRelease(s) }
             if let n = IORegistryEntryCreateCFProperty(s, "USB Product Name" as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String { return n }
+        }
+        return nil
+    }
+
+    /// Best-effort read-only reason why macOS may see a controller that Space Station cannot configure yet.
+    @MainActor
+    static func diagnostic() -> ControllerModel.ConnectionDiagnostic? {
+        var it: io_iterator_t = 0
+        if IORegistryCreateIterator(kIOMainPortDefault, "IOUSB", IOOptionBits(kIORegistryIterateRecursively), &it) == kIOReturnSuccess {
+            defer { IOObjectRelease(it) }
+            var foundSwitchUSB: String?
+            while case let entry = IOIteratorNext(it), entry != IO_OBJECT_NULL {
+                defer { IOObjectRelease(entry) }
+                var props: Unmanaged<CFMutableDictionary>?
+                guard IORegistryEntryCreateCFProperties(entry, &props, kCFAllocatorDefault, 0) == kIOReturnSuccess,
+                      let d = props?.takeRetainedValue() as? [String: Any],
+                      let vid = d["idVendor"] as? Int,
+                      let pid = d["idProduct"] as? Int else { continue }
+                let isKnownUSB =
+                    (vid == Int(USBID.xinputVendor) && pid == Int(USBID.xinputProduct)) ||
+                    (vid == Int(USBID.dinputVendor) && pid == Int(USBID.dinputProduct)) ||
+                    (vid == Int(USBID.newXInputVendor))
+                if isKnownUSB {
+                    return .usbEnumerationStalled
+                }
+                if vid == 0x057E && pid == 0x2009 {
+                    foundSwitchUSB = (d["USB Product Name"] as? String) ?? "Switch Pro Controller"
+                }
+            }
+            if let foundSwitchUSB {
+                return .unsupportedWirelessOrSwitchMode(foundSwitchUSB)
+            }
+        }
+        for gc in GCController.controllers() {
+            let name = gc.vendorName ?? gc.productCategory
+            if name.localizedCaseInsensitiveContains("flydigi")
+                || name.localizedCaseInsensitiveContains("xbox")
+                || name.localizedCaseInsensitiveContains("switch")
+                || name.localizedCaseInsensitiveContains("nintendo") {
+                return .unsupportedWirelessOrSwitchMode(name)
+            }
         }
         return nil
     }

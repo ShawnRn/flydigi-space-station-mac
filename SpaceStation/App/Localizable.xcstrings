@@ -9747,6 +9747,36 @@
         }
       }
     },
+    "Retry": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新检测"
+          }
+        }
+      }
+    },
+    "USB port waiting on re-enumeration (system HID driver busy). Unplug the receiver or cable and plug into another USB-C port, or power-cycle the receiver.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS USB 接口未完成设备枚举（系统 HID 驱动占用）。请拔下接收器或数据线并更换另一个 USB-C 接口重插，或重启手柄/接收器。"
+          }
+        }
+      }
+    },
+    "macOS detected %@ in Bluetooth or Switch mode. Switch to wired USB-C or 2.4 GHz (XInput) mode so Space Station can read and write controller settings.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 已在蓝牙或 Switch 模式下识别到 %@。请切换为有线 USB-C 或 2.4 GHz（XInput）模式，以便 Space Station 读取并写入配置。"
+          }
+        }
+      }
+    },
     "working…": {
       "localizations": {
         "zh-Hans": {

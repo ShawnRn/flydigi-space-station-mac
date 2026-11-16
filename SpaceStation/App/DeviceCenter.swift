@@ -177,7 +177,44 @@ struct DeviceCenterPage: View {
                 .offset(y: -35)
             }
             Text("USB-C cable or the charging dock's receiver — detected automatically").font(.system(size: 13)).foregroundStyle(SS.n300)
+            if let diag = model.connectionDiagnostic {
+                diagnosticBanner(diag)
+            }
         }
+    }
+
+    private func diagnosticBanner(_ diagnostic: ControllerModel.ConnectionDiagnostic) -> some View {
+        let isStalled: Bool
+        let message: String
+        switch diagnostic {
+        case .usbEnumerationStalled:
+            isStalled = true
+            message = String(localized: "USB port waiting on re-enumeration (system HID driver busy). Unplug the receiver or cable and plug into another USB-C port, or power-cycle the receiver.")
+        case .unsupportedWirelessOrSwitchMode(let name):
+            isStalled = false
+            message = String(localized: "macOS detected \(name) in Bluetooth or Switch mode. Switch to wired USB-C or 2.4 GHz (XInput) mode so Space Station can read and write controller settings.")
+        }
+        let accentColor: Color = isStalled ? SS.yellow : SS.brand500
+        return HStack(spacing: 10) {
+            Image(systemName: isStalled ? "exclamationmark.triangle.fill" : "info.circle.fill")
+                .font(.system(size: 14))
+                .foregroundStyle(accentColor)
+            Text(message)
+                .font(.system(size: 12))
+                .foregroundStyle(Color.white.opacity(0.9))
+                .fixedSize(horizontal: false, vertical: true)
+            Button("Retry") { Task { await model.refresh() } }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .frame(maxWidth: 520)
+        .background(SS.n700.opacity(0.85), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .strokeBorder(accentColor.opacity(0.45))
+        )
     }
 
 }
