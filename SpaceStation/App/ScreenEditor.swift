@@ -1,6 +1,7 @@
 // Screen editor: pan / zoom the source inside a 2:1 viewport, trim GIF frames, set the frame interval,
 // see the exact 160 × 80 result — then send. Replaces SS4's static crop dialog with a direct-manipulation one.
 
+import Combine
 import SwiftUI
 import FlydigiKit
 import FlydigiTransport

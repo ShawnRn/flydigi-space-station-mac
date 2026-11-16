@@ -31,17 +31,39 @@ final class ProfileStore {
     /// Same wording as ControllerModel for timeouts, so the banner never shows raw transport text.
     private func report(_ e: Error) {
         let text = "\(e)"
-        if text.contains("no matching report") || text.contains("timeout") { lastError = nil; controller.padWentSilent() }
-        else { lastError = text }
+        if text.contains("no matching report") || text.contains("timeout") {
+            lastError = nil
+            // Keep existing profile/UI intact on a single transient RF drop; let ControllerModel escalate only on repeated misses.
+            controller.noteTransientTimeout()
+        } else {
+            lastError = text
+        }
     }
 
+    /// Applies pre-fetched config blobs from a batched XInput snapshot without triggering another USB capture.
+    func applySnapshot(current: UInt8, blobs: [[UInt8]]) {
+        let mapped = blobs.enumerated().compactMap { i, b in GamepadConfig(bytes: b).map { Slot(index: UInt8(i), config: $0) } }
+        guard !mapped.isEmpty else { return }
+        slots = mapped
+        activeSlot = current
+        if !isDirty { draft = slots.first { $0.index == activeSlot }?.config }
+        lastError = nil
+    }
 
     // MARK: Load
 
-    func loadAll() async {
+    func loadAll(force: Bool = true) async {
         // Nothing to read while the pad has not answered (receiver with the pad off): stay quiet.
         guard controller.info != nil else { lastError = nil; return }
-        guard controller.connection != .none else { slots = []; draft = nil; return }
+        guard controller.connection == .dinput || controller.connection == .xinput else {
+            // NewXInput (0x37D7) config write/read layout is not yet implemented; keep slots empty cleanly without errors.
+            slots = []; draft = nil; lastError = nil; return
+        }
+        if !force, !slots.isEmpty { return }
+        if controller.connection == .xinput, controller.lastSnapshotHandledSlots {
+            controller.lastSnapshotHandledSlots = false
+            return
+        }
         busy = true; defer { busy = false }
         let conn = controller.connection
         // The slot the pad was on, captured by ControllerModel.refresh before any read moved the cursor.
@@ -66,18 +88,20 @@ final class ProfileStore {
                     for i in 0..<4 { out.append((UInt8(i), try h.readConfig(slot: UInt8(i)))) }
                     try h.applySlot(wanted)                        // reads move the pad's cursor; put the chosen profile back
                     return (wanted, out)
-                case .none: throw HelperError.transport("no controller")
+                case .none, .newXInput: throw HelperError.transport("no controller")
                 }
             }
         }.value
         switch result {
         case .success(let (current, blobs)):
             slots = blobs.compactMap { i, b in GamepadConfig(bytes: b).map { Slot(index: i, config: $0) } }
-            if slots.isEmpty { lastError = "Could not decode the controller's profiles"; return }
+            if slots.isEmpty { lastError = String(localized: "Could not decode the controller's profiles"); return }
             activeSlot = current
             draft = slots.first { $0.index == activeSlot }?.config
             lastError = nil
-            await controller.loadLED(slot: current)
+            if conn == .dinput || controller.led == nil {
+                await controller.loadLED(slot: current)
+            }
         case .failure(let e): report(e)
         }
     }
@@ -104,7 +128,7 @@ final class ProfileStore {
                     guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                     try HelperClient.shared.writeConfig(slot: target, bytes: bytes, persist: false)
                     if let led { try HelperClient.shared.applyLED(led, slot: target, persist: false) }
-                case .none: throw HelperError.transport("no controller")
+                case .none, .newXInput: throw HelperError.transport("no controller")
                 }
             }
         }.value
@@ -215,7 +239,7 @@ final class ProfileStore {
                     guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                     try HelperClient.shared.writeConfig(slot: slot, bytes: bytes, persist: true)
                     try HelperClient.shared.applySlot(slot)
-                case .none: throw HelperError.transport("no controller")
+                case .none, .newXInput: throw HelperError.transport("no controller")
                 }
             }
         }.value
@@ -252,7 +276,7 @@ final class ProfileStore {
                 switch conn {
                 case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; try s.applyConfig(slot: slot)
                 case .xinput: if #available(macOS 14.0, *) { try HelperClient.shared.applySlot(slot) }
-                case .none: break
+                case .none, .newXInput: break
                 }
             }
         }.value

@@ -109,5 +109,73 @@ public final class HIDLink: Link, @unchecked Sendable {
         IOHIDDeviceClose(device, IOOptionBits(kIOHIDOptionsTypeNone))
         IOHIDManagerClose(manager, IOOptionBits(kIOHIDOptionsTypeNone))
     }
+    deinit {
+        reportBuffer.deallocate()
+    }
     private var closed = false
+}
+
+// MARK: - NewXInput (0x37D7) read-only probe over unprivileged vendor HID
+
+public enum NewXInputProbe {
+    /// Checks if any Flydigi `0x37D7` device exposes the `0xFFA0` vendor HID and reads its `5A A5 01` info.
+    public static func probeDeviceInfo(timeout: TimeInterval = 1.5) throws -> DeviceInfo {
+        let manager = IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
+        let matching: [String: Any] = [
+            kIOHIDVendorIDKey: Int(USBID.newXInputVendor),
+            kIOHIDPrimaryUsagePageKey: Int(USBID.dinputVendorUsagePage),
+        ]
+        IOHIDManagerSetDeviceMatching(manager, matching as CFDictionary)
+        guard IOHIDManagerOpen(manager, IOOptionBits(kIOHIDOptionsTypeNone)) == kIOReturnSuccess,
+              let set = IOHIDManagerCopyDevices(manager) as? Set<IOHIDDevice>,
+              let dev = set.first else {
+            IOHIDManagerClose(manager, IOOptionBits(kIOHIDOptionsTypeNone))
+            throw TransportError.notFound("No 0x37D7 Flydigi HID vendor interface found.")
+        }
+        defer {
+            IOHIDDeviceCancel(dev)
+            IOHIDDeviceClose(dev, IOOptionBits(kIOHIDOptionsTypeNone))
+            IOHIDManagerClose(manager, IOOptionBits(kIOHIDOptionsTypeNone))
+        }
+        guard IOHIDDeviceOpen(dev, IOOptionBits(kIOHIDOptionsTypeNone)) == kIOReturnSuccess else {
+            throw TransportError.io("IOHIDDeviceOpen failed on 0x37D7 vendor interface")
+        }
+
+        final class Collector: @unchecked Sendable {
+            let lock = NSLock()
+            var info: DeviceInfo?
+            let arrived = DispatchSemaphore(value: 0)
+            let buf = UnsafeMutablePointer<UInt8>.allocate(capacity: 64)
+            deinit { buf.deallocate() }
+        }
+        let col = Collector()
+        let queue = DispatchQueue(label: "flydigi.newxinput.probe")
+        IOHIDDeviceSetDispatchQueue(dev, queue)
+        let ctx = Unmanaged.passUnretained(col).toOpaque()
+        IOHIDDeviceRegisterInputReportCallback(dev, col.buf, 64, { ctx, _, _, _, _, report, length in
+            let c = Unmanaged<Collector>.fromOpaque(ctx!).takeUnretainedValue()
+            let bytes = Array(UnsafeBufferPointer(start: report, count: Int(length)))
+            if let parsed = NewXInputReply.deviceInfo(bytes) {
+                c.lock.lock(); c.info = parsed; c.lock.unlock()
+                c.arrived.signal()
+            }
+        }, ctx)
+        IOHIDDeviceActivate(dev)
+
+        // Try reportId 3 (Apex 5) only if descriptor max output < 32? Actually per docs/adding-a-controller.md §4:
+        // Vader 5 Pro declares no report id (use report 0); Apex 5 declares report id 3.
+        let pid = (IOHIDDeviceGetProperty(dev, kIOHIDProductIDKey as CFString) as? NSNumber)?.intValue ?? 0
+        let reportIds: [UInt8?] = (pid == 0x2501) ? [0x03, nil] : [nil, 0x03]
+        for rid in reportIds {
+            let pkt = NewXInput.heartbeat(reportId: rid)
+            let id = CFIndex(rid ?? 0)
+            let kr = pkt.withUnsafeBufferPointer { IOHIDDeviceSetReport(dev, kIOHIDReportTypeOutput, id, $0.baseAddress!, $0.count) }
+            if kr == kIOReturnSuccess {
+                _ = col.arrived.wait(timeout: .now() + timeout / Double(reportIds.count))
+                col.lock.lock(); let res = col.info; col.lock.unlock()
+                if let res { return res }
+            }
+        }
+        throw TransportError.timeout("No NewXInput heartbeat reply within \(timeout)s")
+    }
 }

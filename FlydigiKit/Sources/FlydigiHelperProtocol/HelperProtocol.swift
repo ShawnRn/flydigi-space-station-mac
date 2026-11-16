@@ -8,12 +8,14 @@ public enum HelperConstants {
     /// launchd label == MachServices name == daemon plist file name (minus .plist).
     public static let machService = "com.uiltonlopes.spacestation.helper"
     public static let plistName = "com.uiltonlopes.spacestation.helper.plist"
-    public static let protocolVersion = 1
+    public static let protocolVersion = 2
 }
 
 public enum HelperRequest: Codable, Sendable {
     case ping
     case deviceInfo
+    /// Batched initial fetch in one USB capture: deviceInfo + currentSlot + (optional) 4 slots + LED + sleepTime.
+    case loadSnapshot(rememberedSlot: UInt8, loadConfigs: Bool)
     case readLED(slot: UInt8)                                 // lighting is stored per profile slot (A5 26/2A <cfgId>)
     case applyLED(slot: UInt8, bytes: [UInt8], persist: Bool)
     /// Screen upload is chunked per frame so the app can show progress and the message stays small.
@@ -51,6 +53,7 @@ public enum HelperReply: Codable, Sendable {
     case ok
     case pong(version: Int, uid: UInt32)
     case deviceInfo(HelperDeviceInfo)
+    case snapshot(info: HelperDeviceInfo, currentSlot: UInt8?, configs: [[UInt8]], led: [UInt8]?, sleepTime: UInt8?)
     case blob([UInt8])
     case frameDone(index: Int)
     case slot(UInt8)

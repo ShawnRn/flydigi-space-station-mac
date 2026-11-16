@@ -119,14 +119,18 @@ struct GameRuleEditor: View {
                 DarkSelect(selection: Binding(get: { rule.slot ?? -1 }, set: { rule.slot = $0 < 0 ? nil : $0 }), options: slotOptions, width: 320)
             }
 
-            HStack(alignment: .top, spacing: 24) {
-                presetEditor("Left trigger", $rule.left)
-                presetEditor("Right trigger", $rule.right)
+            if model.capabilities.forceAdaptTriggers {
+                HStack(alignment: .top, spacing: 24) {
+                    presetEditor("Left trigger", $rule.left)
+                    presetEditor("Right trigger", $rule.right)
+                }
+                if model.connection == .dinput { Text("Trigger presets apply in XInput mode only.").font(.system(size: 12)).foregroundStyle(SS.yellow) }
             }
-            if model.connection == .dinput { Text("Trigger presets apply in XInput mode only.").font(.system(size: 12)).foregroundStyle(SS.yellow) }
 
-            SwitchRow(title: "Change lighting while this game is in front", isOn: Binding(get: { rule.led != nil }, set: { on in rule.led = on ? (rule.led ?? LEDPreset()) : nil })).frame(width: 420)
-            if rule.led != nil { ledEditor }
+            if model.capabilities.ledGroups > 0 {
+                SwitchRow(title: "Change lighting while this game is in front", isOn: Binding(get: { rule.led != nil }, set: { on in rule.led = on ? (rule.led ?? LEDPreset()) : nil })).frame(width: 420)
+                if rule.led != nil { ledEditor }
+            }
 
             HStack {
                 GhostButton(title: "Cancel") { dismiss() }
@@ -170,10 +174,11 @@ struct GameRuleEditor: View {
     }
 
     private var slotOptions: [(Int, String)] {
-        var out: [(Int, String)] = [(-1, "Keep current")]
+        var out: [(Int, String)] = [(-1, String(localized: "Keep current"))]
         for i in 0..<4 {
             let title = profiles.slots.first { Int($0.index) == i }?.config.title ?? ""
-            out.append((i, title.isEmpty ? "Slot \(i + 1)" : "Slot \(i + 1) · \(title)"))
+            let base = String(localized: "Slot \(i + 1)")
+            out.append((i, title.isEmpty ? base : "\(base) · \(title)"))
         }
         return out
     }

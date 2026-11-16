@@ -105,6 +105,8 @@ public final class USBLink: Link, @unchecked Sendable {
         guard inPipe != 0, outPipe != 0 else { close(); throw TransportError.io("interface 0 does not expose IN ep1 / OUT ep5 (found \(numEndpoints) endpoints)") }
 
         startReader()
+        // Short settle after capture/open so a 2.4 GHz receiver does not swallow the first interrupt OUT packet.
+        usleep(40_000)
     }
 
     // MARK: Link

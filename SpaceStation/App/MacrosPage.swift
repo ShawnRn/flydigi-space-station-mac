@@ -7,6 +7,7 @@ import FlydigiKit
 
 struct MacrosPage: View {
     @Environment(ProfileStore.self) private var profiles
+    @Environment(ControllerModel.self) private var model
     @Environment(LiveInput.self) private var live
     @Environment(MacroLibrary.self) private var library
     @State private var selected: Int?
@@ -41,7 +42,7 @@ struct MacrosPage: View {
             // After Apply (or Revert) the editor closes, so it is obvious the change went through; it reopens
             // when a macro is clicked or a new one is created.
             .onChange(of: profiles.isDirty) { was, now in if was && !now { selected = nil } }
-            .sheet(isPresented: $showLibrary) { MacroLibrarySheet(onAdded: { selected = $0 }).environment(profiles).environment(library) }
+            .sheet(isPresented: $showLibrary) { MacroLibrarySheet(onAdded: { selected = $0 }).environment(profiles).environment(library).environment(model) }
         }
     }
 
@@ -87,7 +88,7 @@ struct MacrosPage: View {
                 }
                 HStack(spacing: 8) {
                     Menu {
-                        ForEach(availableKeys, id: \.self) { k in Button(String(describing: k)) { selected = profiles.addMacro(for: k) } }
+                        ForEach(availableKeys, id: \.self) { k in Button(k.localizedName) { selected = profiles.addMacro(for: k) } }
                     } label: {
                         HStack(spacing: 6) { Image(systemName: "plus").font(.system(size: 12, weight: .semibold)); Text("New macro").font(.system(size: 13, weight: .semibold)).lineLimit(1).fixedSize() }
                             .foregroundStyle(.white).frame(maxWidth: .infinity).frame(height: 32)
@@ -106,7 +107,7 @@ struct MacrosPage: View {
 
     private var availableKeys: [ControllerKey] {
         let used = Set((profiles.draft?.macros ?? []).map(\.key))
-        return Apex4Render.mappableKeys.filter { !used.contains($0.rawValue) }
+        return Apex4Render.mappableKeys(for: model.descriptor?.family ?? .apex4, capabilities: model.capabilities).filter { !used.contains($0.rawValue) }
     }
 }
 
@@ -127,6 +128,7 @@ private func enableName(_ e: GamepadConfig.Macro.Enable) -> String {
 struct MacroEditor: View {
     let index: Int
     @Environment(ProfileStore.self) private var profiles
+    @Environment(ControllerModel.self) private var model
     @Environment(LiveInput.self) private var live
     @State private var recorder = MacroRecorder()
 
@@ -143,7 +145,7 @@ struct MacroEditor: View {
                         HStack(alignment: .top, spacing: 24) {
                             Field("Bound to") {
                                 DarkSelect(selection: Binding(get: { ControllerKey(rawValue: macro.key) ?? .a }, set: { k in update { $0.key = k.rawValue } }),
-                                           options: bindableKeys.map { ($0, String(describing: $0)) }, width: 200)
+                                           options: bindableKeys.map { ($0, $0.localizedName) }, width: 200)
                             }
                             Field("Playback") {
                                 DarkSelect(selection: Binding(get: { macro.enable }, set: { e in update { $0.enable = e } }),
@@ -223,7 +225,7 @@ struct MacroEditor: View {
 
     private var bindableKeys: [ControllerKey] {
         let used = Set(profiles.draft?.macros.enumerated().filter { $0.offset != index }.map(\.element.key) ?? [])
-        return Apex4Render.mappableKeys.filter { !used.contains($0.rawValue) }
+        return Apex4Render.mappableKeys(for: model.descriptor?.family ?? .apex4, capabilities: model.capabilities).filter { !used.contains($0.rawValue) }
     }
     private var totalMs: Int { macro.actions.reduce(0) { $0 + $1.durationMs } }
     private func append(_ a: GamepadConfig.MacroAction) {
@@ -290,6 +292,7 @@ struct MacroStepRow: View {
     var canMoveUp = false, canMoveDown = false
     var onMove: (Bool) -> Void = { _ in }
     let onDelete: () -> Void
+    @Environment(ControllerModel.self) private var model
 
     private var isStick: Bool { step.event == .leftJoystick || step.event == .rightJoystick }
 
@@ -315,7 +318,7 @@ struct MacroStepRow: View {
                            options: stickDirections.map { ($0, directionName($0)) }, width: 160)
             } else {
                 DarkSelect(selection: Binding(get: { ControllerKey(rawValue: step.key) ?? .a }, set: { step.key = $0.rawValue }),
-                           options: Apex4Render.mappableKeys.map { ($0, String(describing: $0)) }, width: 160)
+                           options: Apex4Render.mappableKeys(for: model.descriptor?.family ?? .apex4, capabilities: model.capabilities).map { ($0, $0.localizedName) }, width: 160)
             }
             Spacer()
             HStack(spacing: 2) {

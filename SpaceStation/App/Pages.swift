@@ -315,6 +315,7 @@ struct ScreenPage: View {
 struct AdaptiveTriggerPage: View {
     let back: () -> Void
     @Environment(GameProfileStore.self) private var store
+    @Environment(ControllerModel.self) private var model
     @State private var games: [FlydigiAPI.GamePreset] = []
     @State private var error: String?
     @State private var query = ""
@@ -322,22 +323,24 @@ struct AdaptiveTriggerPage: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            PageHeader(title: "Adaptive Trigger", back: back)
+            PageHeader(title: model.capabilities.forceAdaptTriggers ? "Adaptive Trigger" : "Game profiles", back: back)
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     GameRulesSection()
-                    HDivider().padding(.vertical, 6)
-                    SectionTitle("Flydigi's game list", icon: "list.star")
-                    Text("Space Station's per-game presets. On Windows most of them rely on a mod injected into the game (not possible on macOS); here they are a starting point: press “Use as base” to create your own profile with that name.")
-                        .font(.system(size: 12)).foregroundStyle(SS.n300)
-                    TextField("Search games", text: $query).textFieldStyle(.roundedBorder).frame(width: 280)
-                    if games.isEmpty && error == nil {
-                        HStack(spacing: 8) { ProgressView().controlSize(.small); Text("Loading…").font(.system(size: 12)).foregroundStyle(SS.n300) }
-                    } else if let error {
-                        Text(error).font(.system(size: 12)).foregroundStyle(SS.n400)
-                    } else {
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 200), spacing: 14)], spacing: 14) {
-                            ForEach(filtered) { g in card(g) }
+                    if model.capabilities.forceAdaptTriggers {
+                        HDivider().padding(.vertical, 6)
+                        SectionTitle("Flydigi's game list", icon: "list.star")
+                        Text("Space Station's per-game presets. On Windows most of them rely on a mod injected into the game (not possible on macOS); here they are a starting point: press “Use as base” to create your own profile with that name.")
+                            .font(.system(size: 12)).foregroundStyle(SS.n300)
+                        TextField("Search games", text: $query).textFieldStyle(.roundedBorder).frame(width: 280)
+                        if games.isEmpty && error == nil {
+                            HStack(spacing: 8) { ProgressView().controlSize(.small); Text("Loading…").font(.system(size: 12)).foregroundStyle(SS.n300) }
+                        } else if let error {
+                            Text(error).font(.system(size: 12)).foregroundStyle(SS.n400)
+                        } else {
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 200), spacing: 14)], spacing: 14) {
+                                ForEach(filtered) { g in card(g) }
+                            }
                         }
                     }
                 }
@@ -345,8 +348,9 @@ struct AdaptiveTriggerPage: View {
             }
         }
         .task {
+            guard model.capabilities.forceAdaptTriggers else { return }
             let r: Result<[FlydigiAPI.GamePreset], Error> = await Task.detached { Result { try FlydigiAPI.gamePresets() } }.value
-            switch r { case .success(let g): games = g; case .failure: error = "Game list unavailable offline." }
+            switch r { case .success(let g): games = g; case .failure: error = String(localized: "Game list unavailable offline.") }
         }
     }
 
@@ -419,9 +423,11 @@ struct SettingsPage: View {
                         Text("Controller Settings").font(.system(size: 16, weight: .semibold)).foregroundStyle(.white).id("Controller Settings")
                         section("Firmware Update") { firmware }
                         section("USB mode") {
-                            Text(model.connection == .none ? "Not connected." : (model.connection == .xinput ? "XInput — what games expect; the screen and trigger previews need it." : "DInput — the app talks to the pad directly, no helper needed."))
+                            Text(usbModeDescription)
                                 .font(.system(size: 13)).foregroundStyle(.white)
-                            GhostButton(title: model.connection == .xinput ? "Switch to DInput" : "Switch to XInput", icon: "arrow.left.arrow.right", enabled: model.connection != .none && !model.busy) { Task { await model.switchMode() } }
+                            if model.connection != .newXInput {
+                                GhostButton(title: model.connection == .xinput ? "Switch to DInput" : "Switch to XInput", icon: "arrow.left.arrow.right", enabled: model.connection != .none && !model.busy) { Task { await model.switchMode() } }
+                            }
                         }
                         Text("App Settings").font(.system(size: 16, weight: .semibold)).foregroundStyle(.white).padding(.top, 8).id("App Settings")
                         section("Language") {
@@ -542,6 +548,15 @@ struct SettingsPage: View {
                 .onChange(of: scrollTarget) { _, t in if let t { withAnimation { proxy.scrollTo(t, anchor: .top) }; scrollTarget = nil } }
                 }
             }
+        }
+    }
+
+    private var usbModeDescription: LocalizedStringKey {
+        switch model.connection {
+        case .none: return "Not connected."
+        case .xinput: return "XInput — what games expect; the screen and trigger previews need it."
+        case .dinput: return "DInput — the app talks to the pad directly, no helper needed."
+        case .newXInput: return "NewXInput (0x37D7) — identified over vendor HID; profile editing on this protocol is not yet supported."
         }
     }
 
@@ -691,13 +706,18 @@ struct ReleaseNote: View {
 
 /// In-app language override (SS4 has the same setting). Stored in `AppleLanguages`; needs a relaunch.
 enum AppLanguage: String, CaseIterable, Hashable {
-    case system, en, ptBR = "pt-BR"                 // zh-Hans would need a translation first
+    case system, zhHans = "zh-Hans", en, ptBR = "pt-BR"
     var title: String {
-        switch self { case .system: "System"; case .en: "English"; case .ptBR: "Português (Brasil)" }
+        switch self {
+        case .system: String(localized: "System")
+        case .zhHans: "简体中文"
+        case .en: "English"
+        case .ptBR: "Português (Brasil)"
+        }
     }
     static var current: AppLanguage {
         guard let first = UserDefaults.standard.array(forKey: "AppleLanguages")?.first as? String, UserDefaults.standard.bool(forKey: "LanguageOverride") else { return .system }
-        return AppLanguage(rawValue: first) ?? (first.hasPrefix("pt") ? .ptBR : first.hasPrefix("en") ? .en : .system)
+        return AppLanguage(rawValue: first) ?? (first.hasPrefix("zh") ? .zhHans : first.hasPrefix("pt") ? .ptBR : first.hasPrefix("en") ? .en : .system)
     }
     func apply() {
         if self == .system { UserDefaults.standard.removeObject(forKey: "AppleLanguages"); UserDefaults.standard.set(false, forKey: "LanguageOverride") }
@@ -740,7 +760,7 @@ struct MenuBarView: View {
     @Environment(\.openWindow) private var openWindow
 
     private var connected: Bool { model.connection != .none }
-    private var name: String { model.info.flatMap { DeviceCatalog.descriptor(for: $0.deviceId)?.name } ?? "Flydigi controller" }
+    private var name: String { model.info.flatMap { DeviceCatalog.descriptor(for: $0.deviceId)?.localizedName } ?? String(localized: "Flydigi controller") }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -775,11 +795,11 @@ struct MenuBarView: View {
             }
             if connected, let i = model.info {
                 Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
-                    GridRow { Text("Mode").foregroundStyle(.secondary); Text(model.connection == .xinput ? "XInput (Xbox)" : "DInput") }
-                    GridRow { Text("Link").foregroundStyle(.secondary); Text(i.wired ? "USB cable" : "2.4 GHz receiver") }
+                    GridRow { Text("Mode").foregroundStyle(.secondary); Text(model.connection == .xinput ? LocalizedStringKey("XInput (Xbox)") : (model.connection == .newXInput ? LocalizedStringKey("NewXInput") : LocalizedStringKey("DInput"))) }
+                    GridRow { Text("Link").foregroundStyle(.secondary); Text(i.wired ? LocalizedStringKey("USB cable") : LocalizedStringKey("2.4 GHz receiver")) }
                     GridRow { Text("Firmware").foregroundStyle(.secondary); Text(verbatim: i.firmware) }
-                    if let l = model.led { GridRow { Text("Lighting").foregroundStyle(.secondary); Text(verbatim: "\(NSLocalizedString(lightingName(l.mode), comment: "")) · \(l.brightness) %") } }
-                    GridRow { Text("Helper").foregroundStyle(.secondary); Text(model.helperInstalled ? "Installed" : "Not installed") }
+                    if let l = model.led, model.capabilities.ledGroups > 0 { GridRow { Text("Lighting").foregroundStyle(.secondary); Text(verbatim: "\(NSLocalizedString(lightingName(l.mode), comment: "")) · \(l.brightness) %") } }
+                    GridRow { Text("Helper").foregroundStyle(.secondary); Text(model.helperInstalled ? LocalizedStringKey("Installed") : LocalizedStringKey("Not installed")) }
                     if let r = games.activeRule { GridRow { Text("Game profile").foregroundStyle(.secondary); Text(verbatim: r.name).foregroundStyle(.green) } }
                 }
                 .font(.caption)
@@ -794,7 +814,9 @@ struct MenuBarView: View {
             Divider()
             HStack(spacing: 8) {
                 Button("Open") { openWindow(id: "main"); NSApp.activate() }
-                Button(model.connection == .xinput ? "Switch to DInput" : "Switch to XInput") { Task { await model.switchMode() } }.disabled(!connected || model.busy)
+                if model.connection != .newXInput {
+                    Button(model.connection == .xinput ? LocalizedStringKey("Switch to DInput") : LocalizedStringKey("Switch to XInput")) { Task { await model.switchMode() } }.disabled(!connected || model.busy)
+                }
                 Button { Task { await model.refresh(); await profiles.loadAll() } } label: { Image(systemName: "arrow.trianglehead.2.clockwise") }.disabled(model.busy)
                 Spacer()
                 Button("Quit") { NSApp.terminate(nil) }
@@ -810,11 +832,14 @@ struct MenuBarView: View {
     }
 
     private var subtitle: String {
-        guard connected else { return "Plug in over USB-C or power on with the receiver" }
+        guard connected else { return String(localized: "Plug in over USB-C or power on with the receiver") }
         var parts: [String] = []
-        if let d = profiles.draft { parts.append("Slot \(profiles.activeSlot + 1)\(d.title.isEmpty ? "" : " · \(d.title)")") }
-        if model.busy { parts.append("working…") }
-        return parts.isEmpty ? "Connected" : parts.joined(separator: " · ")
+        if let d = profiles.draft {
+            let slotLabel = String(localized: "Slot \(profiles.activeSlot + 1)")
+            parts.append("\(slotLabel)\(d.title.isEmpty ? "" : " · \(d.title)")")
+        }
+        if model.busy { parts.append(String(localized: "working…")) }
+        return parts.isEmpty ? String(localized: "Connected") : parts.joined(separator: " · ")
     }
     private func lightingName(_ m: LEDConfig.Mode) -> String {
         switch m { case .off: "Off"; case .streamlined: "Streamlined"; case .breathing: "Breathing"; case .gradient: "Gradient"; case .feedback: "Feedback"; case .steady: "Steady"; case .factoryDefault: "Default"; case .unknown: "Unknown" }

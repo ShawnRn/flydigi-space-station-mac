@@ -57,6 +57,7 @@ extension UTType {
 
 struct MacroLibrarySheet: View {
     @Environment(ProfileStore.self) private var profiles
+    @Environment(ControllerModel.self) private var model
     @Environment(MacroLibrary.self) private var library
     @Environment(\.dismiss) private var dismiss
     /// Called with the index of the macro added to the profile, so the page can select it.
@@ -67,7 +68,8 @@ struct MacroLibrarySheet: View {
     @State private var importing = false
 
     private var freeKeys: [ControllerKey] {
-        Apex4Render.mappableKeys.filter { k in !(profiles.draft?.macros.contains { $0.key == k.rawValue } ?? false) }
+        Apex4Render.mappableKeys(for: model.descriptor?.family ?? .apex4, capabilities: model.capabilities)
+            .filter { k in !(profiles.draft?.macros.contains { $0.key == k.rawValue } ?? false) }
     }
     private var full: Bool { (profiles.draft?.macros.count ?? 0) >= profiles.maxMacros }
 
@@ -115,7 +117,7 @@ struct MacroLibrarySheet: View {
             Spacer()
             Menu {
                 ForEach(freeKeys, id: \.self) { k in
-                    Button(String(describing: k)) {
+                    Button(k.localizedName) {
                         guard let i = profiles.addMacro(for: k) else { return }
                         let m = e.macro(for: k)
                         profiles.updateMacro(at: i) { $0.actions = m.actions; $0.enable = m.enable }

@@ -15,6 +15,7 @@ final class ControllerModel {
         case none
         case dinput                 // vendor HID interface, talked to directly
         case xinput                 // Apple's Xbox driver owns it; we go through the helper
+        case newXInput              // 0x37D7 vendor HID (`5A A5 ...`), read-only identification
     }
 
     var connection: Connection = .none
@@ -24,6 +25,18 @@ final class ControllerModel {
     /// nil = not checked / not installed; false = registered but launchd does not start it.
     var helperResponding: Bool?
     var repairingHelper = false
+    var descriptor: DeviceDescriptor? { info.flatMap { DeviceCatalog.descriptor(for: $0.deviceId) } }
+    var capabilities: DeviceDescriptor.Capabilities {
+        if let d = descriptor { return d.capabilities }
+        if let n = usbProductName {
+            if n.localizedCaseInsensitiveContains("direwolf") { return DeviceCatalog.direwolfCapabilities }
+            if n.localizedCaseInsensitiveContains("vader") { return DeviceCatalog.vader4ProCapabilities }
+        }
+        return DeviceCatalog.apex4Capabilities
+    }
+    var lastSnapshotHandledSlots = false
+    private var refreshTask: Task<Void, Never>?
+    private var consecutiveTimeouts = 0
     static let log = Logger(subsystem: "com.uiltonlopes.spacestation", category: "controller")
     var busy = false
     var lastError: String?
@@ -76,10 +89,24 @@ final class ControllerModel {
         let now = USBMonitor.currentConnection()
         if now != connection {
             connection = now
-            if now == .none { info = nil; led = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil; padPoll?.cancel(); padPoll = nil }
-            else { await refresh() }
+            if now == .none {
+                consecutiveTimeouts = 0
+                lastSnapshotHandledSlots = false
+                info = nil; led = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil
+                padPoll?.cancel(); padPoll = nil
+            } else {
+                await refresh()
+            }
         } else if now != .none, info == nil, !busy, padPoll == nil {
             await refresh()
+        }
+    }
+
+    /// Called by ProfileStore on a single read timeout so brief 2.4 GHz drops don't wipe the active device UI.
+    func noteTransientTimeout() {
+        consecutiveTimeouts += 1
+        if info == nil || consecutiveTimeouts >= 2 {
+            padWentSilent()
         }
     }
 
@@ -106,12 +133,39 @@ final class ControllerModel {
     // MARK: Discovery
 
     func refresh() async {
+        if let inFlight = refreshTask {
+            await inFlight.value
+            return
+        }
+        let t = Task { @MainActor [weak self] in
+            guard let self else { return }
+            await self.performRefresh()
+        }
+        refreshTask = t
+        await t.value
+        refreshTask = nil
+    }
+
+    private func performRefresh() async {
         connection = USBMonitor.currentConnection()
         usbProductName = USBMonitor.productName()
         refreshHelperStatus()
-        guard connection != .none else { info = nil; led = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil; padPoll?.cancel(); padPoll = nil; return }
+        guard connection != .none else {
+            consecutiveTimeouts = 0
+            lastSnapshotHandledSlots = false
+            info = nil; led = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil; padPoll?.cancel(); padPoll = nil; return
+        }
         let conn = connection, installed = helperInstalled
         let remembered = UInt8(clamping: UserDefaults.standard.integer(forKey: "activeSlot"))
+        let shouldLoadConfigs = !profiles.isDirty
+        let hadInfo = info != nil
+
+        enum RefreshOutcome: Sendable {
+            case classic(HelperDeviceInfo, LEDConfig, UInt8?)
+            case snapshot(HelperClient.Snapshot)
+            case identifiedOnly(HelperDeviceInfo)
+        }
+
         await run {
             // Order matters: ask which slot is current *before* any blob read — reads move that cursor
             // (docs/protocol.md §10) — then read the lighting of that slot.
@@ -122,26 +176,51 @@ final class ControllerModel {
                 let cur = (try? s.currentConfigId()).flatMap { $0 < 4 ? $0 : nil }
                 s.configId = cur ?? remembered
                 let l = try s.readLED()
-                return (HelperDeviceInfo(i), l, cur)
+                return RefreshOutcome.classic(HelperDeviceInfo(i), l, cur)
             case .xinput:
                 guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                 guard installed else { throw HelperClient.shared.status == .requiresApproval ? HelperError.awaitingApproval : HelperError.notInstalled }
                 guard HelperClient.shared.isResponding() else { throw HelperError.notResponding }
+                if (HelperClient.shared.runningProtocolVersion ?? 1) >= 2 {
+                    let snap = try HelperClient.shared.loadSnapshot(rememberedSlot: remembered, loadConfigs: shouldLoadConfigs)
+                    return RefreshOutcome.snapshot(snap)
+                }
                 let i = try HelperClient.shared.deviceInfo()
                 let cur = (try? HelperClient.shared.currentSlot()).flatMap { $0 < 4 ? $0 : nil }
-                return (i, try HelperClient.shared.readLED(slot: cur ?? remembered), cur)
+                return RefreshOutcome.classic(i, try HelperClient.shared.readLED(slot: cur ?? remembered), cur)
+            case .newXInput:
+                let i = try NewXInputProbe.probeDeviceInfo()
+                return RefreshOutcome.identifiedOnly(HelperDeviceInfo(i))
             case .none:
                 throw HelperError.transport("no controller")
             }
-        } onSuccess: { (i: HelperDeviceInfo, l: LEDConfig, cur: UInt8?) in
-            self.info = i; self.led = l; self.padSlot = cur
-            if conn == .xinput { self.helperResponding = true }
-            if let cur { UserDefaults.standard.set(Int(cur), forKey: "activeSlot") }
+        } onSuccess: { (outcome: RefreshOutcome) in
+            self.consecutiveTimeouts = 0
+            switch outcome {
+            case let .classic(i, l, cur):
+                self.info = i; self.led = l; self.padSlot = cur
+                if conn == .xinput { self.helperResponding = true }
+                if let cur { UserDefaults.standard.set(Int(cur), forKey: "activeSlot") }
+            case let .snapshot(snap):
+                self.info = snap.info
+                self.padSlot = snap.currentSlot
+                if let l = snap.led { self.led = l }
+                if let s = snap.sleepTime { self.sleepMinutes = s }
+                self.helperResponding = true
+                let effectiveSlot = snap.currentSlot ?? remembered
+                if let cur = snap.currentSlot { UserDefaults.standard.set(Int(cur), forKey: "activeSlot") }
+                if !snap.configs.isEmpty {
+                    self.lastSnapshotHandledSlots = true
+                    self.profiles.applySnapshot(current: effectiveSlot, blobs: snap.configs)
+                }
+            case let .identifiedOnly(i):
+                self.info = i; self.led = nil; self.padSlot = nil
+            }
         }
         if let fw = info?.firmware, firmwareCheckedFor != fw { firmwareCheckedFor = fw; Task { await checkFirmware() } }
         if info == nil {
             padWentSilent()
-        } else {
+        } else if !hadInfo || consecutiveTimeouts == 0 {
             padPoll?.cancel(); padPoll = nil
             // Over the receiver the first answer often carries battery 0 ("unknown") until the dongle has
             // asked the pad; Space Station re-sends its heartbeat after 1 s in that case — so do we.
@@ -194,11 +273,13 @@ final class ControllerModel {
                     case .xinput:
                         guard installed, #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                         return try HelperClient.shared.deviceInfo()
+                    case .newXInput:
+                        return HelperDeviceInfo(try NewXInputProbe.probeDeviceInfo())
                     case .none: throw HelperError.transport("no controller")
                     }
                 }
             }.value
-            self.suppressNotificationsUntil = Date().addingTimeInterval(4)
+            self.suppressNotificationsUntil = conn == .xinput ? Date().addingTimeInterval(6) : .distantPast
             guard !Task.isCancelled, self.info != nil else { return }
             if case .success(let i) = r { self.info = i }
             if self.info?.batteryRaw == 0, attempt < 15 { self.scheduleBatteryReread(attempt: attempt + 1) }
@@ -267,8 +348,8 @@ final class ControllerModel {
         guard firmwareUpdate != nil, let info else { return nil }
         // The OTA sequence was only ever exercised on the Apex 4 family. Flydigi's server answers for other device
         // ids too, but writing that image with this flow to an untested model is not something we let happen.
-        if let d = DeviceCatalog.descriptor(for: info.deviceId), d.family != .apex4 { return String(localized: "Updates from this app are only enabled for the Apex 4 family. Use Flydigi Space Station (Windows) for \(d.name).") }
-        if DeviceCatalog.descriptor(for: info.deviceId) == nil { return String(localized: "Updates from this app are only enabled for the Apex 4 family (unknown controller id \(info.deviceId)).") }
+        if let d = DeviceCatalog.descriptor(for: info.deviceId), d.family != .apex4 { return String(localized: "Updates from this app are only enabled for the Apex 4 family. Use Flydigi Space Station (Windows) for \(d.localizedName).") }
+        if DeviceCatalog.descriptor(for: info.deviceId) == nil { return String(localized: "Updates from this app are only enabled for the Apex 4 family (unknown controller id \(Int(info.deviceId))).") }
         if !info.wired { return String(localized: "Connect the USB cable — updates never run over the receiver.") }
         if min(5, Int(info.batteryRaw & 0xF)) * 20 < 40 { return String(localized: "Charge the controller to at least 40 % first.") }
         if connection == .xinput, !helperInstalled { return String(localized: "Install the helper (or switch to DInput) so the app can put the controller in update mode.") }
@@ -358,12 +439,12 @@ final class ControllerModel {
     /// Reads the lighting stored in a profile slot (each slot has its own 500-byte LED blob).
     func loadLED(slot: UInt8) async {
         let conn = connection, installed = helperInstalled
-        guard conn != .none else { return }
+        guard conn == .dinput || conn == .xinput else { return }
         await run({
             switch conn {
             case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; s.configId = slot; return try s.readLED()
             case .xinput: guard installed, #available(macOS 14.0, *) else { throw HelperError.notInstalled }; return try HelperClient.shared.readLED(slot: slot)
-            case .none: throw HelperError.transport("no controller")
+            case .none, .newXInput: throw HelperError.transport("no controller")
             }
         }, onSuccess: { (l: LEDConfig) in self.led = l })
     }
@@ -384,7 +465,7 @@ final class ControllerModel {
                     guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                     try HelperClient.shared.applyLED(newLED, slot: slot, persist: persist)
                     if try HelperClient.shared.readLED(slot: slot).bytes == newLED.bytes { return newLED }
-                case .none: throw HelperError.transport("no controller")
+                case .none, .newXInput: throw HelperError.transport("no controller")
                 }
                 if attempt == 1 { throw HelperError.transport(String(localized: "The lighting did not apply completely. Try again.")) }
             }
@@ -422,7 +503,7 @@ final class ControllerModel {
     /// Auto-sleep minutes as the pad reports them (XInput only; nil = not read yet).
     var sleepMinutes: UInt8?
     func loadSleepTime() async {
-        guard connection == .xinput, helperInstalled, #available(macOS 14.0, *) else { return }
+        guard connection == .xinput, helperInstalled, sleepMinutes == nil, #available(macOS 14.0, *) else { return }
         let r: Result<UInt8, Error> = await Task.detached { Result { try HelperClient.shared.readSleepTime() } }.value
         if case .success(let v) = r { sleepMinutes = v }
     }
@@ -432,7 +513,7 @@ final class ControllerModel {
             switch conn {
             case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; try s.setScreenSleepTime(minutes)
             case .xinput: guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }; try HelperClient.shared.setSleepTime(minutes)
-            case .none: throw HelperError.transport("no controller")
+            case .none, .newXInput: throw HelperError.transport("no controller")
             }
         }, onSuccess: { (_: Void) in self.sleepMinutes = minutes })
     }
@@ -443,7 +524,7 @@ final class ControllerModel {
             switch conn {
             case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; try s.setQuickSwitch(on)
             case .xinput: guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }; try HelperClient.shared.setQuickSwitch(on)
-            case .none: throw HelperError.transport("no controller")
+            case .none, .newXInput: throw HelperError.transport("no controller")
             }
         }, onSuccess: { (_: Void) in UserDefaults.standard.set(on, forKey: "quickSwitch.\(self.info?.mac ?? "")") })
     }
@@ -453,7 +534,7 @@ final class ControllerModel {
             switch conn {
             case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; try s.setTurboSwitch(on)
             case .xinput: guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }; try HelperClient.shared.setTurboSwitch(on)
-            case .none: throw HelperError.transport("no controller")
+            case .none, .newXInput: throw HelperError.transport("no controller")
             }
         }, onSuccess: { (_: Void) in UserDefaults.standard.set(on, forKey: "turboSwitch.\(self.info?.mac ?? "")") })
     }
@@ -472,7 +553,7 @@ final class ControllerModel {
             case .xinput:
                 guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                 try HelperClient.shared.switchMode()
-            case .none: throw HelperError.transport("no controller")
+            case .none, .newXInput: throw HelperError.transport("no controller")
             }
             return ()
         } onSuccess: { (_: Void) in }
@@ -488,7 +569,7 @@ final class ControllerModel {
         var result: ControllerKey? = nil
         await run({
             switch conn {
-            case .none: return nil as UInt8?
+            case .none, .newXInput: return nil as UInt8?
             case .dinput:
                 let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }
                 return try s.captureKey(timeout: seconds)?.rawValue
@@ -509,7 +590,7 @@ final class ControllerModel {
             switch conn {
             case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; return try s.readJoystickSettings()
             case .xinput: return try HelperClient.shared.readJoystickSettings()
-            case .none: throw HelperError.transport("no controller")
+            case .none, .newXInput: throw HelperError.transport("no controller")
             }
         }, onSuccess: { (j: JoystickSettings) in self.joystickSettings = j })
     }
@@ -520,7 +601,7 @@ final class ControllerModel {
             switch conn {
             case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; try s.setJoystickToggle(opt, enabled: enabled)
             case .xinput: try HelperClient.shared.setJoystickOption(opt, value: enabled ? 0 : 1)
-            case .none: throw HelperError.transport("no controller")
+            case .none, .newXInput: throw HelperError.transport("no controller")
             }
         }, onSuccess: { (_: Void) in })
         await loadJoystickSettings()
@@ -534,7 +615,7 @@ final class ControllerModel {
             switch conn {
             case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; try s.calibration(start: start)
             case .xinput: try HelperClient.shared.calibration(start: start)
-            case .none: throw HelperError.transport("no controller")
+            case .none, .newXInput: throw HelperError.transport("no controller")
             }
         }, onSuccess: { (_: Void) in ok = true })
         return ok
@@ -548,7 +629,7 @@ final class ControllerModel {
             switch conn {
             case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; try s.applyConfig(slot: slot)
             case .xinput: try HelperClient.shared.applySlot(slot)
-            case .none: throw HelperError.transport("no controller")
+            case .none, .newXInput: throw HelperError.transport("no controller")
             }
         }, onSuccess: { (_: Void) in })
         profiles.showTemporary(slot: slot)
@@ -612,8 +693,15 @@ final class ControllerModel {
 
     private func run<T: Sendable>(_ work: @escaping @Sendable () throws -> T, onSuccess: @MainActor (T) -> Void) async {
         busy = true; lastError = nil
+        let connAtStart = connection
         suppressNotificationsUntil = .distantFuture
-        defer { busy = false; suppressNotificationsUntil = Date().addingTimeInterval(4) }   // release + re-match takes ~1–2 s
+        defer {
+            busy = false
+            // Helper idle release happens after 1.5 s + USB re-enumeration ~2–3 s; cover that window so we never react to ourselves.
+            suppressNotificationsUntil = (connAtStart == .xinput || connection == .xinput)
+                ? Date().addingTimeInterval(6.0)
+                : .distantPast
+        }
         var result: Result<T, Error> = await Task.detached { Result { try work() } }.value
         if case .failure(let e) = result, "\(e)".contains("no matching report") || "\(e)".contains("timeout") {
             // Right after a mode switch or re-enumeration the pad ignores the first request; try once more.
@@ -621,16 +709,22 @@ final class ControllerModel {
             result = await Task.detached { Result { try work() } }.value
         }
         switch result {
-        case .success(let v): onSuccess(v)
+        case .success(let v):
+            consecutiveTimeouts = 0
+            onSuccess(v)
         case .failure(let e):
             let text = "\(e)"
             if text.contains("not found"), USBMonitor.currentConnection() == .none {
                 // The receiver / cable went away while we were talking to it: not an error, just gone.
+                consecutiveTimeouts = 0; lastSnapshotHandledSlots = false
                 connection = .none; info = nil; led = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil
                 padPoll?.cancel(); padPoll = nil
             } else if text.contains("no matching report") || text.contains("timeout") {
-                lastError = String(localized: "The controller did not answer in time. Press refresh to try again.")
-                if info != nil { padWentSilent() }       // it was there a moment ago: turned off / out of range
+                consecutiveTimeouts += 1
+                if info == nil || consecutiveTimeouts >= 2 {
+                    lastError = String(localized: "The controller did not answer in time. Press refresh to try again.")
+                    if info != nil { padWentSilent() }
+                }
             } else {
                 if let h = e as? HelperError, case .notResponding = h { helperResponding = false }
                 lastError = text
@@ -660,10 +754,11 @@ final class USBMonitor: @unchecked Sendable {
         port = IONotificationPortCreate(kIOMainPortDefault)
         IONotificationPortSetDispatchQueue(port, DispatchQueue.global(qos: .utility))
         let ctx = Unmanaged.passUnretained(self).toOpaque()
-        for (vid, pid) in [(USBID.xinputVendor, USBID.xinputProduct), (USBID.dinputVendor, USBID.dinputProduct)] {
+        for (vid, pid) in [(USBID.xinputVendor, USBID.xinputProduct), (USBID.dinputVendor, USBID.dinputProduct), (USBID.newXInputVendor, 0)] as [(UInt16, UInt16)] {
             for kind in [kIOMatchedNotification, kIOTerminatedNotification] {
                 let match = IOServiceMatching("IOUSBHostDevice")! as NSMutableDictionary
-                match["idVendor"] = Int(vid); match["idProduct"] = Int(pid)
+                match["idVendor"] = Int(vid)
+                if pid != 0 { match["idProduct"] = Int(pid) }
                 var it: io_iterator_t = 0
                 let kr = IOServiceAddMatchingNotification(port, kind, match as CFDictionary, { ctx, iterator in
                     while case let s = IOIteratorNext(iterator), s != IO_OBJECT_NULL { IOObjectRelease(s) }   // drain (arms the notification)
@@ -678,23 +773,26 @@ final class USBMonitor: @unchecked Sendable {
     }
 
     static func currentConnection() -> ControllerModel.Connection {
-        func present(_ vid: UInt16, _ pid: UInt16) -> Bool {
+        func present(_ vid: UInt16, _ pid: UInt16?) -> Bool {
             let match = IOServiceMatching("IOUSBHostDevice")! as NSMutableDictionary
-            match["idVendor"] = Int(vid); match["idProduct"] = Int(pid)
+            match["idVendor"] = Int(vid)
+            if let pid { match["idProduct"] = Int(pid) }
             let s = IOServiceGetMatchingService(kIOMainPortDefault, match as CFDictionary)
             if s != IO_OBJECT_NULL { IOObjectRelease(s); return true }
             return false
         }
         if present(USBID.dinputVendor, USBID.dinputProduct) { return .dinput }
+        if present(USBID.newXInputVendor, nil) { return .newXInput }
         if present(USBID.xinputVendor, USBID.xinputProduct) { return .xinput }
         return .none
     }
 
     /// "USB Product Name" of whichever pad device is present (the receiver announces itself as "Flydigi VADER3").
     static func productName() -> String? {
-        for (vid, pid) in [(USBID.dinputVendor, USBID.dinputProduct), (USBID.xinputVendor, USBID.xinputProduct)] {
+        for (vid, pid) in [(USBID.dinputVendor, USBID.dinputProduct), (USBID.newXInputVendor, nil), (USBID.xinputVendor, USBID.xinputProduct)] as [(UInt16, UInt16?)] {
             let match = IOServiceMatching("IOUSBHostDevice")! as NSMutableDictionary
-            match["idVendor"] = Int(vid); match["idProduct"] = Int(pid)
+            match["idVendor"] = Int(vid)
+            if let pid { match["idProduct"] = Int(pid) }
             let s = IOServiceGetMatchingService(kIOMainPortDefault, match as CFDictionary)
             guard s != IO_OBJECT_NULL else { continue }
             defer { IOObjectRelease(s) }

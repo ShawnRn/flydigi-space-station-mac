@@ -26,6 +26,8 @@ final class HelperClient: @unchecked Sendable {
     static let shared = HelperClient()
     private let queue = DispatchQueue(label: "apex4.helper.client")
     private var session: XPCSession?
+    private let helperProtocolVersionLock = OSAllocatedUnfairLock<Int?>(initialState: nil)
+    var runningProtocolVersion: Int? { helperProtocolVersionLock.withLock { $0 } }
 
     // MARK: SMAppService
 
@@ -63,12 +65,17 @@ final class HelperClient: @unchecked Sendable {
                     session = try XPCSession(machService: HelperConstants.machService, targetQueue: nil, options: [], cancellationHandler: nil)
                 }
                 let done = DispatchSemaphore(value: 0)
-                let answered = OSAllocatedUnfairLock(initialState: false)
+                let versionLock = OSAllocatedUnfairLock<Int?>(initialState: nil)
                 try session!.send(HelperRequest.ping) { result in
-                    if case .success(let m) = result, let r = try? m.decode(as: HelperReply.self), case .pong = r { answered.withLock { $0 = true } }
+                    if case .success(let m) = result, let r = try? m.decode(as: HelperReply.self), case let .pong(v, _) = r {
+                        versionLock.withLock { $0 = v }
+                    }
                     done.signal()
                 }
-                guard done.wait(timeout: .now() + timeout) == .success, answered.withLock({ $0 }) else { dropSession(); return false }
+                guard done.wait(timeout: .now() + timeout) == .success, let version = versionLock.withLock({ $0 }) else {
+                    dropSession(); helperProtocolVersionLock.withLock { $0 = nil }; return false
+                }
+                helperProtocolVersionLock.withLock { $0 = version }
                 return true
             } catch { dropSession(); return false }
         }
@@ -107,6 +114,22 @@ final class HelperClient: @unchecked Sendable {
     func deviceInfo() throws -> HelperDeviceInfo {
         guard case let .deviceInfo(i) = try send(.deviceInfo) else { throw HelperError.transport("unexpected reply") }
         return i
+    }
+
+    struct Snapshot: Sendable {
+        let info: HelperDeviceInfo
+        let currentSlot: UInt8?
+        let configs: [[UInt8]]
+        let led: LEDConfig?
+        let sleepTime: UInt8?
+    }
+
+    func loadSnapshot(rememberedSlot: UInt8, loadConfigs: Bool) throws -> Snapshot {
+        guard case let .snapshot(info, cur, cfgs, ledBytes, sleepTime) = try send(.loadSnapshot(rememberedSlot: rememberedSlot, loadConfigs: loadConfigs)) else {
+            throw HelperError.transport("unexpected reply")
+        }
+        let led = ledBytes.flatMap { LEDConfig(bytes: $0) }
+        return Snapshot(info: info, currentSlot: cur, configs: cfgs, led: led, sleepTime: sleepTime)
     }
 
     func readLED(slot: UInt8) throws -> LEDConfig {

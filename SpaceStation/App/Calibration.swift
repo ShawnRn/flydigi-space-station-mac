@@ -2,6 +2,7 @@
 // docs/protocol.md §11); closing it before the sticks have been swept to their limits stores a bogus range,
 // so this wizard tracks coverage live and only enables Finish once every axis has been reached.
 
+import Combine
 import SwiftUI
 import FlydigiKit
 

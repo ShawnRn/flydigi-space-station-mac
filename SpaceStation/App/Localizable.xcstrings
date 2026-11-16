@@ -1,12 +1,68 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ button": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 按键"
+          }
+        }
+      }
+    },
+    "%@ button, remapped": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 按键（已改键）"
+          }
+        }
+      }
+    },
+    "%@ · %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %@"
+          }
+        }
+      }
+    },
+    "%@ · game": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · 游戏"
+          }
+        }
+      }
+    },
+    "%lld %%": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld %%"
+          }
+        }
+      }
+    },
     "%lld remapped keys · %lld macros · triggers %@ / %@": {
       "localizations": {
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld teclas remapeadas · %lld macros · gatilhos %@ / %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 个改键 · %lld 个宏 · 扳机 %@ / %@"
           }
         }
       }
@@ -18,6 +74,12 @@
             "state": "translated",
             "value": "%lld s"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 秒"
+          }
         }
       }
     },
@@ -27,6 +89,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld passos · %2$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 步 · %@"
           }
         }
       }
@@ -38,6 +106,12 @@
             "state": "translated",
             "value": "1 h"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 小时"
+          }
         }
       }
     },
@@ -47,6 +121,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 min"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 分钟"
           }
         }
       }
@@ -58,6 +138,12 @@
             "state": "translated",
             "value": "15 min"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "15 分钟"
+          }
         }
       }
     },
@@ -67,6 +153,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "160 × 80 · %lld quadros"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "160 × 80 · %lld 帧"
           }
         }
       }
@@ -78,6 +170,12 @@
             "state": "translated",
             "value": "160 × 80 · %1$lld quadros (reduzido de %2$lld)"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "160 × 80 · %lld 帧（已从 %lld 帧抽帧）"
+          }
         }
       }
     },
@@ -87,6 +185,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "2 a 5 cores"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 到 5 种颜色"
           }
         }
       }
@@ -98,6 +202,12 @@
             "state": "translated",
             "value": "Receptor 2,4 GHz"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2.4 GHz 接收器"
+          }
         }
       }
     },
@@ -107,6 +217,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "3 h"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 小时"
           }
         }
       }
@@ -118,6 +234,12 @@
             "state": "translated",
             "value": "4 direções"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "4 方向"
+          }
         }
       }
     },
@@ -127,6 +249,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "5 min"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 分钟"
           }
         }
       }
@@ -138,6 +266,12 @@
             "state": "translated",
             "value": "8 direções"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8 方向"
+          }
         }
       }
     },
@@ -147,6 +281,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chave de API para a busca de GIFs na página Screen"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于“屏幕”页 GIF 搜索的 API 密钥"
           }
         }
       }
@@ -158,6 +298,12 @@
             "state": "translated",
             "value": "Sobre"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关于"
+          }
         }
       }
     },
@@ -167,6 +313,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cerca de %1$lld s para %2$lld quadros."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "约 %lld 秒（共 %lld 帧）。"
           }
         }
       }
@@ -178,6 +330,12 @@
             "state": "translated",
             "value": "Permissão de Acessibilidade concedida — os mapeamentos para teclado e mouse ficam ativos enquanto o app roda."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已授予辅助功能权限——应用运行期间键盘与鼠标映射保持生效。"
+          }
         }
       }
     },
@@ -187,6 +345,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Permissão de Acessibilidade não concedida — os mapeamentos para teclado e mouse ainda não fazem nada."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未授予辅助功能权限——键盘与鼠标映射暂不会生效。"
           }
         }
       }
@@ -198,6 +362,12 @@
             "state": "translated",
             "value": "Ação"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "动作"
+          }
         }
       }
     },
@@ -207,6 +377,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tecla de ativação"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "激活键"
           }
         }
       }
@@ -218,6 +394,12 @@
             "state": "translated",
             "value": "Modo de ativação"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "激活方式"
+          }
         }
       }
     },
@@ -227,6 +409,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ativo agora: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前激活：%@"
           }
         }
       }
@@ -238,6 +426,12 @@
             "state": "translated",
             "value": "Age como"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "映射为"
+          }
         }
       }
     },
@@ -247,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gatilho adaptativo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自适应扳机"
           }
         }
       }
@@ -258,6 +458,12 @@
             "state": "translated",
             "value": "Adicionar dispositivo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加设备"
+          }
         }
       }
     },
@@ -267,6 +473,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Adicionar perfil de jogo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加游戏预设"
           }
         }
       }
@@ -278,6 +490,12 @@
             "state": "translated",
             "value": "Adicionar passo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加步骤"
+          }
         }
       }
     },
@@ -287,6 +505,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Adicionar ao perfil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加到当前配置"
           }
         }
       }
@@ -298,6 +522,12 @@
             "state": "translated",
             "value": "Permitir…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往授权…"
+          }
         }
       }
     },
@@ -307,6 +537,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sempre ligado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "常亮"
           }
         }
       }
@@ -318,6 +554,12 @@
             "state": "translated",
             "value": "Ajustes do app"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用设置"
+          }
         }
       }
     },
@@ -327,6 +569,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "App a observar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "监听的应用"
           }
         }
       }
@@ -338,6 +586,12 @@
             "state": "translated",
             "value": "Aplicar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用"
+          }
         }
       }
     },
@@ -347,6 +601,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aplicar no controle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用到手柄"
           }
         }
       }
@@ -358,6 +618,12 @@
             "state": "translated",
             "value": "Aplicar ao modo NS"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步到 NS 模式"
+          }
         }
       }
     },
@@ -367,6 +633,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aplicar ao modo NS…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步到 NS 模式…"
           }
         }
       }
@@ -378,6 +650,12 @@
             "state": "translated",
             "value": "Aplicando…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用中…"
+          }
         }
       }
     },
@@ -387,6 +665,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aprove o helper em Ajustes do Sistema › Geral › Itens de Início e Extensões."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在“系统设置 › 通用 › 登录项与扩展”中允许该辅助程序。"
           }
         }
       }
@@ -398,6 +682,12 @@
             "state": "translated",
             "value": "Troca automática"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动切换"
+          }
         }
       }
     },
@@ -407,6 +697,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Erro médio"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "平均误差"
+          }
+        }
+      }
+    },
+    "Back": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "返回"
           }
         }
       }
@@ -418,6 +724,12 @@
             "state": "translated",
             "value": "De volta no USB com firmware %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已通过 USB 重连，当前固件 %@"
+          }
         }
       }
     },
@@ -427,6 +739,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Voltar ao normal agora"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "现已恢复正常"
           }
         }
       }
@@ -438,6 +756,12 @@
             "state": "translated",
             "value": "Bateria"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "电量"
+          }
         }
       }
     },
@@ -447,6 +771,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vincular uma nova macro a um botão"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建宏并绑定到按键"
           }
         }
       }
@@ -458,6 +788,12 @@
             "state": "translated",
             "value": "Vincule uma a um botão e grave os passos pelo controle."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将其绑定到按键并直接从手柄录制步骤。"
+          }
         }
       }
     },
@@ -467,6 +803,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vinculada a"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "绑定到"
           }
         }
       }
@@ -478,6 +820,12 @@
             "state": "translated",
             "value": "Resistência do rompimento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "破壁阻力"
+          }
         }
       }
     },
@@ -487,6 +835,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Posição inicial do rompimento"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "破壁起始位置"
           }
         }
       }
@@ -498,6 +852,12 @@
             "state": "translated",
             "value": "Curso do rompimento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "破壁行程"
+          }
         }
       }
     },
@@ -507,6 +867,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Respiração"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "呼吸模式"
           }
         }
       }
@@ -518,6 +884,12 @@
             "state": "translated",
             "value": "Brilho"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "亮度"
+          }
         }
       }
     },
@@ -527,6 +899,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Botões"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按键"
           }
         }
       }
@@ -538,6 +916,12 @@
             "state": "translated",
             "value": "Botão / direção"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按键 / 方向"
+          }
         }
       }
     },
@@ -547,6 +931,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Botões mapeados para o teclado são escondidos pelo controle no modo XInput. Mude para DInput para os mapeamentos de teclado e mouse; analógicos mapeados para o mouse funcionam nos dois."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在 XInput 模式下，映射到键盘的按键会被手柄屏蔽；请切换至 DInput 模式以使用键鼠映射（摇杆映射鼠标在两种模式下均可用）。"
           }
         }
       }
@@ -558,6 +948,12 @@
             "state": "translated",
             "value": "Botões em Especial, analógicos mapeados para teclado ou mouse e o giroscópio mapeado para o mouse viram eventos de tecla e mouse gerados por este app, por controle e perfil. Botões precisam do modo DInput; o controle esconde botões mapeados para teclado em XInput."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设为“特殊映射”的按键、映射为键鼠的摇杆以及映射为鼠标的体感，都会按手柄与配置由本应用实时转换为键盘鼠标事件。按键改键需处于 DInput 模式（XInput 下手柄会屏蔽键盘映射按键）。"
+          }
         }
       }
     },
@@ -567,6 +963,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Me paga um café"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请作者喝杯咖啡"
           }
         }
       }
@@ -578,6 +980,12 @@
             "state": "translated",
             "value": "Calibrar analógicos…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校准摇杆与扳机…"
+          }
         }
       }
     },
@@ -587,6 +995,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Calibração"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校准"
           }
         }
       }
@@ -598,6 +1012,12 @@
             "state": "translated",
             "value": "Calibração gravada no controle."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校准结果已保存至手柄。"
+          }
         }
       }
     },
@@ -607,6 +1027,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Janela de calibração aberta"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校准窗口已开启"
           }
         }
       }
@@ -618,6 +1044,12 @@
             "state": "translated",
             "value": "Cancelar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
         }
       }
     },
@@ -627,6 +1059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Centro (soltar)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中心（松手）"
           }
         }
       }
@@ -638,6 +1076,12 @@
             "state": "translated",
             "value": "Zona morta central"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中心死区"
+          }
         }
       }
     },
@@ -647,6 +1091,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mudar a iluminação enquanto este jogo estiver na frente"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当此游戏处于前台时切换灯效"
           }
         }
       }
@@ -658,6 +1108,22 @@
             "state": "translated",
             "value": "Carregue o controle até pelo menos 40 % antes."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先将手柄电量充至至少 40 %。"
+          }
+        }
+      }
+    },
+    "Charging": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充电中"
+          }
         }
       }
     },
@@ -667,6 +1133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verificar atualizações do app"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查应用更新"
           }
         }
       }
@@ -678,6 +1150,12 @@
             "state": "translated",
             "value": "Verificar atualizações"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查更新"
+          }
         }
       }
     },
@@ -687,6 +1165,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verificado automaticamente quando o controle conecta."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄连接时自动检查。"
           }
         }
       }
@@ -698,6 +1182,12 @@
             "state": "translated",
             "value": "Verificando…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查中…"
+          }
         }
       }
     },
@@ -707,6 +1197,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Escolha um idioma"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择语言"
           }
         }
       }
@@ -718,6 +1214,12 @@
             "state": "translated",
             "value": "Escolher outro…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择其他文件…"
+          }
         }
       }
     },
@@ -727,6 +1229,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Escolher app…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择应用…"
           }
         }
       }
@@ -738,6 +1246,12 @@
             "state": "translated",
             "value": "Teste de circularidade"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圆度测试"
+          }
         }
       }
     },
@@ -747,6 +1261,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Teste de circularidade…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "摇杆圆度测试…"
           }
         }
       }
@@ -758,6 +1278,12 @@
             "state": "translated",
             "value": "Limpar tudo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清空全部"
+          }
         }
       }
     },
@@ -767,6 +1293,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Clique"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击"
           }
         }
       }
@@ -778,6 +1310,12 @@
             "state": "translated",
             "value": "Clique numa tecla e pressione a substituta no teclado do Mac. Diagonais pressionam duas teclas no modo de 8 direções."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击目标按键并在 Mac 键盘上按下要映射的键。8 方向模式下斜向将同时触发两个按键。"
+          }
         }
       }
     },
@@ -787,6 +1325,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Clique em qualquer botão na imagem do controle acima para alterar o mapeamento."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击上方手柄图示中的任意按键以修改其映射。"
           }
         }
       }
@@ -798,6 +1342,12 @@
             "state": "translated",
             "value": "Clique para definir a macro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击设置宏"
+          }
         }
       }
     },
@@ -807,6 +1357,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Clique e depois pressione a tecla no teclado do Mac."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击后，按下 Mac 键盘上的目标按键。"
           }
         }
       }
@@ -818,6 +1374,12 @@
             "state": "translated",
             "value": "Fechar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭"
+          }
         }
       }
     },
@@ -827,6 +1389,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ao fechar a janela"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭窗口时"
           }
         }
       }
@@ -838,6 +1406,12 @@
             "state": "translated",
             "value": "Cor"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "颜色"
+          }
         }
       }
     },
@@ -847,6 +1421,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Geral"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "常规"
           }
         }
       }
@@ -858,6 +1438,12 @@
             "state": "translated",
             "value": "Conecte um controle"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接手柄"
+          }
         }
       }
     },
@@ -867,6 +1453,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Conecte o cabo USB — a atualização nunca roda pelo receptor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请连接 USB 数据线——固件更新无法通过接收器进行。"
           }
         }
       }
@@ -878,6 +1470,12 @@
             "state": "translated",
             "value": "Conecte o controle e clique em Atualizar."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请连接手柄后点击“刷新”。"
+          }
         }
       }
     },
@@ -887,6 +1485,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Conecte o controle para editar a iluminação."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接手柄以编辑灯效。"
           }
         }
       }
@@ -898,6 +1502,12 @@
             "state": "translated",
             "value": "Conecte o controle para editar os perfis."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接手柄以编辑板载配置。"
+          }
         }
       }
     },
@@ -907,6 +1517,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Conecte o controle para editar a vibração."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接手柄以调节震动。"
           }
         }
       }
@@ -918,6 +1534,12 @@
             "state": "translated",
             "value": "Conecte o controle para ver o firmware."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接手柄以查看固件版本。"
+          }
         }
       }
     },
@@ -927,6 +1549,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Conectado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已连接"
           }
         }
       }
@@ -938,6 +1566,12 @@
             "state": "translated",
             "value": "Conectando um controle"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接手柄说明"
+          }
         }
       }
     },
@@ -947,6 +1581,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Controle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄"
           }
         }
       }
@@ -958,6 +1598,12 @@
             "state": "translated",
             "value": "Ajustes do controle"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄设置"
+          }
         }
       }
     },
@@ -967,6 +1613,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Controle em modo DInput"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄处于 DInput 模式"
           }
         }
       }
@@ -978,6 +1630,12 @@
             "state": "translated",
             "value": "Preset do controle"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄预设"
+          }
         }
       }
     },
@@ -987,6 +1645,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Controle reiniciando…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄正在重启…"
           }
         }
       }
@@ -998,6 +1662,12 @@
             "state": "translated",
             "value": "Copiado"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已复制"
+          }
         }
       }
     },
@@ -1007,6 +1677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Copiar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制"
           }
         }
       }
@@ -1018,6 +1694,12 @@
             "state": "translated",
             "value": "Copiar este perfil para o modo Nintendo Switch do controle?"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确定将此配置复制到手柄的 Nintendo Switch 模式吗？"
+          }
         }
       }
     },
@@ -1027,6 +1709,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Não foi possível verificar: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查失败：%@"
+          }
+        }
+      }
+    },
+    "Could not decode the controller's profiles": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法解析手柄配置数据"
           }
         }
       }
@@ -1038,6 +1736,12 @@
             "state": "translated",
             "value": "Cobertura"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "覆盖度"
+          }
         }
       }
     },
@@ -1047,6 +1751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Criar uma chave em developers.giphy.com"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往 developers.giphy.com 创建密钥"
           }
         }
       }
@@ -1058,6 +1768,12 @@
             "state": "translated",
             "value": "A curva não pode ser ajustada neste modo — X: posição do analógico, Y: saída"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前模式下无法调整曲线（X：物理行程，Y：映射输出）"
+          }
         }
       }
     },
@@ -1067,6 +1783,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Personalizado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义"
           }
         }
       }
@@ -1078,12 +1800,64 @@
             "state": "translated",
             "value": "Tempo do ciclo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "循环周期"
+          }
+        }
+      }
+    },
+    "D-pad Down": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "十字键 下"
+          }
+        }
+      }
+    },
+    "D-pad Left": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "十字键 左"
+          }
+        }
+      }
+    },
+    "D-pad Right": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "十字键 右"
+          }
+        }
+      }
+    },
+    "D-pad Up": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "十字键 上"
+          }
         }
       }
     },
     "DInput": {
       "localizations": {
         "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DInput"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "DInput"
@@ -1098,6 +1872,12 @@
             "state": "translated",
             "value": "DInput — o app fala direto com o controle, sem helper."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DInput — 应用直接与手柄通信，无需特权辅助程序。"
+          }
         }
       }
     },
@@ -1107,6 +1887,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Intensidade do amortecimento."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻尼反馈强度。"
           }
         }
       }
@@ -1118,6 +1904,12 @@
             "state": "translated",
             "value": "Posição inicial do amortecimento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻尼起始位置"
+          }
         }
       }
     },
@@ -1127,6 +1919,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Força de amortecimento"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻尼强度"
           }
         }
       }
@@ -1138,6 +1936,12 @@
             "state": "translated",
             "value": "Zona morta"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "死区"
+          }
         }
       }
     },
@@ -1147,6 +1951,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Padrão"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "默认"
           }
         }
       }
@@ -1158,6 +1968,12 @@
             "state": "translated",
             "value": "Atraso"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "延迟"
+          }
         }
       }
     },
@@ -1167,6 +1983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Atraso antes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前序延迟"
           }
         }
       }
@@ -1178,6 +2000,12 @@
             "state": "translated",
             "value": "Apagar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
         }
       }
     },
@@ -1187,6 +2015,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apagar este perfil salvo?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确定删除此已保存的配置吗？"
           }
         }
       }
@@ -1198,6 +2032,12 @@
             "state": "translated",
             "value": "Apagar…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除…"
+          }
         }
       }
     },
@@ -1207,6 +2047,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Detalhes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "详情"
           }
         }
       }
@@ -1218,6 +2064,12 @@
             "state": "translated",
             "value": "Firmware do dispositivo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设备固件"
+          }
         }
       }
     },
@@ -1227,6 +2079,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Firmware do dispositivo: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设备固件：%@"
           }
         }
       }
@@ -1238,6 +2096,12 @@
             "state": "translated",
             "value": "Nome do dispositivo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设备名称"
+          }
         }
       }
     },
@@ -1247,6 +2111,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Direções"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "方向数"
           }
         }
       }
@@ -1258,6 +2128,12 @@
             "state": "translated",
             "value": "Desativada"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已禁用"
+          }
         }
       }
     },
@@ -1267,6 +2143,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Descartar e trocar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放弃修改并切换"
           }
         }
       }
@@ -1278,6 +2160,12 @@
             "state": "translated",
             "value": "Descartar as alterações não salvas deste perfil?"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要放弃当前配置中未保存的修改吗？"
+          }
         }
       }
     },
@@ -1287,6 +2175,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Não desconecte o cabo nem desligue o controle. Ele reinicia sozinho no final (cerca de 20 segundos no total)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切勿拔下数据线或关闭手柄。更新完成后手柄会自动重启（全程约 20 秒）。"
           }
         }
       }
@@ -1298,6 +2192,12 @@
             "state": "translated",
             "value": "Concluído"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完成"
+          }
         }
       }
     },
@@ -1307,6 +2207,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Baixo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下"
           }
         }
       }
@@ -1318,6 +2224,12 @@
             "state": "translated",
             "value": "Baixo-esquerda"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左下"
+          }
         }
       }
     },
@@ -1327,6 +2239,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Baixo-direita"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右下"
           }
         }
       }
@@ -1338,6 +2256,12 @@
             "state": "translated",
             "value": "Baixar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下载"
+          }
         }
       }
     },
@@ -1347,6 +2271,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Só baixar e verificar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅下载并校验（空跑测试）"
           }
         }
       }
@@ -1358,6 +2288,12 @@
             "state": "translated",
             "value": "Baixando o firmware…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在下载固件…"
+          }
         }
       }
     },
@@ -1367,6 +2303,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Arraste os pontos para ajustar a curva"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖动节点调整响应曲线"
           }
         }
       }
@@ -1378,6 +2320,12 @@
             "state": "translated",
             "value": "Arraste para mover · rolagem ou pinça para zoom"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拖动移动视图 · 滚轮或双指缩放"
+          }
         }
       }
     },
@@ -1387,6 +2335,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Centro deslocado ou analógico que não chega a 100 %? Reensine ao controle o centro e os limites."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中心漂移或摇杆推不到 100 %？重新教导手柄识别中心点与极限行程。"
           }
         }
       }
@@ -1398,6 +2352,12 @@
             "state": "translated",
             "value": "Simulação concluída — nada foi gravado."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "空跑校验完成——未向手柄写入任何数据。"
+          }
         }
       }
     },
@@ -1407,6 +2367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Duplicar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "创建副本"
           }
         }
       }
@@ -1418,6 +2384,12 @@
             "state": "translated",
             "value": "Borda (alcance ativo)"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "边缘（有效行程）"
+          }
         }
       }
     },
@@ -1427,6 +2399,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Editar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑"
           }
         }
       }
@@ -1438,6 +2416,12 @@
             "state": "translated",
             "value": "Editar macro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑宏"
+          }
         }
       }
     },
@@ -1447,6 +2431,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ativar o mapeamento do giroscópio reduz a taxa de resposta do controle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启体感映射会降低手柄轮询率"
           }
         }
       }
@@ -1458,6 +2448,12 @@
             "state": "translated",
             "value": "Fim %lld"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结束 %lld"
+          }
         }
       }
     },
@@ -1467,6 +2463,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fim (pressão total)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "终点（满行程触发）"
           }
         }
       }
@@ -1478,6 +2480,12 @@
             "state": "translated",
             "value": "Inglês"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "English"
+          }
         }
       }
     },
@@ -1487,6 +2495,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Excelente — o traço é um círculo."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "极佳——轨迹非常接近标准正圆。"
           }
         }
       }
@@ -1498,6 +2512,12 @@
             "state": "translated",
             "value": "Exportar log…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出日志…"
+          }
         }
       }
     },
@@ -1507,6 +2527,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Exportar…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出…"
           }
         }
       }
@@ -1518,6 +2544,12 @@
             "state": "translated",
             "value": "Animação de fábrica"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出厂动画"
+          }
         }
       }
     },
@@ -1527,6 +2559,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Animações de fábrica"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出厂预设动画"
           }
         }
       }
@@ -1538,6 +2576,12 @@
             "state": "translated",
             "value": "Troca rápida"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速切换配置"
+          }
         }
       }
     },
@@ -1547,6 +2591,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Feedback"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "反馈类型"
           }
         }
       }
@@ -1558,6 +2608,12 @@
             "state": "translated",
             "value": "Buscando…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "获取中…"
+          }
         }
       }
     },
@@ -1567,6 +2623,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Preencher"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "填充裁切"
           }
         }
       }
@@ -1578,6 +2640,12 @@
             "state": "translated",
             "value": "Concluir"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完成"
+          }
         }
       }
     },
@@ -1587,6 +2655,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Concluir libera quando o cronômetro terminar (ou todos os limites forem alcançados)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "计时结束或所有轴向均到达极限后将解锁“完成”按钮。"
           }
         }
       }
@@ -1598,6 +2672,12 @@
             "state": "translated",
             "value": "Concluir com o que foi capturado"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用当前采集结果结束"
+          }
         }
       }
     },
@@ -1607,6 +2687,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Concluir antes do cronômetro pode gravar um alcance errado se você não percorreu analógicos e gatilhos por completo — você sempre pode calibrar de novo."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "如果在摇杆和扳机未完全转到极限前提前结束，可能会写入错误的行程范围——不过你随时可以重新运行校准。"
           }
         }
       }
@@ -1618,6 +2704,12 @@
             "state": "translated",
             "value": "Firmware"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固件"
+          }
         }
       }
     },
@@ -1627,6 +2719,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Firmware %@ disponível"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发现新固件 %@"
           }
         }
       }
@@ -1638,6 +2736,12 @@
             "state": "translated",
             "value": "Firmware %@ disponível — abra Ajustes para ver as notas da versão"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发现新固件 %@ — 打开“设置”查看更新说明"
+          }
         }
       }
     },
@@ -1647,6 +2751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Firmware %@ · %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固件 %@ · %@"
           }
         }
       }
@@ -1658,6 +2768,12 @@
             "state": "translated",
             "value": "Atualização de firmware"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固件更新"
+          }
         }
       }
     },
@@ -1667,6 +2783,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Atualização de firmware disponível"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有可用固件更新"
           }
         }
       }
@@ -1678,6 +2800,12 @@
             "state": "translated",
             "value": "Atualização de firmware disponível: %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发现新固件：%@"
+          }
         }
       }
     },
@@ -1687,6 +2815,222 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajustar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完整适应"
+          }
+        }
+      }
+    },
+    "Flydigi Apex 3": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智八爪鱼 3"
+          }
+        }
+      }
+    },
+    "Flydigi Apex 4": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智八爪鱼 4"
+          }
+        }
+      }
+    },
+    "Flydigi Apex 4 Assassin's Creed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智八爪鱼 4 刺客信条联名版"
+          }
+        }
+      }
+    },
+    "Flydigi Apex 4 EVA": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智八爪鱼 4 EVA 联名版"
+          }
+        }
+      }
+    },
+    "Flydigi Apex 4 STN": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智八爪鱼 4 STN 版"
+          }
+        }
+      }
+    },
+    "Flydigi Apex 5": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智八爪鱼 5"
+          }
+        }
+      }
+    },
+    "Flydigi Direwolf 3": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智冰原狼 3"
+          }
+        }
+      }
+    },
+    "Flydigi Direwolf 3 Naruto": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智冰原狼 3 火影忍者联名版"
+          }
+        }
+      }
+    },
+    "Flydigi Direwolf 4": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智冰原狼 4"
+          }
+        }
+      }
+    },
+    "Flydigi Direwolf 4 Custom": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智冰原狼 4 定制版"
+          }
+        }
+      }
+    },
+    "Flydigi Direwolf 4 Endfield": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智冰原狼 4 终末地联名版"
+          }
+        }
+      }
+    },
+    "Flydigi Direwolf 4 Phantom Blade": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智冰原狼 4 影之刃联名版"
+          }
+        }
+      }
+    },
+    "Flydigi Direwolf 4 Yoimiya": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智冰原狼 4 宵宫联名版"
+          }
+        }
+      }
+    },
+    "Flydigi Vader 3": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智黑武士 3"
+          }
+        }
+      }
+    },
+    "Flydigi Vader 3 Pro": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智黑武士 3 Pro"
+          }
+        }
+      }
+    },
+    "Flydigi Vader 4 Pro": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智黑武士 4 Pro"
+          }
+        }
+      }
+    },
+    "Flydigi Vader 4 Pro (105)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智黑武士 4 Pro (105)"
+          }
+        }
+      }
+    },
+    "Flydigi Vader 4 Pro Assassin's Creed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智黑武士 4 Pro 刺客信条联名版"
+          }
+        }
+      }
+    },
+    "Flydigi Vader 5 Pro": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智黑武士 5 Pro"
+          }
+        }
+      }
+    },
+    "Flydigi controller": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智手柄"
+          }
+        }
+      }
+    },
+    "Flydigi controller (id %lld)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智手柄（ID %lld）"
           }
         }
       }
@@ -1698,6 +3042,12 @@
             "state": "translated",
             "value": "Biblioteca Flydigi"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智官方预设库"
+          }
         }
       }
     },
@@ -1707,6 +3057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Curva de fábrica da Flydigi: um leve ganho perto do centro (23 % de saída com 15 % de curso), depois linear. X: posição do analógico, Y: saída."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智出厂默认曲线：中心附近微抬（15 % 行程输出 23 %），之后呈线性变化。X：摇杆位置，Y：输出值。"
           }
         }
       }
@@ -1718,6 +3074,12 @@
             "state": "translated",
             "value": "Lista de jogos da Flydigi"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智官方游戏适配列表"
+          }
         }
       }
     },
@@ -1727,6 +3089,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nota de lançamento da Flydigi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智官方更新日志"
           }
         }
       }
@@ -1738,6 +3106,12 @@
             "state": "translated",
             "value": "Força necessária para atravessar depois que o gatilho chega no início do rompimento."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机抵达破壁起始位置后，继续向下按破所需的阻力强度。"
+          }
         }
       }
     },
@@ -1747,6 +3121,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Força necessária para acionar a vibração depois que o gatilho chega na posição inicial."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机抵达起始位置后触发震动所需的按压力度。"
           }
         }
       }
@@ -1758,6 +3138,12 @@
             "state": "translated",
             "value": "Intervalo entre quadros"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "帧间隔"
+          }
         }
       }
     },
@@ -1767,6 +3153,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Frequência"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "频率"
           }
         }
       }
@@ -1778,6 +3170,12 @@
             "state": "translated",
             "value": "Pressão total no início do amortecimento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在阻尼起始位置即触发满行程"
+          }
         }
       }
     },
@@ -1787,6 +3185,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "GIF, PNG ou JPEG · solte um arquivo aqui · o visor tem 160 × 80, até %lld quadros"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持 GIF、PNG 或 JPEG · 拖放文件至此 · 屏幕分辨率 160 × 80，最多 %lld 帧"
           }
         }
       }
@@ -1798,6 +3202,12 @@
             "state": "translated",
             "value": "Lista de jogos indisponível sem internet."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "离线状态下无法加载游戏列表。"
+          }
         }
       }
     },
@@ -1807,6 +3217,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nome do jogo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "游戏名称"
           }
         }
       }
@@ -1818,6 +3234,22 @@
             "state": "translated",
             "value": "Perfil de jogo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "游戏预设"
+          }
+        }
+      }
+    },
+    "Game profiles": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "游戏预设"
+          }
         }
       }
     },
@@ -1827,6 +3259,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Geral"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通用"
           }
         }
       }
@@ -1838,6 +3276,12 @@
             "state": "translated",
             "value": "Gerar código"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "生成分享码"
+          }
         }
       }
     },
@@ -1847,6 +3291,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bom. Pequenos desvios são normais."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "表现良好，轻微误差属于正常现象。"
           }
         }
       }
@@ -1858,6 +3308,12 @@
             "state": "translated",
             "value": "Gradiente"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "渐变呼吸"
+          }
         }
       }
     },
@@ -1867,6 +3323,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vibração da empunhadura"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "握把震动"
           }
         }
       }
@@ -1878,6 +3340,12 @@
             "state": "translated",
             "value": "Intensidade da vibração"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "握把震动强度"
+          }
         }
       }
     },
@@ -1887,6 +3355,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Giroscópio"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "六轴体感"
           }
         }
       }
@@ -1898,6 +3372,12 @@
             "state": "translated",
             "value": "Giroscópio não ativado no perfil aplicado."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前已应用的配置中未开启体感功能。"
+          }
         }
       }
     },
@@ -1907,6 +3387,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Helper"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "辅助程序"
           }
         }
       }
@@ -1918,6 +3404,12 @@
             "state": "translated",
             "value": "Segurar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按住"
+          }
         }
       }
     },
@@ -1927,6 +3419,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Segurar um botão"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "长按按键"
           }
         }
       }
@@ -1938,6 +3436,12 @@
             "state": "translated",
             "value": "Segurar para turbo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按住连发"
+          }
         }
       }
     },
@@ -1947,6 +3451,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Segurar para ativar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按住开启"
           }
         }
       }
@@ -1958,6 +3468,12 @@
             "state": "translated",
             "value": "Como ativar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触发方式"
+          }
         }
       }
     },
@@ -1967,6 +3483,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tempo parado até o controle dormir; o Home acorda."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄无操作自动休眠的等待时间；按 Home 键即可唤醒。"
           }
         }
       }
@@ -1978,6 +3500,12 @@
             "state": "translated",
             "value": "Imagem enviada; o controle reiniciou antes de responder."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图像已发送；手柄在返回确认前已重启。"
+          }
         }
       }
     },
@@ -1987,6 +3515,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Importar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导入"
           }
         }
       }
@@ -1998,6 +3532,12 @@
             "state": "translated",
             "value": "Importar de um código"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过分享码导入"
+          }
         }
       }
     },
@@ -2007,6 +3547,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Importar de um código…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过分享码导入…"
           }
         }
       }
@@ -2018,6 +3564,12 @@
             "state": "translated",
             "value": "“%@” importado para a biblioteca."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已将“%@”导入配置库。"
+          }
         }
       }
     },
@@ -2027,6 +3579,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Importar…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导入文件…"
           }
         }
       }
@@ -2038,6 +3596,12 @@
             "state": "translated",
             "value": "Entrada"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入"
+          }
         }
       }
     },
@@ -2047,6 +3611,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Instalar helper"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安装辅助程序"
           }
         }
       }
@@ -2058,6 +3628,12 @@
             "state": "translated",
             "value": "Instale o helper (ou mude para DInput) para o app colocar o controle em modo de atualização."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请安装特权辅助程序（或切至 DInput 模式），以便应用将手柄切换至升级模式。"
+          }
         }
       }
     },
@@ -2067,6 +3643,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Instalado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安装"
           }
         }
       }
@@ -2078,6 +3660,12 @@
             "state": "translated",
             "value": "Instalado e registrado no launchd."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安装并成功注册至 launchd。"
+          }
         }
       }
     },
@@ -2087,6 +3675,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Instantâneo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "即时反应"
           }
         }
       }
@@ -2098,6 +3692,12 @@
             "state": "translated",
             "value": "Coeficiente de intensidade"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "强度系数"
+          }
         }
       }
     },
@@ -2107,6 +3707,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Analógicos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "摇杆"
           }
         }
       }
@@ -2118,6 +3724,12 @@
             "state": "translated",
             "value": "Continuar calibrando"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续校准"
+          }
         }
       }
     },
@@ -2127,6 +3739,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Manter o atual"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留当前配置"
           }
         }
       }
@@ -2138,6 +3756,12 @@
             "state": "translated",
             "value": "Manter só na biblioteca"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅保存到本地库"
+          }
         }
       }
     },
@@ -2147,6 +3771,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Manter no perfil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留到当前配置"
           }
         }
       }
@@ -2158,6 +3788,12 @@
             "state": "translated",
             "value": "Continue girando até a cobertura passar de 50 %."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请继续转动摇杆，直到覆盖率超过 50 %。"
+          }
         }
       }
     },
@@ -2167,6 +3803,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mantenha o cabo USB conectado o tempo todo. O controle entra em modo de atualização, recebe a imagem e reinicia sozinho; jogos perdem o controle por uns 20 segundos. Não há como voltar para a versão anterior depois."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全程请保持 USB 数据线连接。手柄会先切入升级模式，写入镜像后自行重启（期间游戏将暂时失去手柄约 20 秒）。升级完成后无法回退至旧版本固件。"
           }
         }
       }
@@ -2178,6 +3820,12 @@
             "state": "translated",
             "value": "Deixe o controle parado, com analógicos e gatilhos soltos, e clique em Iniciar."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请将手柄平放保持静止，确保双摇杆与双扳机均处于完全松开状态，然后点击“开始”。"
+          }
         }
       }
     },
@@ -2187,6 +3835,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Teclado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "键盘"
           }
         }
       }
@@ -2198,6 +3852,12 @@
             "state": "translated",
             "value": "Teclado e mouse"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "键盘与鼠标"
+          }
         }
       }
     },
@@ -2207,6 +3867,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tecla do teclado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "键盘按键"
+          }
+        }
+      }
+    },
+    "Keyboard/Mouse": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "键盘/鼠标"
           }
         }
       }
@@ -2218,6 +3894,22 @@
             "state": "translated",
             "value": "Teclas"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按键数量"
+          }
+        }
+      }
+    },
+    "L-stick click": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左摇杆下压"
+          }
         }
       }
     },
@@ -2227,6 +3919,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Idioma"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "界面语言"
           }
         }
       }
@@ -2238,6 +3936,12 @@
             "state": "translated",
             "value": "Desvio grande: experimente calibrar os analógicos."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "误差较大：建议重新运行摇杆校准。"
+          }
         }
       }
     },
@@ -2247,6 +3951,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Deixe vazio para usar a chave compartilhada do app"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "留空以使用应用内共享 API 密钥"
           }
         }
       }
@@ -2258,6 +3968,12 @@
             "state": "translated",
             "value": "Esquerda"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左"
+          }
         }
       }
     },
@@ -2267,6 +3983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Clique esquerdo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标左键"
           }
         }
       }
@@ -2278,6 +4000,12 @@
             "state": "translated",
             "value": "Analógico esquerdo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左摇杆"
+          }
         }
       }
     },
@@ -2287,6 +4015,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Analógico esquerdo (jogos de corrida)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左摇杆（赛车游戏）"
           }
         }
       }
@@ -2298,6 +4032,12 @@
             "state": "translated",
             "value": "Analógico esquerdo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左摇杆"
+          }
         }
       }
     },
@@ -2307,6 +4047,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Direção do analógico esquerdo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左摇杆方向"
           }
         }
       }
@@ -2318,6 +4064,12 @@
             "state": "translated",
             "value": "Gatilho esquerdo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左扳机"
+          }
         }
       }
     },
@@ -2327,6 +4079,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nível"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "挡位等级"
           }
         }
       }
@@ -2338,6 +4096,12 @@
             "state": "translated",
             "value": "Biblioteca indisponível sem internet."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "离线状态下无法获取预设库。"
+          }
         }
       }
     },
@@ -2347,6 +4111,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Luz"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灯光"
           }
         }
       }
@@ -2358,6 +4128,12 @@
             "state": "translated",
             "value": "Modo da luz"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灯效模式"
+          }
         }
       }
     },
@@ -2367,6 +4143,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Iluminação"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灯光设置"
           }
         }
       }
@@ -2378,6 +4160,12 @@
             "state": "translated",
             "value": "Conexão"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接方式"
+          }
         }
       }
     },
@@ -2387,6 +4175,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvindo o controle por 6 s — pressione um botão (paddles também) ou escolha um"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在监听手柄按键（6 秒）——请按下手柄上的按键（含背键）或直接从下方选择"
           }
         }
       }
@@ -2398,6 +4192,12 @@
             "state": "translated",
             "value": "Ao vivo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "实时反馈"
+          }
         }
       }
     },
@@ -2407,6 +4207,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ao vivo no controle enquanto você ajusta"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "调整时实时同步至手柄"
           }
         }
       }
@@ -2418,6 +4224,12 @@
             "state": "translated",
             "value": "A pré-visualização ao vivo precisa do modo XInput"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "实时预览仅支持 XInput 模式"
+          }
         }
       }
     },
@@ -2427,6 +4239,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Carregar no editor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "载入编辑器"
           }
         }
       }
@@ -2438,6 +4256,12 @@
             "state": "translated",
             "value": "Carregar esta animação na pré-visualização"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将该动画加载到预览区"
+          }
         }
       }
     },
@@ -2447,6 +4271,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Carregando a biblioteca da Flydigi…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在加载飞智预设库…"
           }
         }
       }
@@ -2458,6 +4288,12 @@
             "state": "translated",
             "value": "Carregando GIPHY…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在加载 GIPHY…"
+          }
         }
       }
     },
@@ -2467,6 +4303,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Carregando perfis…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在读取配置…"
           }
         }
       }
@@ -2478,6 +4320,12 @@
             "state": "translated",
             "value": "Carregando…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加载中…"
+          }
         }
       }
     },
@@ -2487,6 +4335,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Travar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机锁"
           }
         }
       }
@@ -2498,6 +4352,12 @@
             "state": "translated",
             "value": "Posição da trava"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "锁定行程位置"
+          }
         }
       }
     },
@@ -2507,6 +4367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Log"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日志"
           }
         }
       }
@@ -2518,6 +4384,12 @@
             "state": "translated",
             "value": "Procurando controles…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在搜索手柄…"
+          }
         }
       }
     },
@@ -2527,6 +4399,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Metralhadora"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连发机枪"
           }
         }
       }
@@ -2538,6 +4416,12 @@
             "state": "translated",
             "value": "Macro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宏"
+          }
         }
       }
     },
@@ -2547,6 +4431,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Biblioteca de macros"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宏库"
           }
         }
       }
@@ -2558,6 +4448,12 @@
             "state": "translated",
             "value": "Nome da macro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宏名称"
+          }
         }
       }
     },
@@ -2567,6 +4463,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Macros"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宏管理"
           }
         }
       }
@@ -2578,6 +4480,12 @@
             "state": "translated",
             "value": "Macros guardadas neste Mac. Adicione uma ao perfil atual e escolha o botão que a executa."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存在这台 Mac 上的宏。添加到当前配置后，即可指定触发该宏的按键。"
+          }
         }
       }
     },
@@ -2587,6 +4495,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Feito por"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "作者"
           }
         }
       }
@@ -2598,6 +4512,12 @@
             "state": "translated",
             "value": "Mapeamento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "映射"
+          }
         }
       }
     },
@@ -2607,6 +4527,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mapear para"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "映射目标"
           }
         }
       }
@@ -2618,6 +4544,12 @@
             "state": "translated",
             "value": "Mapeamentos, analógicos, gatilhos, giroscópio, vibração e macros voltam ao padrão no editor. Nada é gravado no controle até você Aplicar."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑器中的按键映射、摇杆、扳机、体感、震动与宏设置将全部恢复默认值。在点击“应用”前不会写入手柄。"
+          }
         }
       }
     },
@@ -2627,6 +4559,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Máximo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最大值"
           }
         }
       }
@@ -2638,6 +4576,12 @@
             "state": "translated",
             "value": "Mínimo (coberto)"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最小值（覆盖）"
+          }
         }
       }
     },
@@ -2647,6 +4591,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "协议模式"
           }
         }
       }
@@ -2658,6 +4608,12 @@
             "state": "translated",
             "value": "Movimento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "体感"
+          }
         }
       }
     },
@@ -2667,6 +4623,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mouse"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标"
           }
         }
       }
@@ -2678,6 +4640,12 @@
             "state": "translated",
             "value": "Roda do mouse para baixo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标滚轮向下"
+          }
         }
       }
     },
@@ -2687,6 +4655,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Roda do mouse para cima"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标滚轮向上"
           }
         }
       }
@@ -2698,6 +4672,12 @@
             "state": "translated",
             "value": "Mover para baixo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下移"
+          }
         }
       }
     },
@@ -2707,6 +4687,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mova os analógicos na aba Analógicos e confira se o ponto descansa no centro e alcança o anel em todos os lados. Se algo parecer errado, rode a calibração de novo."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请前往“摇杆”标签页推动摇杆，检查中心点是否归零以及四周能否贴合边界环。如有异常可随时再次校准。"
           }
         }
       }
@@ -2718,6 +4704,12 @@
             "state": "translated",
             "value": "Mover para cima"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上移"
+          }
         }
       }
     },
@@ -2727,6 +4719,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Move o ponteiro do mouse com o movimento do controle enquanto a tecla de ativação permitir. Precisa do modo DInput e da permissão de Acessibilidade; aplique o perfil para o controle saber que o giroscópio está em uso."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在激活键允许时通过手柄体感移动鼠标指针。需要手柄处于 DInput 模式且已授予辅助功能权限；请先点击应用配置以通知手柄启用体感。"
           }
         }
       }
@@ -2738,6 +4736,12 @@
             "state": "translated",
             "value": "Meu dispositivo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我的设备"
+          }
         }
       }
     },
@@ -2747,6 +4751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Meus perfis de jogo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我的游戏预设"
           }
         }
       }
@@ -2758,6 +4768,12 @@
             "state": "translated",
             "value": "Nome"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名称"
+          }
         }
       }
     },
@@ -2767,6 +4783,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Necessário para o que precisa acontecer sem o app na frente — presets de gatilho por jogo, status na barra de menus. Pode fechar a janela; o app continua rodando na barra de menus."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于在你切出窗口后继续后台运行（例如按游戏自动切换扳机预设、状态栏显示与键鼠映射）。关闭主窗口后应用仍常驻菜单栏。"
           }
         }
       }
@@ -2778,6 +4800,12 @@
             "state": "translated",
             "value": "Precisa do modo XInput."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要处于 XInput 模式。"
+          }
         }
       }
     },
@@ -2787,6 +4815,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Precisa do cabo USB (o receptor não encaminha os dados da tela)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请连接 USB 数据线（无线接收器不支持传输屏幕图像数据）。"
           }
         }
       }
@@ -2798,6 +4832,12 @@
             "state": "translated",
             "value": "Nunca"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永不"
+          }
         }
       }
     },
@@ -2807,6 +4847,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Novo firmware disponível, atualize o firmware"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检测到新固件，请及时升级"
           }
         }
       }
@@ -2818,6 +4864,12 @@
             "state": "translated",
             "value": "Novo perfil de jogo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建游戏预设"
+          }
         }
       }
     },
@@ -2827,6 +4879,42 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nova macro"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建宏"
+          }
+        }
+      }
+    },
+    "NewXInput": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NewXInput"
+          }
+        }
+      }
+    },
+    "NewXInput (0x37D7) controller detected. Identification and live input work; profile read/write on this protocol is not yet supported.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已检测到 NewXInput (0x37D7) 手柄。设备识别与实时输入正常；该协议的配置文件读写暂未支持。"
+          }
+        }
+      }
+    },
+    "NewXInput (0x37D7) — identified over vendor HID; profile editing on this protocol is not yet supported.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NewXInput (0x37D7) — 已通过私有 HID 识别设备；该协议暂不支持配置文件编辑。"
           }
         }
       }
@@ -2838,6 +4926,12 @@
             "state": "translated",
             "value": "Apelido"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设备昵称"
+          }
         }
       }
     },
@@ -2847,6 +4941,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sem controle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未连接手柄"
           }
         }
       }
@@ -2858,6 +4958,12 @@
             "state": "translated",
             "value": "Nenhum controle visível para o sistema."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统当前未检测到游戏手柄。"
+          }
         }
       }
     },
@@ -2867,6 +4973,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nenhum perfil de jogo ainda. Adicione um, ou escolha um jogo da lista da Flydigi abaixo e clique em “Usar como base”."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无游戏预设。你可以新建一个，或从下方飞智游戏列表中选择一项并点击“用作模板”。"
           }
         }
       }
@@ -2878,6 +4990,12 @@
             "state": "translated",
             "value": "Ainda não há leitura ao vivo do controle — o assistente precisa dela para mostrar o progresso."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂未收到手柄的实时输入信号——校准向导需要读取实时数据以展示进度。"
+          }
         }
       }
     },
@@ -2887,6 +5005,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nenhuma macro neste perfil"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前配置暂无宏"
           }
         }
       }
@@ -2898,6 +5022,12 @@
             "state": "translated",
             "value": "Sem perfil"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无配置"
+          }
         }
       }
     },
@@ -2907,6 +5037,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nenhum perfil carregado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未加载配置"
           }
         }
       }
@@ -2918,6 +5054,12 @@
             "state": "translated",
             "value": "Nenhum resultado."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无匹配结果。"
+          }
         }
       }
     },
@@ -2927,6 +5069,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sem dados do sensor — aplique o perfil e fique no modo DInput."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无传感器数据——请先应用配置并保持手柄在 DInput 模式。"
           }
         }
       }
@@ -2938,6 +5086,12 @@
             "state": "translated",
             "value": "Ainda sem passos"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无动作步骤"
+          }
         }
       }
     },
@@ -2947,6 +5101,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nenhum passo ainda. Grave pelo controle ou adicione passos à mão."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无动作步骤。可通过手柄直接录制或手动添加步骤。"
           }
         }
       }
@@ -2958,6 +5118,12 @@
             "state": "translated",
             "value": "Nenhuma"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无"
+          }
         }
       }
     },
@@ -2967,6 +5133,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Normal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标准"
           }
         }
       }
@@ -2978,6 +5150,12 @@
             "state": "translated",
             "value": "Não é uma macro do Space Station for Mac (.fdgmacro)."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不是有效的 Space Station for Mac 宏文件 (.fdgmacro)。"
+          }
         }
       }
     },
@@ -2987,6 +5165,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Não é um perfil do Space Station for Mac (esperado um .fdgprofile de 790 bytes)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不是有效的 Space Station for Mac 配置文件（应为 790 字节的 .fdgprofile）。"
           }
         }
       }
@@ -2998,6 +5182,12 @@
             "state": "translated",
             "value": "Sem vínculo com a Flydigi. Arte do controle e ícone do app © Flydigi, usados para interoperabilidade (veja o NOTICE.md no pacote do app)."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "非飞智官方应用。手柄图示与部分图标素材版权归 Flydigi 所有，仅作设备兼容展示之用（详见应用包内 NOTICE.md）。"
+          }
         }
       }
     },
@@ -3007,6 +5197,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Não conectado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未连接"
           }
         }
       }
@@ -3018,6 +5214,12 @@
             "state": "translated",
             "value": "Não conectado."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未连接。"
+          }
         }
       }
     },
@@ -3027,6 +5229,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Não instalado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未安装"
           }
         }
       }
@@ -3038,6 +5246,12 @@
             "state": "translated",
             "value": "Não instalado."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未安装。"
+          }
         }
       }
     },
@@ -3047,6 +5261,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Não definida"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未设置"
           }
         }
       }
@@ -3058,6 +5278,12 @@
             "state": "translated",
             "value": "Observação:"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "说明："
+          }
         }
       }
     },
@@ -3067,6 +5293,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nada foi enviado deste Mac ainda."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未从此 Mac 向手柄发送过画面。"
           }
         }
       }
@@ -3078,6 +5310,12 @@
             "state": "translated",
             "value": "Nada salvo ainda. Clique com o botão direito em uma macro do perfil e escolha “Salvar na biblioteca”."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂未保存任何宏。可在配置中右键点击某个宏并选择“保存到宏库”。"
+          }
         }
       }
     },
@@ -3087,6 +5325,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nada salvo ainda. “Salvar perfil atual” guarda uma cópia do que está no editor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂未保存任何配置。点击“保存当前配置”可将编辑器内容备份至本地库。"
           }
         }
       }
@@ -3098,6 +5342,12 @@
             "state": "translated",
             "value": "Agora: pressione LT e RT até o fundo e solte, três vezes cada."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下一步：请将 LT 和 RT 扳机各自完整按到底并松开，重复三次。"
+          }
         }
       }
     },
@@ -3107,6 +5357,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Agora: gire os DOIS analógicos devagar pela borda, volta completa, três ou quatro vezes. Empurre também cada um até o fim para cima, baixo, esquerda e direita."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "现在：请沿着最外圈缓慢转动左右摇杆三到四圈，并将摇杆分别推至上、下、左、右极限。"
           }
         }
       }
@@ -3118,6 +5374,12 @@
             "state": "translated",
             "value": "Desligado"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭"
+          }
         }
       }
     },
@@ -3127,6 +5389,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Desligado: a janela fecha e o app continua na barra de menus, mantendo perfis por jogo, mapeamentos de teclado e mouse e o ícone de status. Ligado: fechar a janela encerra o app."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭时：仅关闭主窗口，应用会在菜单栏保持后台运行，游戏预设切换与键鼠映射继续生效。开启时：关闭窗口即退出整个应用。"
           }
         }
       }
@@ -3138,6 +5406,12 @@
             "state": "translated",
             "value": "Seleção oficial"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "官方精选"
+          }
         }
       }
     },
@@ -3147,6 +5421,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ligado (como no Space Station): o gatilho reporta 100 % ao chegar no início do amortecimento, então o curso antes dele é todo o seu acelerador — deixe o início alto para um pedal gradual. Desligado: o curso inteiro vai de 0 a 100 % e o amortecimento é só sensação."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启（官方空间站默认）：当扳机达到阻尼起点时即输出 100 % 满行程（适合把起点调高以模拟渐变油门）。关闭：完整物理行程线性映射 0–100 %，阻尼仅提供物理手感反馈。"
           }
         }
       }
@@ -3158,6 +5438,12 @@
             "state": "translated",
             "value": "No controle"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄当前板载"
+          }
         }
       }
     },
@@ -3167,6 +5453,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Uma vez por toque"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每次按下触发一次"
           }
         }
       }
@@ -3178,6 +5470,12 @@
             "state": "translated",
             "value": "Abrir"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开主窗口"
+          }
         }
       }
     },
@@ -3187,6 +5485,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Abrir o Console"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开控制台"
           }
         }
       }
@@ -3198,6 +5502,12 @@
             "state": "translated",
             "value": "Abrir ao iniciar sessão"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录时启动"
+          }
         }
       }
     },
@@ -3207,6 +5517,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Abrir o controle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "唤醒或打开手柄"
           }
         }
       }
@@ -3218,6 +5534,12 @@
             "state": "translated",
             "value": "Dados de saída a partir do início do rompimento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "达到破壁起点后开始输出震动反馈"
+          }
         }
       }
     },
@@ -3227,6 +5549,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dados de saída a partir da posição inicial da vibração"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "达到起始位置后开始输出震动反馈"
           }
         }
       }
@@ -3238,6 +5566,12 @@
             "state": "translated",
             "value": "Cole um código de compartilhamento do Space Station. O perfil é salvo na sua biblioteca; você também pode carregá-lo no editor e aplicar a um slot."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "粘贴飞智空间站分享码。导入的配置会保存到本地库，也可直接载入编辑器并写入手柄槽位。"
+          }
         }
       }
     },
@@ -3247,6 +5581,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Escolha uma à esquerda ou clique em “Nova macro” para vincular uma sequência a um botão. Os passos rodam no próprio controle, então funcionam em qualquer jogo e plataforma."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在左侧选择一个宏，或点击“新建宏”将按键序列绑定到按钮。宏步骤由手柄硬件本身回放，跨游戏跨平台均可生效。"
           }
         }
       }
@@ -3258,6 +5598,12 @@
             "state": "translated",
             "value": "Gatilho linear comum: sem efeito do motor."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "纯线性扳机模式：不启用扳机马达力反馈。"
+          }
         }
       }
     },
@@ -3267,6 +5613,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reprodução"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回放模式"
           }
         }
       }
@@ -3278,6 +5630,12 @@
             "state": "translated",
             "value": "Conecte pelo USB-C ou ligue com o receptor"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请通过 USB-C 连接，或插入接收器并开启手柄"
+          }
         }
       }
     },
@@ -3287,6 +5645,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Conecte o controle pelo USB-C ou conecte a base de carregamento e ligue o controle (2,4 GHz). Ele aparece aqui automaticamente; por Bluetooth não é possível configurar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请使用 USB-C 数据线连接手柄，或插入充电底座/2.4 GHz 接收器后开机；设备会自动显示在此处（蓝牙模式不支持参数配置）。"
           }
         }
       }
@@ -3298,6 +5662,12 @@
             "state": "translated",
             "value": "Pressionar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下"
+          }
         }
       }
     },
@@ -3307,6 +5677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pressionar um botão"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下按钮"
           }
         }
       }
@@ -3318,6 +5694,12 @@
             "state": "translated",
             "value": "Pressione uma tecla…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请按下键盘按键…"
+          }
         }
       }
     },
@@ -3327,6 +5709,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pressione o botão no controle ou escolha um"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请按下手柄上的按键或直接选择"
           }
         }
       }
@@ -3338,6 +5726,12 @@
             "state": "translated",
             "value": "Toque para alternar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按下切换开关"
+          }
         }
       }
     },
@@ -3347,6 +5741,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Toque para alternar o turbo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点按切换连发"
           }
         }
       }
@@ -3358,6 +5758,12 @@
             "state": "translated",
             "value": "Prévia"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "预览"
+          }
         }
       }
     },
@@ -3367,6 +5773,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Helper privilegiado"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "特权辅助程序"
           }
         }
       }
@@ -3378,6 +5790,12 @@
             "state": "translated",
             "value": "Perfil"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "配置文件"
+          }
         }
       }
     },
@@ -3387,6 +5805,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nome do perfil (até 10 caracteres)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "配置名称（最多 10 个字符）"
           }
         }
       }
@@ -3398,6 +5822,12 @@
             "state": "translated",
             "value": "Slot de perfil"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "板载配置槽位"
+          }
         }
       }
     },
@@ -3407,6 +5837,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Perfis guardados neste Mac. Carregue um no editor e depois Aplique para gravar no slot selecionado."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存在这台 Mac 上的配置文件。载入编辑器后点击“应用”，即可写入当前选中的手柄槽位。"
           }
         }
       }
@@ -3418,6 +5854,12 @@
             "state": "translated",
             "value": "Leve o analógico até a borda e gire devagar, duas ou três voltas completas. O traço externo é o que o controle reporta; o círculo tracejado é um 100 % perfeito."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将摇杆推至边缘并缓慢转动两到三圈。外圈实线为手柄实际汇报轨迹，虚线圆为理想的 100 % 标准圆。"
+          }
         }
       }
     },
@@ -3427,6 +5869,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Colocando o controle em modo de atualização (DInput)…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在将手柄切换至升级模式 (DInput)…"
           }
         }
       }
@@ -3438,6 +5886,12 @@
             "state": "translated",
             "value": "Rápida"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快速响应"
+          }
         }
       }
     },
@@ -3447,6 +5901,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sair"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出 Space Station"
           }
         }
       }
@@ -3458,6 +5918,22 @@
             "state": "translated",
             "value": "Encerrar o Space Station ao fechar a janela"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭窗口时直接退出应用"
+          }
+        }
+      }
+    },
+    "R-stick click": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右摇杆下压"
+          }
         }
       }
     },
@@ -3467,6 +5943,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Corrida"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "竞速模式"
           }
         }
       }
@@ -3478,6 +5960,12 @@
             "state": "translated",
             "value": "Corrida"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "赛车模式"
+          }
         }
       }
     },
@@ -3487,6 +5975,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reensina ao controle o centro e os limites dos dois analógicos e dos dois gatilhos. Leva cerca de um minuto."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新校准双摇杆与双扳机的中心点及极限行程。全程约需 1 分钟。"
           }
         }
       }
@@ -3498,6 +5992,12 @@
             "state": "translated",
             "value": "Ler tudo de novo do controle"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新从手柄读取全部配置"
+          }
         }
       }
     },
@@ -3507,6 +6007,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pronto para concluir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已满足结束条件"
           }
         }
       }
@@ -3518,6 +6024,12 @@
             "state": "translated",
             "value": "Receptor conectado. Ligue o controle (botão Home) — ele aparece sozinho."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已检测到接收器。按下手柄 Home 键开机后设备会自动连接。"
+          }
         }
       }
     },
@@ -3527,6 +6039,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recuo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连发后坐力"
           }
         }
       }
@@ -3538,6 +6056,12 @@
             "state": "translated",
             "value": "Reconectando…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在重连…"
+          }
         }
       }
     },
@@ -3547,6 +6071,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gravar pelo controle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从手柄录制"
           }
         }
       }
@@ -3558,6 +6088,12 @@
             "state": "translated",
             "value": "Atualizar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刷新"
+          }
         }
       }
     },
@@ -3567,6 +6103,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Atualizar controle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刷新手柄状态"
           }
         }
       }
@@ -3578,6 +6120,12 @@
             "state": "translated",
             "value": "Registrado, mas o macOS não o inicia. O modo DInput funciona sem o helper; Reparar registra de novo."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已注册，但 macOS 尚未启动该守护进程。DInput 模式无需辅助程序；可点击“修复辅助程序”重新注册。"
+          }
         }
       }
     },
@@ -3587,6 +6135,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Soltar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "松开"
           }
         }
       }
@@ -3598,6 +6152,12 @@
             "state": "translated",
             "value": "Soltar um botão"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "松开按钮"
+          }
         }
       }
     },
@@ -3607,6 +6167,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Notas da versão"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "版本更新说明"
           }
         }
       }
@@ -3618,6 +6184,12 @@
             "state": "translated",
             "value": "Remover helper"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "卸载辅助程序"
+          }
         }
       }
     },
@@ -3627,6 +6199,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Renomear dispositivo…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重命名设备…"
           }
         }
       }
@@ -3638,6 +6216,12 @@
             "state": "translated",
             "value": "Renomear perfil…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重命名配置…"
+          }
         }
       }
     },
@@ -3647,6 +6231,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Renomear…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重命名…"
           }
         }
       }
@@ -3658,6 +6248,12 @@
             "state": "translated",
             "value": "Reparar helper"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修复辅助程序"
+          }
         }
       }
     },
@@ -3667,6 +6263,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reparando…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修复中…"
           }
         }
       }
@@ -3678,6 +6280,12 @@
             "state": "translated",
             "value": "Repetir enquanto segura"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按住时循环播放"
+          }
         }
       }
     },
@@ -3687,6 +6295,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Taxa de relatórios %lld Hz"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回报率 %lld Hz"
           }
         }
       }
@@ -3698,6 +6312,12 @@
             "state": "translated",
             "value": "Taxa de relatórios: disponível no modo DInput"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回报率：DInput 模式下可测得"
+          }
         }
       }
     },
@@ -3707,6 +6327,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zerar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置"
           }
         }
       }
@@ -3718,6 +6344,12 @@
             "state": "translated",
             "value": "Restaurar padrão"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复默认"
+          }
         }
       }
     },
@@ -3727,6 +6359,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reiniciar agora"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即重启应用"
           }
         }
       }
@@ -3738,6 +6376,12 @@
             "state": "translated",
             "value": "Restaurar animação padrão"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复出厂默认动画"
+          }
         }
       }
     },
@@ -3747,6 +6391,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restaurar configuração padrão…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复默认配置…"
           }
         }
       }
@@ -3758,6 +6408,12 @@
             "state": "translated",
             "value": "Restaurar padrão"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复出厂设置"
+          }
         }
       }
     },
@@ -3767,6 +6423,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restaurar este perfil para os valores de fábrica da Flydigi?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确定将当前配置恢复为飞智出厂默认参数吗？"
           }
         }
       }
@@ -3778,6 +6440,12 @@
             "state": "translated",
             "value": "Resultados"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试结果"
+          }
         }
       }
     },
@@ -3787,6 +6455,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reverter alterações"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还原更改"
           }
         }
       }
@@ -3798,6 +6472,12 @@
             "state": "translated",
             "value": "Reverter alterações não salvas (⌘⇧Z)"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放弃未保存的更改 (⌘⇧Z)"
+          }
         }
       }
     },
@@ -3807,6 +6487,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Direita"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右"
           }
         }
       }
@@ -3818,6 +6504,12 @@
             "state": "translated",
             "value": "Clique direito"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠标右键"
+          }
         }
       }
     },
@@ -3827,6 +6519,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Analógico direito"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右摇杆"
           }
         }
       }
@@ -3838,6 +6536,12 @@
             "state": "translated",
             "value": "Analógico direito (jogos de tiro)"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右摇杆（射击游戏）"
+          }
         }
       }
     },
@@ -3847,6 +6551,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Analógico direito"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右摇杆"
           }
         }
       }
@@ -3858,6 +6568,12 @@
             "state": "translated",
             "value": "Direção do analógico direito"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右摇杆方向"
+          }
         }
       }
     },
@@ -3867,6 +6583,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gatilho direito"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右扳机"
           }
         }
       }
@@ -3878,6 +6600,12 @@
             "state": "translated",
             "value": "Gire cada analógico devagar pela borda três ou quatro vezes e depois pressione cada gatilho até o fim três vezes."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请沿边缘缓慢转动左右摇杆各三到四圈，并将两个扳机各自按到底三次。"
+          }
         }
       }
     },
@@ -3887,6 +6615,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vibrando…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在震动测试…"
           }
         }
       }
@@ -3898,6 +6632,12 @@
             "state": "translated",
             "value": "Apps abertos"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在运行的应用"
+          }
         }
       }
     },
@@ -3907,6 +6647,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Roda como root só enquanto fala com o controle em modo XInput, porque o driver Xbox da Apple é dono da interface USB. Necessário para enviar à tela, testar gatilhos e capturar teclas em XInput."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由于 macOS 内置 Xbox 驱动会占用 XInput 模式的 USB 接口，仅在与 XInput 手柄通信时以 root 权限短暂接入。XInput 下传图、扳机预览与按键录制均依赖该服务。"
           }
         }
       }
@@ -3918,6 +6664,12 @@
             "state": "translated",
             "value": "SELECT + A / B / X / Y troca de perfil"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SELECT + A / B / X / Y 快捷切换配置"
+          }
         }
       }
     },
@@ -3927,6 +6679,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Salvar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
           }
         }
       }
@@ -3938,6 +6696,12 @@
             "state": "translated",
             "value": "Salvar perfil atual"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存当前配置"
+          }
         }
       }
     },
@@ -3947,6 +6711,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Salvar na biblioteca"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存到宏库"
           }
         }
       }
@@ -3958,6 +6728,12 @@
             "state": "translated",
             "value": "Salva enquanto você digita. A chave compartilhada é uma chave beta do GIPHY, limitada a cerca de 100 buscas por hora para todo mundo que usa este app; uma chave gratuita sua dá um limite só seu."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入后自动保存。默认共享密钥为 GIPHY 测试 Key（全员共享约每小时 100 次查询配额）；填写个人免费密钥可独享额度。"
+          }
         }
       }
     },
@@ -3967,6 +6743,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Perfis salvos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地配置库"
           }
         }
       }
@@ -3978,6 +6760,12 @@
             "state": "translated",
             "value": "Perfis salvos…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地配置库…"
+          }
         }
       }
     },
@@ -3987,6 +6775,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Salvando…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存中…"
           }
         }
       }
@@ -3998,6 +6792,12 @@
             "state": "translated",
             "value": "Tela"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "屏幕画面"
+          }
         }
       }
     },
@@ -4007,6 +6807,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajustes da tela"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "屏幕设置"
           }
         }
       }
@@ -4018,6 +6824,12 @@
             "state": "translated",
             "value": "Buscar no GIPHY"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索 GIPHY 动图"
+          }
         }
       }
     },
@@ -4027,6 +6839,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Buscar jogos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索游戏"
           }
         }
       }
@@ -4038,6 +6856,12 @@
             "state": "translated",
             "value": "Segunda tecla (opcional)"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "组合第二键（可选）"
+          }
         }
       }
     },
@@ -4047,6 +6871,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Selecione uma macro"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择一个宏"
           }
         }
       }
@@ -4058,6 +6888,12 @@
             "state": "translated",
             "value": "Enviar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送"
+          }
         }
       }
     },
@@ -4067,6 +6903,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enviar ao controle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送到手柄"
           }
         }
       }
@@ -4078,6 +6920,12 @@
             "state": "translated",
             "value": "Enviando…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送中…"
+          }
         }
       }
     },
@@ -4087,6 +6935,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enviando… %1$lld %% — faltam cerca de %2$lld s"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送中… %lld %% — 预计还需 %lld 秒"
           }
         }
       }
@@ -4098,6 +6952,12 @@
             "state": "translated",
             "value": "Sensibilidade"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灵敏度"
+          }
         }
       }
     },
@@ -4107,6 +6967,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Curva de sensibilidade"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灵敏度曲线"
           }
         }
       }
@@ -4118,6 +6984,12 @@
             "state": "translated",
             "value": "Sensor X %d · Y %d · %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "传感器 X %d · Y %d · %@"
+          }
         }
       }
     },
@@ -4127,6 +6999,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enviado deste Mac em %1$@ · %2$lld quadros · %3$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由此 Mac 发送于 %@ · %lld 帧 · %@"
           }
         }
       }
@@ -4138,6 +7016,12 @@
             "state": "translated",
             "value": "Fim aqui"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设为结束帧"
+          }
         }
       }
     },
@@ -4147,6 +7031,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Início aqui"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设为起始帧"
           }
         }
       }
@@ -4158,6 +7048,12 @@
             "state": "translated",
             "value": "Ajustes"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
         }
       }
     },
@@ -4167,6 +7063,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Compartilhar como código"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "生成分享码"
           }
         }
       }
@@ -4178,6 +7080,12 @@
             "state": "translated",
             "value": "Compartilhar como código…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享码导出…"
+          }
         }
       }
     },
@@ -4187,6 +7095,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Código de compartilhamento"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享码"
           }
         }
       }
@@ -4198,6 +7112,12 @@
             "state": "translated",
             "value": "Tiro"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "射击模式"
+          }
         }
       }
     },
@@ -4207,6 +7127,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Toques por segundo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每秒连发次数"
           }
         }
       }
@@ -4218,6 +7144,12 @@
             "state": "translated",
             "value": "Aparece só neste app (o Space Station também guarda isso localmente)."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅在本应用内显示（与官方空间站一致，仅保存在本地）。"
+          }
         }
       }
     },
@@ -4227,6 +7159,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tempo para dormir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动休眠时间"
           }
         }
       }
@@ -4238,6 +7176,12 @@
             "state": "translated",
             "value": "Slot %lld"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "配置 %lld"
+          }
         }
       }
     },
@@ -4247,6 +7191,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sniper"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "狙击模式"
           }
         }
       }
@@ -4258,6 +7208,12 @@
             "state": "translated",
             "value": "Código no GitHub"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub 开源仓库"
+          }
         }
       }
     },
@@ -4267,6 +7223,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Space Station para Mac"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Space Station for Mac"
           }
         }
       }
@@ -4278,6 +7240,12 @@
             "state": "translated",
             "value": "Space Station para Mac %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Space Station for Mac %@"
+          }
         }
       }
     },
@@ -4287,6 +7255,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "O Space Station para Mac é gratuito e de código aberto, feito nas horas vagas fazendo engenharia reversa do controle. Se ele te poupou de instalar um Windows, você pode me pagar um café."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Space Station for Mac 是一款免费开源软件，通过逆向协议构建。如果它帮你省下了装双系统的麻烦，欢迎支持原作者。"
           }
         }
       }
@@ -4298,6 +7272,12 @@
             "state": "translated",
             "value": "O Space Station registrou o helper de novo. Aprove em Ajustes do Sistema › Geral › Itens de Início e Extensões e volte ao app."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已重新注册辅助程序。请前往“系统设置 › 通用 › 登录项与扩展”中批准开启后再返回。"
+          }
         }
       }
     },
@@ -4307,6 +7287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Presets por jogo do Space Station. No Windows a maioria depende de um mod injetado no jogo (impossível no macOS); aqui servem de ponto de partida: clique em “Usar como base” para criar seu perfil com esse nome."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飞智官方的分游戏预设。Windows 上多数依赖注入游戏的专属模组（macOS 暂不支持）；在此可作为起点，点击“用作模板”创建同名自定义预设。"
           }
         }
       }
@@ -4318,6 +7304,12 @@
             "state": "translated",
             "value": "Especial"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "特殊功能"
+          }
         }
       }
     },
@@ -4327,6 +7319,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Iniciar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始"
           }
         }
       }
@@ -4338,6 +7336,12 @@
             "state": "translated",
             "value": "Início %lld"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "起点 %lld"
+          }
         }
       }
     },
@@ -4347,6 +7351,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Início (zona morta)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "起点（死区）"
           }
         }
       }
@@ -4358,6 +7368,12 @@
             "state": "translated",
             "value": "Iniciar o Space Station quando eu entrar no Mac"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录 macOS 时自动启动"
+          }
         }
       }
     },
@@ -4367,6 +7383,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Intensidade inicial"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "起始震动强度"
           }
         }
       }
@@ -4378,6 +7400,12 @@
             "state": "translated",
             "value": "Posição inicial"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "起始位置"
+          }
         }
       }
     },
@@ -4387,6 +7415,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Status"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "状态"
           }
         }
       }
@@ -4398,6 +7432,12 @@
             "state": "translated",
             "value": "Fixa"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稳定阻尼"
+          }
         }
       }
     },
@@ -4407,6 +7447,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jogos da Steam e Epic rodam como apps próprios no Mac; abra o jogo uma vez e escolha em Apps abertos."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steam 和 Epic 游戏在 macOS 上会以独立进程运行；先启动一次游戏，即可从“正在运行的应用”中选取。"
           }
         }
       }
@@ -4418,6 +7464,12 @@
             "state": "translated",
             "value": "Passos"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "动作步骤"
+          }
         }
       }
     },
@@ -4427,6 +7479,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Calibração dos analógicos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "摇杆与扳机校准"
           }
         }
       }
@@ -4438,6 +7496,12 @@
             "state": "translated",
             "value": "Analógicos"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "摇杆"
+          }
         }
       }
     },
@@ -4447,6 +7511,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Parar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止"
           }
         }
       }
@@ -4458,6 +7528,12 @@
             "state": "translated",
             "value": "Parar a calibração agora?"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确定现在终止校准吗？"
+          }
         }
       }
     },
@@ -4467,6 +7543,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Corrente"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "流光溢彩"
           }
         }
       }
@@ -4478,6 +7560,12 @@
             "state": "translated",
             "value": "Curso"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "行程"
+          }
         }
       }
     },
@@ -4487,6 +7575,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apoie o projeto"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持项目"
           }
         }
       }
@@ -4498,6 +7592,12 @@
             "state": "translated",
             "value": "Trocar para DInput"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切至 DInput"
+          }
         }
       }
     },
@@ -4507,6 +7607,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trocar para modo DInput"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换为 DInput 模式"
           }
         }
       }
@@ -4518,6 +7624,12 @@
             "state": "translated",
             "value": "Trocar para XInput"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切至 XInput"
+          }
         }
       }
     },
@@ -4527,6 +7639,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trocar para modo XInput"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换为 XInput 模式"
           }
         }
       }
@@ -4538,6 +7656,12 @@
             "state": "translated",
             "value": "Voltando para XInput…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在切回 XInput 模式…"
+          }
         }
       }
     },
@@ -4547,6 +7671,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sistema"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随系统"
           }
         }
       }
@@ -4558,6 +7688,12 @@
             "state": "translated",
             "value": "Vale após reiniciar o app"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重启应用后生效"
+          }
         }
       }
     },
@@ -4567,6 +7703,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Toque (pressionar + soltar)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点按（按下并松开）"
           }
         }
       }
@@ -4578,6 +7720,12 @@
             "state": "translated",
             "value": "Testar"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试"
+          }
         }
       }
     },
@@ -4587,6 +7735,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Testar vibração"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试震动"
           }
         }
       }
@@ -4598,6 +7752,12 @@
             "state": "translated",
             "value": "O Apex 4 guarda um segundo conjunto de quatro perfis para o modo Switch (slots 5 a 8 dentro do controle). Isto copia o perfil do editor, com a iluminação, para o slot Switch correspondente — mapeamentos de teclado/mouse são removidos, como o Space Station faz."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "八爪鱼 4 为 Switch 模式单独保留了一组 4 个板载槽位（内部槽位 5–8）。此操作会把当前编辑器中的配置及灯光写入对应的 Switch 槽位（按空间站规则自动剔除键鼠映射）。"
+          }
         }
       }
     },
@@ -4607,6 +7767,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "A animação com que cada edição do Apex 4 sai da fábrica no visor. A sua está marcada; as outras são das edições especiais."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "各版本八爪鱼 4 出厂自带的屏幕动画。带有标记的是当前设备对应的默认动画。"
           }
         }
       }
@@ -4618,6 +7784,12 @@
             "state": "translated",
             "value": "O app registra no log unificado do sistema (Console, subsistema com.uiltonlopes.spacestation). Exporte as últimas horas para um arquivo de texto para anexar a um relato de bug."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用日志会写入 macOS 统一系统日志（控制台.app，子系统 com.uiltonlopes.spacestation）。可导出最近几小时日志以便反馈排查问题。"
+          }
         }
       }
     },
@@ -4627,6 +7799,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "O controle não permite ler o visor; isto é o que foi enviado por último daqui."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄不支持回读屏幕动画，此处显示的是从这台 Mac 最近一次发送的记录。"
           }
         }
       }
@@ -4638,6 +7816,12 @@
             "state": "translated",
             "value": "O controle confirmou a imagem (resultado 0)."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄已确认接收动画（返回码 0）。"
+          }
         }
       }
     },
@@ -4647,6 +7831,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "O controle não aceitou o comando."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄拒绝了该指令。"
           }
         }
       }
@@ -4658,6 +7848,12 @@
             "state": "translated",
             "value": "O controle não respondeu a tempo. Clique em atualizar para tentar de novo."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄响应超时。请点击“刷新”重试。"
+          }
         }
       }
     },
@@ -4667,6 +7863,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "O controle não respondeu a tempo. Ligue-o ou reconecte o cabo — ele aparece sozinho."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄响应超时。请确认手柄已开机或重新插拔数据线，设备会自动重连。"
           }
         }
       }
@@ -4678,6 +7880,12 @@
             "state": "translated",
             "value": "O controle não voltou em %lld s. Desconecte e reconecte o cabo e confira a versão do firmware."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄未在 %lld 秒内恢复上线。请重新插拔数据线后检查固件版本。"
+          }
         }
       }
     },
@@ -4687,6 +7895,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "O controle não reporta movimento enquanto calibra — siga o cronômetro."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校准期间手柄不会向上位机发送实时数值——请跟随计时器节奏操作。"
+          }
+        }
+      }
+    },
+    "The controller still reports %@ — the update did not take. Try again with the cable firmly connected.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄仍报告固件版本 %@ —— 更新未生效。请确保数据线连接稳固后重试。"
           }
         }
       }
@@ -4698,6 +7922,12 @@
             "state": "translated",
             "value": "O controle para de enviar este botão aos jogos; o Space Station for Mac o transforma na ação de teclado ou mouse acima enquanto estiver aberto. Guardado neste Mac por perfil."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手柄将不再向游戏发送此按键的原始信号；在 Space Station 运行期间，应用会将其转换为上方设定的键鼠动作（按配置保存于本 Mac）。"
+          }
         }
       }
     },
@@ -4707,6 +7937,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "A interface de atualização do controle não apareceu."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未检测到手柄的固件升级接口。"
           }
         }
       }
@@ -4718,6 +7954,22 @@
             "state": "translated",
             "value": "O helper não está instalado. Instale em Ajustes › Helper privilegiado ou mude o controle para DInput."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "特权辅助程序尚未安装。请前往“设置 › 特权辅助程序”安装，或将手柄切换至 DInput 模式。"
+          }
+        }
+      }
+    },
+    "The lighting did not apply completely. Try again.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灯光设置未完全应用成功，请重试。"
+          }
         }
       }
     },
@@ -4727,6 +7979,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Não foi possível converter o perfil."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法转换该配置文件。"
           }
         }
       }
@@ -4738,6 +7996,12 @@
             "state": "translated",
             "value": "A resposta não é um perfil de controle."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "返回的数据不是有效的手柄配置。"
+          }
         }
       }
     },
@@ -4747,6 +8011,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "O teste precisa do modo XInput."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此测试需要在 XInput 模式下进行。"
           }
         }
       }
@@ -4758,6 +8028,12 @@
             "state": "translated",
             "value": "O gatilho fica duro a partir deste ponto, como um gatilho mais curto."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机超过此位置后阻力骤增，等效缩短按压行程。"
+          }
         }
       }
     },
@@ -4767,6 +8043,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "O gatilho fica duro a partir deste ponto, como um gatilho mais curto. Os níveis 1 a 3 são os presets do menu do controle."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机超过此位置后阻力骤增，等效缩短行程。1–3 挡对应手柄自带屏幕菜单预设。"
           }
         }
       }
@@ -4778,6 +8060,12 @@
             "state": "translated",
             "value": "O gatilho reporta pressão total ao chegar no rompimento — o tiro sai na parede."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机按破阻尼墙的瞬间即触发 100 % 满行程——开火干脆利落。"
+          }
         }
       }
     },
@@ -4787,6 +8075,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "O gatilho reporta pressão total ao chegar na posição inicial."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机抵达起始位置时立即触发 100 % 满行程输入。"
           }
         }
       }
@@ -4798,6 +8092,12 @@
             "state": "translated",
             "value": "O gatilho vibra junto com os motores da empunhadura (vibração do jogo)."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机马达随握把震动（游戏内震动）同步共振。"
+          }
         }
       }
     },
@@ -4807,6 +8107,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "A atualização roda deste Mac do mesmo jeito que o Space Station faz: o controle entra em modo de atualização, a imagem é gravada pelo USB e ele reinicia com o novo firmware. Perfis, luz e a animação da tela são mantidos."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新流程与官方空间站一致：手柄切入升级模式后通过 USB 写入固件并自动重启。原有板载配置、灯光与屏幕动画均会保留。"
           }
         }
       }
@@ -4818,6 +8124,12 @@
             "state": "translated",
             "value": "Os valores que o próprio Apex 4 usa para este modo no menu da tela"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "八爪鱼 4 手柄屏幕菜单中该模式对应的原厂预设参数"
+          }
         }
       }
     },
@@ -4827,6 +8139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Este perfil já tem o número máximo de macros."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前配置中的宏数量已达上限。"
           }
         }
       }
@@ -4838,6 +8156,12 @@
             "state": "translated",
             "value": "Linha do tempo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "时间轴"
+          }
         }
       }
     },
@@ -4847,6 +8171,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Os tempos são o atraso desde o passo anterior (resolução de %lld ms). A gravação captura os toques no próprio controle — ative a leitura ao vivo se nada chegar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "时间代表距离上一步的间隔（精度 %lld ms）。录制会采集手柄真实按键——若无反应请检查实时读取状态。"
           }
         }
       }
@@ -4858,6 +8188,12 @@
             "state": "translated",
             "value": "Liga / desliga"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换开关状态"
+          }
         }
       }
     },
@@ -4867,6 +8203,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tempo total"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "总耗时"
           }
         }
       }
@@ -4878,6 +8220,12 @@
             "state": "translated",
             "value": "Traduzindo…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译中…"
+          }
         }
       }
     },
@@ -4887,6 +8235,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Faixa de curso"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "行程范围"
           }
         }
       }
@@ -4898,6 +8252,12 @@
             "state": "translated",
             "value": "Em alta agora"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "热门动图"
+          }
         }
       }
     },
@@ -4907,6 +8267,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gatilhos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机"
           }
         }
       }
@@ -4918,6 +8284,12 @@
             "state": "translated",
             "value": "Trava do gatilho"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机锁"
+          }
         }
       }
     },
@@ -4927,6 +8299,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modo do gatilho"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机模式"
           }
         }
       }
@@ -4938,6 +8316,12 @@
             "state": "translated",
             "value": "Presets de gatilho valem só em modo XInput."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自适应扳机预设仅在 XInput 模式下生效。"
+          }
         }
       }
     },
@@ -4947,6 +8331,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Faixa de curso em que o rompimento se mantém."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "持续提供破壁阻力反馈的扳机行程范围。"
           }
         }
       }
@@ -4958,6 +8348,12 @@
             "state": "translated",
             "value": "Faixa de curso em que a vibração se mantém."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "持续提供震动反馈的扳机行程范围。"
+          }
         }
       }
     },
@@ -4967,6 +8363,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Curso do gatilho necessário para ativar o rompimento."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "激活破壁反馈所需的扳机按压行程。"
           }
         }
       }
@@ -4978,6 +8380,12 @@
             "state": "translated",
             "value": "Curso do gatilho necessário para ativar o amortecimento."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "激活阻尼反馈所需的扳机按压行程。"
+          }
         }
       }
     },
@@ -4987,6 +8395,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Curso do gatilho necessário para ativar a vibração."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "激活震动反馈所需的扳机按压行程。"
           }
         }
       }
@@ -4998,6 +8412,12 @@
             "state": "translated",
             "value": "Gatilhos"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "双扳机"
+          }
         }
       }
     },
@@ -5007,6 +8427,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recortar quadros"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "裁剪"
           }
         }
       }
@@ -5018,6 +8444,12 @@
             "state": "translated",
             "value": "Tentar de novo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重试"
+          }
         }
       }
     },
@@ -5027,6 +8459,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Turbo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连发 (Turbo)"
           }
         }
       }
@@ -5038,6 +8476,12 @@
             "state": "translated",
             "value": "Turbo + Turbo limpa. O controle não informa esses dois estados de volta; o que aparece é o último valor enviado deste Mac."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连按两次 Turbo 可清除。手柄固件不会回传这两项开关状态，此处显示的是最后一次从本 Mac 写入的值。"
+          }
         }
       }
     },
@@ -5047,6 +8491,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Turbo + botão faz o botão disparar sozinho"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turbo + 按键即可对该键开启连发"
           }
         }
       }
@@ -5058,6 +8508,12 @@
             "state": "translated",
             "value": "Atalho de Turbo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连发快捷键"
+          }
         }
       }
     },
@@ -5067,6 +8523,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ligue o controle — ele conecta sozinho"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开启手柄电源——设备将自动连接"
           }
         }
       }
@@ -5078,6 +8540,12 @@
             "state": "translated",
             "value": "Cabo USB"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USB 数据线"
+          }
         }
       }
     },
@@ -5087,6 +8555,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modo USB"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USB 协议模式"
           }
         }
       }
@@ -5098,6 +8572,12 @@
             "state": "translated",
             "value": "Cabo USB-C ou o receptor da base de carregamento"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USB-C 数据线或底座/2.4G 接收器"
+          }
         }
       }
     },
@@ -5107,6 +8587,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cabo USB-C ou o receptor da base de carregamento — detectado automaticamente"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USB-C 数据线或底座/2.4G 接收器——自动识别"
           }
         }
       }
@@ -5118,6 +8604,12 @@
             "state": "translated",
             "value": "Há alterações não salvas no app — aplique ou reverta lá primeiro."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用中有未保存的更改——请先点击应用或还原。"
+          }
         }
       }
     },
@@ -5127,6 +8619,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cima"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上"
           }
         }
       }
@@ -5138,6 +8636,12 @@
             "state": "translated",
             "value": "Atualizado"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已是最新版本"
+          }
         }
       }
     },
@@ -5147,6 +8651,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cima-esquerda"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左上"
           }
         }
       }
@@ -5158,6 +8668,12 @@
             "state": "translated",
             "value": "Cima-direita"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "右上"
+          }
         }
       }
     },
@@ -5167,6 +8683,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Atualizar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新"
           }
         }
       }
@@ -5178,6 +8700,12 @@
             "state": "translated",
             "value": "Atualização disponível: %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发现新版本：%@"
+          }
         }
       }
     },
@@ -5187,6 +8715,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Atualização concluída"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新完成"
           }
         }
       }
@@ -5198,6 +8732,12 @@
             "state": "translated",
             "value": "Atualização falhou"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新失败"
+          }
         }
       }
     },
@@ -5207,6 +8747,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Atualizar o firmware para %@?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确定将固件更新至 %@ 吗？"
           }
         }
       }
@@ -5218,6 +8764,32 @@
             "state": "translated",
             "value": "Atualizar para %@"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新至 %@"
+          }
+        }
+      }
+    },
+    "Updates from this app are only enabled for the Apex 4 family (unknown controller id %lld).": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本应用仅支持为八爪鱼 4 系列更新固件（未知手柄 ID %lld）。"
+          }
+        }
+      }
+    },
+    "Updates from this app are only enabled for the Apex 4 family. Use Flydigi Space Station (Windows) for %@.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本应用仅支持为八爪鱼 4 系列更新固件，%@ 请使用 Windows 版飞智空间站进行升级。"
+          }
         }
       }
     },
@@ -5227,6 +8799,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enviar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上传"
           }
         }
       }
@@ -5238,6 +8816,12 @@
             "state": "translated",
             "value": "Enviando…"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在上传…"
+          }
         }
       }
     },
@@ -5247,6 +8831,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Envia este perfil — botões, analógicos, gatilhos, giroscópio, vibração, macros e luz — ao serviço de compartilhamento da Flydigi e devolve um código que qualquer usuário do Space Station (Windows ou Mac) pode importar. O perfil fica público para quem tiver o código."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将当前配置（含按键、摇杆、扳机、体感、震动、宏与灯光）上传至飞智分享服务并生成分享码；任何 Windows 或 Mac 空间站用户均可通过分享码导入。"
           }
         }
       }
@@ -5258,6 +8848,12 @@
             "state": "translated",
             "value": "Usar como base"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用作模板"
+          }
         }
       }
     },
@@ -5267,6 +8863,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modo de uso"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用此模式"
           }
         }
       }
@@ -5278,6 +8880,12 @@
             "state": "translated",
             "value": "Use o cabo USB para calibrar."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校准操作请通过 USB 数据线连接进行。"
+          }
         }
       }
     },
@@ -5287,6 +8895,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Usar o nome do modelo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用型号名称"
           }
         }
       }
@@ -5298,6 +8912,12 @@
             "state": "translated",
             "value": "Usa um mod de jogo só para Windows no Space Station"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用了仅限 Windows 版空间站的游戏内模组"
+          }
         }
       }
     },
@@ -5307,6 +8927,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verificando…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "校验中…"
           }
         }
       }
@@ -5318,6 +8944,12 @@
             "state": "translated",
             "value": "Versão %@ disponível"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有新版本 %@ 可用"
+          }
         }
       }
     },
@@ -5327,6 +8959,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Versão %@ — código aberto (MIT), não oficial. Portado para macOS por Uilton Lopes."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "版本 %@ — 开源 (MIT) 非官方客户端，由 Uilton Lopes 移植至 macOS。"
           }
         }
       }
@@ -5338,6 +8976,12 @@
             "state": "translated",
             "value": "Vibração"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "震动"
+          }
         }
       }
     },
@@ -5347,6 +8991,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Frequência da vibração"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "震动频率"
           }
         }
       }
@@ -5358,6 +9008,12 @@
             "state": "translated",
             "value": "Intensidade da vibração"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "震动强度"
+          }
         }
       }
     },
@@ -5367,6 +9023,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Intensidade da vibração do gatilho."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扳机马达的震动强度。"
           }
         }
       }
@@ -5378,6 +9040,12 @@
             "state": "translated",
             "value": "Testar vibração"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试震动"
+          }
         }
       }
     },
@@ -5387,6 +9055,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Limiar de vibração"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "震动触发阈值"
           }
         }
       }
@@ -5398,6 +9072,12 @@
             "state": "translated",
             "value": "Aguardando o controle"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待手柄连接"
+          }
         }
       }
     },
@@ -5407,6 +9087,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bem-vindo ao Space Station"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "欢迎使用 Space Station"
           }
         }
       }
@@ -5418,6 +9104,22 @@
             "state": "translated",
             "value": "Bem-vindo ao Space Station para Mac"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "欢迎使用 Space Station for Mac"
+          }
+        }
+      }
+    },
+    "Wheel": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滚轮"
+          }
         }
       }
     },
@@ -5427,6 +9129,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quando todos os eixos mostrarem o check, clique em Concluir. O próprio controle guarda o resultado."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当所有轴向都出现绿色对勾后点击“完成”，校准数据会直接写入手柄芯片。"
           }
         }
       }
@@ -5438,6 +9146,12 @@
             "state": "translated",
             "value": "Quando um desses apps vem pra frente, o controle muda para o slot de perfil e o preset de gatilho escolhidos, e volta ao normal quando o app sai."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当所选应用切至前台时，手柄会自动切换到对应的配置槽位与自适应扳机预设；切出应用后自动还原。"
+          }
         }
       }
     },
@@ -5447,6 +9161,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quando a vibração da empunhadura fica abaixo deste limiar, o gatilho não vibra."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当握把震动强度低于此阈值时，扳机将不会跟随震动。"
           }
         }
       }
@@ -5458,6 +9178,12 @@
             "state": "translated",
             "value": "Gravar este perfil no controle e salvar (⌘S)"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将配置写入手柄并保存 (⌘S)"
+          }
         }
       }
     },
@@ -5467,6 +9193,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gravando o firmware — mantenha o cabo conectado…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在写入固件——请保持数据线连接…"
           }
         }
       }
@@ -5478,12 +9210,24 @@
             "state": "translated",
             "value": "Sensibilidade do eixo X"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "X 轴灵敏度"
+          }
         }
       }
     },
     "XInput": {
       "localizations": {
         "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XInput"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "XInput"
@@ -5498,6 +9242,12 @@
             "state": "translated",
             "value": "XInput (Xbox)"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XInput (Xbox)"
+          }
         }
       }
     },
@@ -5507,6 +9257,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "XInput — o que os jogos esperam; a tela e o teste dos gatilhos precisam dele."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XInput — 主流游戏默认兼容协议；屏幕传图与扳机预览需使用此模式。"
           }
         }
       }
@@ -5518,6 +9274,12 @@
             "state": "translated",
             "value": "Sensibilidade do eixo Y"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Y 轴灵敏度"
+          }
         }
       }
     },
@@ -5527,6 +9289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sua"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前设备"
           }
         }
       }
@@ -5538,6 +9306,12 @@
             "state": "translated",
             "value": "Zoom"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "缩放"
+          }
         }
       }
     },
@@ -5547,6 +9321,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "ativo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已激活"
           }
         }
       }
@@ -5558,6 +9338,12 @@
             "state": "translated",
             "value": "desativada"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已关闭"
+          }
         }
       }
     },
@@ -5567,6 +9353,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "quadros %1$lld–%2$lld de %3$lld"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld–%lld 帧（共 %lld 帧）"
           }
         }
       }
@@ -5578,6 +9370,12 @@
             "state": "translated",
             "value": "arquivo local"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地文件"
+          }
         }
       }
     },
@@ -5587,6 +9385,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "O macOS não iniciou o helper. O modo DInput funciona sem ele; Ajustes › Helper privilegiado › Reparar helper registra de novo."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 尚未启动辅助程序。DInput 模式无需它也可正常使用；可前往“设置 › 特权辅助程序 › 修复辅助程序”重新注册。"
           }
         }
       }
@@ -5598,6 +9402,12 @@
             "state": "translated",
             "value": "O macOS precisa permitir que o Space Station controle o teclado e o mouse (Privacidade e Segurança › Acessibilidade)."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要授予 Space Station 控制键盘与鼠标的权限（系统设置 › 隐私与安全性 › 辅助功能）。"
+          }
         }
       }
     },
@@ -5607,6 +9417,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "movendo o ponteiro"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "控制鼠标指针"
           }
         }
       }
@@ -5618,6 +9434,12 @@
             "state": "translated",
             "value": "ou casar pelo nome do app contendo"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "或按包含特定名称的应用/窗口匹配"
+          }
         }
       }
     },
@@ -5627,6 +9449,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "toca uma vez"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "播放一次"
           }
         }
       }
@@ -5638,6 +9466,12 @@
             "state": "translated",
             "value": "repete enquanto segura"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按住循环"
+          }
         }
       }
     },
@@ -5647,6 +9481,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "liga/desliga"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点按切换"
           }
         }
       }
@@ -5658,6 +9498,22 @@
             "state": "translated",
             "value": "aguardando a tecla de ativação"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待激活键"
+          }
+        }
+      }
+    },
+    "working…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "处理中…"
+          }
         }
       }
     },
@@ -5667,6 +9523,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "· Issues e pull requests são bem-vindos no GitHub."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "· 欢迎前往 GitHub 提交 Issue 或 Pull Request。"
           }
         }
       }

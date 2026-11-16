@@ -276,7 +276,7 @@ struct IconPill: View {
                 .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(SS.n500))
                 .contentShape(Rectangle())
         }
-        .buttonStyle(.plain).disabled(!enabled).opacity(enabled ? 1 : 0.45).help(help)
+        .buttonStyle(.plain).disabled(!enabled).opacity(enabled ? 1 : 0.45).help(LocalizedStringKey(help))
     }
 }
 

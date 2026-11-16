@@ -107,6 +107,34 @@ public enum DInputReply {
     }
 }
 
+public enum NewXInputReply {
+    /// Parses `5A A5 01 ...` info reply from a `0x37D7` device (`0xFFA0` HID), either raw (offset 0)
+    /// or with a leading HID input report ID byte (offset 1). See `docs/adding-a-controller.md` §4.
+    public static func deviceInfo(_ r: [UInt8]) -> DeviceInfo? {
+        let base: Int
+        if r.count >= 17, r[0] == NewXInput.prefix0, r[1] == NewXInput.prefix1, r[2] == 0x01 {
+            base = 0
+        } else if r.count >= 18, r[1] == NewXInput.prefix0, r[2] == NewXInput.prefix1, r[3] == 0x01 {
+            base = 1
+        } else {
+            return nil
+        }
+        let connByte = r[base + 6]
+        let battByte = r[base + 11]
+        // High nibble 2 means "charged"; map to 1 (charging/full) + 5 bars so Battery UI reflects full power.
+        let normalizedBattery: UInt8 = (battByte >> 4) == 2 ? (0x10 | (battByte & 0x0F)) : battByte
+        return DeviceInfo(
+            deviceId: r[base + 5],
+            mac: Array(r[(base + 7)..<(base + 11)]),
+            firmware: DeviceInfo.firmwareString(low: r[base + 16], high: r[base + 15]),
+            batteryRaw: normalizedBattery,
+            cpuType: 0,
+            connection: connByte == 0 ? 1 : 0,
+            motionSensor: 0
+        )
+    }
+}
+
 /// Reassembles a blob from out-of-order 10-byte parcels.
 public struct BlobAssembler: Sendable {
     public let expectedLength: Int

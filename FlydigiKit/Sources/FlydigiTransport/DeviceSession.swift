@@ -33,40 +33,59 @@ public final class DeviceSession: @unchecked Sendable {
     // MARK: Info
 
     public func deviceInfo() throws -> DeviceInfo {
-        switch channel {
-        case .xinput:
-            try link.write(XInput.command(XInput.Cmd.deviceInfo))
-            return try link.waitForReport(timeout: 2) { XInputReply.deviceInfo($0) }
-        case .dinput:
-            try link.write(DInput.command(DInput.Cmd.deviceInfo))
-            return try link.waitForReport(timeout: 2) { DInputReply.deviceInfo($0) }
+        var lastError: Error?
+        for attempt in 0..<2 {
+            do {
+                link.discardPending()
+                switch channel {
+                case .xinput:
+                    try link.write(XInput.command(XInput.Cmd.deviceInfo))
+                    return try link.waitForReport(timeout: 2) { XInputReply.deviceInfo($0) }
+                case .dinput:
+                    try link.write(DInput.command(DInput.Cmd.deviceInfo))
+                    return try link.waitForReport(timeout: 2) { DInputReply.deviceInfo($0) }
+                }
+            } catch {
+                lastError = error
+                if attempt == 0 { Thread.sleep(forTimeInterval: 0.12) }
+            }
         }
+        throw lastError ?? TransportError.timeout("deviceInfo failed")
     }
 
     // MARK: Blobs
 
     public func readBlob(_ kind: BlobKind) throws -> [UInt8] {
         let length = kind == .config ? 790 : LEDConfig.length
-        var asm = BlobAssembler(expectedLength: length)
-        link.discardPending()                                   // parcels left over from a previous read must not leak in
-        switch channel {
-        case .xinput: try link.write(XInput.readBlob(kind: kind, configId: configId))
-        case .dinput: try link.write(DInput.readBlob(kind: kind, configId: configId))
-        }
-        let deadline = Date().addingTimeInterval(4)
-        while !asm.isComplete {
-            let remaining = deadline.timeIntervalSinceNow
-            guard remaining > 0 else { throw TransportError.timeout("blob read incomplete") }
-            let parcel: (index: Int, data: [UInt8]) = try link.waitForReport(timeout: remaining) { r in
-                switch self.channel {
-                case .xinput: return XInputReply.blobParcel(r, kind: kind)
-                case .dinput: return DInputReply.blobParcel(r, kind: kind)
+        var lastError: Error?
+        for attempt in 0..<2 {
+            do {
+                var asm = BlobAssembler(expectedLength: length)
+                link.discardPending()                                   // parcels left over from a previous read must not leak in
+                switch channel {
+                case .xinput: try link.write(XInput.readBlob(kind: kind, configId: configId))
+                case .dinput: try link.write(DInput.readBlob(kind: kind, configId: configId))
                 }
+                let deadline = Date().addingTimeInterval(4)
+                while !asm.isComplete {
+                    let remaining = deadline.timeIntervalSinceNow
+                    guard remaining > 0 else { throw TransportError.timeout("blob read incomplete") }
+                    let parcel: (index: Int, data: [UInt8]) = try link.waitForReport(timeout: remaining) { r in
+                        switch self.channel {
+                        case .xinput: return XInputReply.blobParcel(r, kind: kind)
+                        case .dinput: return DInputReply.blobParcel(r, kind: kind)
+                        }
+                    }
+                    asm.add(index: parcel.index, data: parcel.data)
+                }
+                Thread.sleep(forTimeInterval: 0.03); link.discardPending()   // trailing duplicates the pad sometimes appends
+                return asm.assemble()!
+            } catch {
+                lastError = error
+                if attempt == 0 { Thread.sleep(forTimeInterval: 0.15) }
             }
-            asm.add(index: parcel.index, data: parcel.data)
         }
-        Thread.sleep(forTimeInterval: 0.03); link.discardPending()   // trailing duplicates the pad sometimes appends
-        return asm.assemble()!
+        throw lastError ?? TransportError.timeout("blob read incomplete")
     }
 
     /// Writes a blob parcel by parcel, waiting for each ack. Returns acks received / packets sent.

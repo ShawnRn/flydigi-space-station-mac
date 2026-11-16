@@ -63,10 +63,10 @@ struct MainWindow: View {
         .task(id: model.connection) {
             live.setRawMonitoring(model.connection == .dinput)
             profiles.setPadSlotWatch(model.connection == .dinput)
-            await profiles.loadAll()
+            await profiles.loadAll(force: false)
         }
         // The receiver can be there before the pad answers: load the profiles once it does.
-        .onChange(of: model.info == nil) { _, isNil in if !isNil { Task { await profiles.loadAll() } } }
+        .onChange(of: model.info == nil) { _, isNil in if !isNil { Task { await profiles.loadAll(force: false) } } }
         .onOpenURL { url in open(url) }
         .onChange(of: kmKey, initial: true) { _, k in
             keyboardMouse.push(mac: k.mac, slot: k.slot, motion: k.motion, connected: k.connected)
@@ -168,8 +168,14 @@ struct Sidebar: View {
 
             VStack(spacing: 8) {
                 HStack(spacing: 8) {
-                    RailButton(title: "Adaptive Trigger", icon: "slider.horizontal.below.square.and.square.filled", active: route == .adaptiveTrigger) { route = .adaptiveTrigger }
-                    RailButton(title: "Screen", icon: "photo.tv", active: route == .screen) { route = .screen }
+                    RailButton(
+                        title: model.capabilities.forceAdaptTriggers ? "Adaptive Trigger" : "Game profiles",
+                        icon: model.capabilities.forceAdaptTriggers ? "slider.horizontal.below.square.and.square.filled" : "gamecontroller.fill",
+                        active: route == .adaptiveTrigger
+                    ) { route = .adaptiveTrigger }
+                    if model.capabilities.screen != nil {
+                        RailButton(title: "Screen", icon: "photo.tv", active: route == .screen) { route = .screen }
+                    }
                 }
                 RailButton(title: "Settings", icon: "gearshape", active: route == .settings, wide: true) { route = .settings }
             }
@@ -183,7 +189,7 @@ struct Sidebar: View {
     private var connected: Bool { model.connection != .none }
     private var deviceName: String {
         if !model.nickname.isEmpty { return model.nickname }
-        return model.info.map { DeviceCatalog.descriptor(for: $0.deviceId)?.name ?? "Flydigi controller (id \($0.deviceId))" } ?? "Flydigi Apex 4"
+        return model.info.map { DeviceCatalog.descriptor(for: $0.deviceId)?.localizedName ?? String(localized: "Flydigi controller (id \(Int($0.deviceId)))") } ?? String(localized: "Flydigi controller")
     }
 
     private var deviceCard: some View {
@@ -254,18 +260,24 @@ struct Sidebar: View {
                 Text("Mode").font(.system(size: 12)).foregroundStyle(SS.n400)
                 Spacer()
                 if connected {
-                    // Click to switch; no chevron, the swap icon says it all.
-                    Button { Task { await model.switchMode() } } label: {
-                        HStack(spacing: 4) {
-                            Text(model.connection == .xinput ? "XInput" : "DInput").font(.system(size: 12)).foregroundStyle(SS.n300)
-                            Image(systemName: "arrow.left.arrow.right").font(.system(size: 9, weight: .semibold)).foregroundStyle(SS.n400)
+                    if model.connection == .newXInput {
+                        Text("NewXInput").font(.system(size: 12)).foregroundStyle(SS.n300)
+                            .padding(.horizontal, 6).frame(height: 20)
+                            .background(SS.n600, in: RoundedRectangle(cornerRadius: 5, style: .continuous))
+                    } else {
+                        // Click to switch; no chevron, the swap icon says it all.
+                        Button { Task { await model.switchMode() } } label: {
+                            HStack(spacing: 4) {
+                                Text(model.connection == .xinput ? "XInput" : "DInput").font(.system(size: 12)).foregroundStyle(SS.n300)
+                                Image(systemName: "arrow.left.arrow.right").font(.system(size: 9, weight: .semibold)).foregroundStyle(SS.n400)
+                            }
+                            .padding(.horizontal, 6).frame(height: 20)
+                            .background(SS.n600, in: RoundedRectangle(cornerRadius: 5, style: .continuous))
+                            .contentShape(Rectangle())
                         }
-                        .padding(.horizontal, 6).frame(height: 20)
-                        .background(SS.n600, in: RoundedRectangle(cornerRadius: 5, style: .continuous))
-                        .contentShape(Rectangle())
+                        .buttonStyle(.plain).disabled(model.busy)
+                        .help(model.connection == .xinput ? LocalizedStringKey("Switch to DInput mode") : LocalizedStringKey("Switch to XInput mode"))
                     }
-                    .buttonStyle(.plain).disabled(model.busy)
-                    .help(model.connection == .xinput ? "Switch to DInput mode" : "Switch to XInput mode")
                 } else {
                     Text("—").font(.system(size: 12)).foregroundStyle(SS.n300)
                 }
@@ -276,7 +288,8 @@ struct Sidebar: View {
             if let i = model.info { let b = Battery(raw: i.batteryRaw, system: live.battery); if b.known { row("Battery", b.description) } }
             row("Helper", model.helperInstalled ? "Installed" : "Not installed")
             if let d = profiles.draft {
-                row("Profile", "Slot \(profiles.activeSlot + 1)\(d.title.isEmpty ? "" : " · \(d.title)")")
+                let slotLabel = String(localized: "Slot \(profiles.activeSlot + 1)")
+                row("Profile", "\(slotLabel)\(d.title.isEmpty ? "" : " · \(d.title)")")
             }
         }
     }
@@ -340,7 +353,12 @@ struct HomeView: View {
     private var noProfile: some View {
         VStack(spacing: 10) {
             Image(systemName: "gamecontroller").font(.system(size: 28)).foregroundStyle(SS.n400)
-            Text(model.connection == .none ? "Connect the controller to edit its profiles." : "Loading profiles…").font(.system(size: 13)).foregroundStyle(SS.n300)
+            if model.connection == .newXInput {
+                Text("NewXInput (0x37D7) controller detected. Identification and live input work; profile read/write on this protocol is not yet supported.")
+                    .font(.system(size: 13)).foregroundStyle(SS.n300).multilineTextAlignment(.center).frame(maxWidth: 460)
+            } else {
+                Text(model.connection == .none ? LocalizedStringKey("Connect the controller to edit its profiles.") : LocalizedStringKey("Loading profiles…")).font(.system(size: 13)).foregroundStyle(SS.n300)
+            }
         }
         .frame(maxWidth: .infinity, minHeight: 160)
     }
@@ -367,8 +385,9 @@ struct HeroView: View {
                 Ellipse().fill(SS.brand.opacity(0.55)).frame(width: g.size.width * 0.9, height: g.size.height * 0.9)
                     .blur(radius: 90).offset(y: g.size.height * 0.55)
                 ZStack {
-                    Apex4Wireframe()
-                    HeroHotspots(onSelect: onSelect).aspectRatio(Apex4Render.canvas, contentMode: .fit)
+                    let family = model.descriptor?.family ?? .apex4
+                    Apex4Wireframe(hasScreen: model.capabilities.screen != nil, family: family)
+                    HeroHotspots(family: family, capabilities: model.capabilities, onSelect: onSelect).aspectRatio(Apex4Render.canvas, contentMode: .fit)
                 }
                 .frame(height: g.size.height * 0.86)
                 .offset(y: g.size.height * 0.04)
@@ -403,7 +422,8 @@ struct HeroView: View {
                 Button {
                     if profiles.isDirty { pendingSlot = s.index } else { profiles.select(slot: s.index) }
                 } label: {
-                    let name = s.config.title.isEmpty ? "Slot \(s.index + 1)" : "\(s.index + 1) · \(s.config.title)"
+                    let slotBase = String(localized: "Slot \(s.index + 1)")
+                    let name = s.config.title.isEmpty ? slotBase : "\(s.index + 1) · \(s.config.title)"
                     if s.index == profiles.activeSlot { Label(name, systemImage: "checkmark") } else { Text(name) }
                 }
             }
@@ -451,28 +471,32 @@ struct HeroView: View {
     private var profileTitle: String {
         guard profiles.draft != nil else { return String(localized: "No profile") }
         let t = profiles.draft?.title ?? ""
-        let base = t.isEmpty ? "Slot \(profiles.shownSlot + 1)" : t
-        return profiles.temporarySlot != nil ? "\(base) · game" : base
+        let base = t.isEmpty ? String(localized: "Slot \(profiles.shownSlot + 1)") : t
+        return profiles.temporarySlot != nil ? String(localized: "\(base) · game") : base
     }
 }
 
-/// Key chips on the hero, SS4 geometry and look (dark fill, grey stroke; blue when selected).
+/// Key chips on the hero, matching the active controller's button layout.
 struct HeroHotspots: View {
     @Environment(ProfileStore.self) private var profiles
     @Environment(LiveInput.self) private var live
+    var family: DeviceDescriptor.Family = .apex4
+    var capabilities: DeviceDescriptor.Capabilities = DeviceCatalog.apex4Capabilities
     let onSelect: (ControllerKey) -> Void
 
     var body: some View {
         GeometryReader { g in
             let s = g.size.width / Apex4Render.canvas.width
+            let wells = Apex4Render.stickWells(for: family)
+            let spots = Apex4Render.hotspots(for: family, capabilities: capabilities)
             ZStack {
-                ForEach(Apex4Render.stickWells.indices, id: \.self) { i in
-                    let r = Apex4Render.stickWells[i]
+                ForEach(wells.indices, id: \.self) { i in
+                    let r = wells[i]
                     StickWell()
                         .frame(width: r.width * s, height: r.height * s)
                         .position(x: r.midX * s, y: r.midY * s)
                 }
-                ForEach(Apex4Render.hotspots) { h in chip(h, scale: s) }
+                ForEach(spots) { h in chip(h, scale: s) }
             }
         }
     }
@@ -531,7 +555,7 @@ struct HeroHotspots: View {
         .position(x: h.center.x * s, y: h.center.y * s)
         .allowsHitTesting(h.clickable)
         .opacity(h.clickable ? 1 : 0.6)
-        .accessibilityLabel("\(h.key) button\(changed ? ", remapped" : "")")
+        .accessibilityLabel(changed ? "\(h.key.localizedName) button, remapped" : "\(h.key.localizedName) button")
         .animation(.easeOut(duration: 0.12), value: pressed)
     }
 }
@@ -539,10 +563,13 @@ struct HeroHotspots: View {
 // MARK: - Common tab (Light + Vibration)
 
 struct CommonTab: View {
+    @Environment(ControllerModel.self) private var model
     var body: some View {
-        // Three equal cards filling the tab, like the Macros page.
+        // Adapt cards dynamically to hardware capabilities (hide Light card when device has no RGB/LEDs).
         HStack(alignment: .top, spacing: 20) {
-            DarkCard(fillHeight: true) { LightPanel() }
+            if model.capabilities.ledGroups > 0 {
+                DarkCard(fillHeight: true) { LightPanel() }
+            }
             DarkCard(fillHeight: true) { VibrationPanel() }
             DarkCard(fillHeight: true) { ControllerPanel() }
         }
@@ -753,6 +780,10 @@ struct KeyEditor: View {
     @State private var armed = false          // waiting for a pad press (or a pick) to set the target
     @State private var capture: Task<Void, Never>?
 
+    private var mappableKeys: [ControllerKey] {
+        Apex4Render.mappableKeys(for: model.descriptor?.family ?? .apex4, capabilities: model.capabilities)
+    }
+
     enum Kind: Hashable { case click, turbo, macro, special }
     private var kind: Kind { switch mapping { case .identity, .key: .click; case .turbo: .turbo; case .macro: .macro; case .keyboardMouse: .special } }
     private var target: ControllerKey { switch mapping { case .key(let t), .turbo(let t, _, _): t; default: key } }
@@ -772,7 +803,7 @@ struct KeyEditor: View {
         }
         .frame(maxWidth: .infinity)
         .onChange(of: live.pressedKeys) { old, new in
-            guard armed, let k = new.subtracting(old).first, Apex4Render.mappableKeys.contains(k) else { return }
+            guard armed, let k = new.subtracting(old).first, mappableKeys.contains(k) else { return }
             setTarget(k); armed = false
         }
         .onChange(of: armed) { _, on in
@@ -782,7 +813,7 @@ struct KeyEditor: View {
             capture = Task { @MainActor in
                 let k = await model.captureKey(seconds: 6)
                 guard !Task.isCancelled, armed else { return }
-                if let k, Apex4Render.mappableKeys.contains(k) { setTarget(k) }
+                if let k, mappableKeys.contains(k) { setTarget(k) }
                 armed = false
             }
         }
@@ -823,10 +854,10 @@ struct KeyEditor: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Acts as").font(.system(size: 12)).foregroundStyle(.secondary)
             LazyVGrid(columns: Array(repeating: GridItem(.fixed(44)), count: 6), spacing: 8) {
-                ForEach(Apex4Render.mappableKeys, id: \.self) { k in
+                ForEach(mappableKeys, id: \.self) { k in
                     Button { setTarget(k); armed = false } label: {
                         KeyBadge(label: Apex4Render.shortLabel(k), size: 36, highlighted: k == target)
-                    }.buttonStyle(.plain).help(String(describing: k))
+                    }.buttonStyle(.plain).help(k.localizedName)
                 }
             }
             GhostButton(title: "Reset to default") { setTarget(key); armed = false }
@@ -1086,18 +1117,19 @@ struct GyroTab: View {
                                    options: [(.off, "Close"), (.leftStick, "Left joystick (racing games)"), (.rightStick, "Right joystick (shooting games)"), (.mouse, "Mouse")])
                     }
                     if m.mapType != .off {
+                        let keys = Apex4Render.mappableKeys(for: model.descriptor?.family ?? .apex4, capabilities: model.capabilities)
                         Field("How to activate") {
                             DarkSelect(selection: Binding(get: { m.enableType }, set: { v in set { $0.enableType = v } }),
                                        options: [(.click, "Press to toggle"), (.press, "Hold to enable")])
                         }
                         Field("Activate key") {
                             DarkSelect(selection: Binding(get: { m.enableKey1 }, set: { v in set { $0.enableKey1 = v } }),
-                                       options: [(UInt8(255), "Always on")] + Apex4Render.mappableKeys.map { ($0.rawValue, String(describing: $0)) })
+                                       options: [(UInt8(255), String(localized: "Always on"))] + keys.map { ($0.rawValue, $0.localizedName) })
                         }
                         if m.enableKey1 != 255 {
                             Field("Second key (optional)") {
                                 DarkSelect(selection: Binding(get: { m.enableKey2 }, set: { v in set { $0.enableKey2 = v } }),
-                                           options: [(UInt8(255), "None")] + Apex4Render.mappableKeys.map { ($0.rawValue, String(describing: $0)) })
+                                           options: [(UInt8(255), String(localized: "None"))] + keys.map { ($0.rawValue, $0.localizedName) })
                             }
                         }
                     }
@@ -1142,6 +1174,7 @@ struct GyroTab: View {
 
 struct TriggerTab: View {
     @Environment(ProfileStore.self) private var profiles
+    @Environment(ControllerModel.self) private var model
     @Environment(LiveInput.self) private var live
     @State private var side: Side = .left
 
@@ -1152,7 +1185,9 @@ struct TriggerTab: View {
         VStack(spacing: 28) {
             PillSegmented(selection: $side, options: [(.left, "Left trigger"), (.right, "Right trigger")])
             HStack(alignment: .top, spacing: 36) {
-                ForceAdaptPanel(side: side).frame(width: 320).id(side)
+                if model.capabilities.forceAdaptTriggers {
+                    ForceAdaptPanel(side: side).frame(width: 320).id(side)
+                }
                 VStack(alignment: .leading, spacing: 20) {
                     Field("Start (dead zone)") {
                         StepSlider(value: Binding(get: { Double(trig.zero) }, set: { v in set { $0.zero = UInt8(v) } }), range: 0...120, format: { "\(Int($0 / 255 * 100)) %" })
@@ -1190,7 +1225,7 @@ struct Battery: CustomStringConvertible {
         guard known else { return "battery.0percent" }
         switch percent { case 0..<13: return "battery.0percent"; case 13..<38: return "battery.25percent"; case 38..<63: return "battery.50percent"; case 63..<88: return "battery.75percent"; default: return "battery.100percent" }
     }
-    var description: String { charging ? "Charging" : (known ? "\(percent) %" : "—") }
+    var description: String { charging ? String(localized: "Charging") : (known ? "\(percent) %" : "—") }
 }
 
 

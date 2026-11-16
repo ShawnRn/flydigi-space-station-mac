@@ -77,7 +77,7 @@ struct DeviceCenterPage: View {
 
     private var deviceName: String {
         if !model.nickname.isEmpty { return model.nickname }
-        return model.info.flatMap { DeviceCatalog.descriptor(for: $0.deviceId)?.name } ?? "Flydigi controller"
+        return model.info.flatMap { DeviceCatalog.descriptor(for: $0.deviceId)?.localizedName } ?? String(localized: "Flydigi controller")
     }
     @State private var renamingDevice = false
     @State private var nicknameDraft = ""
@@ -114,7 +114,10 @@ struct DeviceCenterPage: View {
                         Text("Turn the controller on — it connects by itself").font(.system(size: 12)).foregroundStyle(SS.n300)
                     }
                 } else {
-                    Text(model.info.map { "Firmware \($0.firmware) · \(model.connection == .xinput ? "XInput" : "DInput")" } ?? "")
+                    Text(model.info.map {
+                        let modeLabel = model.connection == .xinput ? "XInput" : (model.connection == .newXInput ? "NewXInput" : "DInput")
+                        return String(localized: "Firmware \($0.firmware) · \(modeLabel)")
+                    } ?? "")
                         .font(.system(size: 12)).foregroundStyle(SS.n300)
                 }
                 if let u = model.firmwareUpdate, !model.awaitingPad {

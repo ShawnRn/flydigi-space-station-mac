@@ -25,7 +25,7 @@ final class HelperService: @unchecked Sendable {
     }
 
     private var idleTimer: DispatchWorkItem?
-    private static let idleHold: TimeInterval = 3   // keep the capture briefly so bursts of requests don't re-enumerate the pad each time
+    private static let idleHold: TimeInterval = 1.5   // keep the capture briefly for request bursts, then hand back promptly to games
     /// If the app dies mid-upload no frame ever arrives; give the pad back after 30 s of silence.
     private var uploadWatchdog: DispatchWorkItem?
     private func armUploadWatchdog() {
@@ -86,6 +86,25 @@ final class HelperService: @unchecked Sendable {
             case .deviceInfo:
                 let info = try withSession { try $0.deviceInfo() }
                 releaseIfIdle(); return .deviceInfo(HelperDeviceInfo(info))
+            case let .loadSnapshot(rememberedSlot, loadConfigs):
+                let snap = try withSession { s -> (HelperDeviceInfo, UInt8?, [[UInt8]], [UInt8]?, UInt8?) in
+                    let info = try s.deviceInfo()
+                    let cur = (try? s.currentConfigId()).flatMap { $0 < 4 ? $0 : nil }
+                    let targetSlot = cur ?? rememberedSlot
+                    var cfgs: [[UInt8]] = []
+                    if loadConfigs {
+                        s.configId = targetSlot; _ = try? s.readBlob(.config)   // burn quirk read
+                        for i in 0..<4 { s.configId = UInt8(i); cfgs.append(try s.readBlob(.config)) }
+                    }
+                    s.configId = targetSlot
+                    let led = (try? s.readBlob(.led))
+                    let sleepTime = try? s.screenSleepTime()
+                    if loadConfigs { try? s.applyConfig(slot: targetSlot) }
+                    s.configId = 0
+                    return (HelperDeviceInfo(info), cur, cfgs, led, sleepTime)
+                }
+                releaseIfIdle()
+                return .snapshot(info: snap.0, currentSlot: snap.1, configs: snap.2, led: snap.3, sleepTime: snap.4)
             case let .readLED(slot):
                 let led = try withSession { s in s.configId = slot; defer { s.configId = 0 }; return try s.readBlob(.led) }
                 releaseIfIdle(); return .blob(led)

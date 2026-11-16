@@ -16,6 +16,7 @@ public enum USBID {
     public static let xinputProduct: UInt16 = 0x028E
     public static let dinputVendor: UInt16 = 0x04B4
     public static let dinputProduct: UInt16 = 0x2412
+    public static let newXInputVendor: UInt16 = 0x37D7
     public static let dinputVendorInterface = 2
     public static let dinputVendorUsagePage: UInt32 = 0xFFA0
 }
@@ -186,4 +187,25 @@ public enum DInput {
 public enum BlobKind: Sendable, Hashable {
     case config   // 790 bytes on the Apex 4
     case led      // 500 bytes on the Apex 4
+}
+
+// MARK: - NewXInput framing (VID 0x37D7 — read-only discovery / identification)
+
+public enum NewXInput {
+    public static let prefix0: UInt8 = 0x5A
+    public static let prefix1: UInt8 = 0xA5
+    public static let frameLength = 32
+
+    /// `5A A5 01 02 00 ... <sum>`, optionally prefixed with a HID report ID byte (e.g. `0x03` on Apex 5).
+    public static func heartbeat(reportId: UInt8? = nil) -> [UInt8] {
+        var frame = [UInt8](repeating: 0, count: frameLength)
+        frame[0] = prefix0
+        frame[1] = prefix1
+        frame[2] = 0x01
+        frame[3] = 0x02
+        frame[4] = 0x00
+        frame[frameLength - 1] = frame[2..<(frameLength - 1)].reduce(0) { $0 &+ $1 }
+        if let reportId { return [reportId] + frame }
+        return frame
+    }
 }
