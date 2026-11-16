@@ -595,6 +595,26 @@
         }
       }
     },
+    "Apply Switch A↔B / X↔Y": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "套用 Switch 键位"
+          }
+        }
+      }
+    },
+    "Apply Switch A↔B / X↔Y layout": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "套用 Switch 键位（A↔B / X↔Y）"
+          }
+        }
+      }
+    },
     "Apply to Controller": {
       "localizations": {
         "pt-BR": {
@@ -2147,6 +2167,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "方向数"
+          }
+        }
+      }
+    },
+    "Disable A↔B / X↔Y": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消 A↔B / X↔Y 互换"
+          }
+        }
+      }
+    },
+    "Disable A↔B / X↔Y swap": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消 A↔B / X↔Y 互换"
           }
         }
       }
@@ -5641,6 +5681,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "粘贴飞智空间站分享码。导入的配置会保存到本地库，也可直接载入编辑器并写入手柄槽位。"
+          }
+        }
+      }
+    },
+    "Physical button": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "物理按键"
           }
         }
       }

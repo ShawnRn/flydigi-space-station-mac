@@ -469,7 +469,7 @@ struct HeroView: View {
                 }
             }
             Divider()
-            Button(profiles.isSwitchFaceLayoutActive ? "Restore Xbox A/B/X/Y layout" : "Swap A↔B / X↔Y (Switch layout)") {
+            Button(switchSwapMenuTitle) {
                 profiles.toggleSwitchFaceLayout()
             }
             .disabled(profiles.draft == nil)
@@ -527,6 +527,13 @@ struct HeroView: View {
         }
         return profiles.temporarySlot != nil ? String(localized: "\(base) · game") : base
     }
+
+    private var switchSwapMenuTitle: LocalizedStringKey {
+        if profiles.profileBank == .switchMode {
+            return profiles.isSwitchFaceLayoutActive ? "Disable A↔B / X↔Y swap" : "Apply Switch A↔B / X↔Y layout"
+        }
+        return profiles.isSwitchFaceLayoutActive ? "Restore Xbox A/B/X/Y layout" : "Swap A↔B / X↔Y (Switch layout)"
+    }
 }
 
 /// Key chips on the hero, matching the active controller's button layout.
@@ -560,6 +567,13 @@ struct HeroHotspots: View {
         return true
     }
 
+    private func mappedDisplayKey(for k: ControllerKey) -> ControllerKey {
+        switch profiles.draft?.keys[k] {
+        case .key(let target), .turbo(let target, _, _): return target
+        default: return k
+        }
+    }
+
     private func chipShape(_ h: Hotspot, scale s: CGFloat) -> AnyShape {
         if let sil = KeySilhouette.shape(for: h.key) { return AnyShape(sil) }
         switch h.shape {
@@ -582,7 +596,9 @@ struct HeroHotspots: View {
         let shape = chipShape(h, scale: s)
         let stroke: Color = selected ? SS.brand500 : (changed ? SS.brand.opacity(0.9) : SS.n400)
         let fill: Color = pressed ? SS.brand500.opacity(0.85) : (silhouette ? SS.n600 : SS.chipFill.opacity(0.95))
+        let displayKey = mappedDisplayKey(for: h.key)
         let name = h.key.localizedName(switchMode: isSwitch)
+        let displayName = displayKey.localizedName(switchMode: isSwitch)
         return Button { if h.clickable { onSelect(h.key) } } label: {
             ZStack {
                 if !isThumb {
@@ -596,7 +612,7 @@ struct HeroHotspots: View {
                     Circle().stroke(pressed ? SS.brand500 : SS.brand500, lineWidth: 2).frame(width: size.width, height: size.height)
                 }
                 KeyGlyph(
-                    key: h.key,
+                    key: displayKey,
                     switchMode: isSwitch,
                     size: max(8, min(12, size.height * (silhouette ? 0.3 : 0.42))),
                     foreground: h.clickable ? (isThumb ? SS.n300 : .white) : SS.n400
@@ -612,6 +628,7 @@ struct HeroHotspots: View {
         .position(x: h.center.x * s, y: h.center.y * s)
         .allowsHitTesting(h.clickable)
         .opacity(h.clickable ? 1 : 0.6)
+        .help(displayKey == h.key ? name : "\(name) → \(displayName)")
         .accessibilityLabel(changed ? "\(name) button, remapped" : "\(name) button")
         .animation(.easeOut(duration: 0.12), value: pressed)
     }
@@ -854,7 +871,9 @@ struct ButtonTab: View {
             }
             Spacer()
             GhostButton(
-                title: profiles.isSwitchFaceLayoutActive ? "Restore Xbox A/B/X/Y" : "Swap A↔B / X↔Y",
+                title: profiles.profileBank == .switchMode
+                    ? (profiles.isSwitchFaceLayoutActive ? "Disable A↔B / X↔Y" : "Apply Switch A↔B / X↔Y")
+                    : (profiles.isSwitchFaceLayoutActive ? "Restore Xbox A/B/X/Y" : "Swap A↔B / X↔Y"),
                 icon: "arrow.left.arrow.right",
                 enabled: profiles.draft != nil && !model.busy
             ) {
@@ -933,9 +952,11 @@ struct KeyEditor: View {
     }
 
     private var inputColumn: some View {
-        VStack(spacing: 8) {
-            KeyBadge(label: Apex4Render.shortLabel(key, switchMode: isSwitch), key: key, switchMode: isSwitch, size: 32)
-            Text("Input").font(.system(size: 12)).foregroundStyle(SS.n300)
+        let physicalFace = [.a, .b, .x, .y].contains(key)
+        let showSwitchGlyph = isSwitch && !physicalFace
+        return VStack(spacing: 8) {
+            KeyBadge(label: Apex4Render.shortLabel(key, switchMode: showSwitchGlyph), key: key, switchMode: showSwitchGlyph, size: 32)
+            Text(physicalFace && isSwitch ? "Physical button" : "Input").font(.system(size: 12)).foregroundStyle(SS.n300)
         }
     }
 
