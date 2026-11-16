@@ -8,7 +8,7 @@ public enum HelperConstants {
     /// launchd label == MachServices name == daemon plist file name (minus .plist).
     public static let machService = "com.uiltonlopes.spacestation.helper"
     public static let plistName = "com.uiltonlopes.spacestation.helper.plist"
-    public static let protocolVersion = 2
+    public static let protocolVersion = 3
 }
 
 public enum HelperRequest: Codable, Sendable {
@@ -53,7 +53,7 @@ public enum HelperReply: Codable, Sendable {
     case ok
     case pong(version: Int, uid: UInt32)
     case deviceInfo(HelperDeviceInfo)
-    case snapshot(info: HelperDeviceInfo, currentSlot: UInt8?, configs: [[UInt8]], led: [UInt8]?, sleepTime: UInt8?)
+    case snapshot(info: HelperDeviceInfo, currentSlot: UInt8?, configs: [[UInt8]], led: [UInt8]?, sleepTime: UInt8?, reportRate: UInt8?)
     case blob([UInt8])
     case frameDone(index: Int)
     case slot(UInt8)

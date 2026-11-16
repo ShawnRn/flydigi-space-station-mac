@@ -87,7 +87,7 @@ final class HelperService: @unchecked Sendable {
                 let info = try withSession { try $0.deviceInfo() }
                 releaseIfIdle(); return .deviceInfo(HelperDeviceInfo(info))
             case let .loadSnapshot(rememberedSlot, loadConfigs):
-                let snap = try withSession { s -> (HelperDeviceInfo, UInt8?, [[UInt8]], [UInt8]?, UInt8?) in
+                let snap = try withSession { s -> (HelperDeviceInfo, UInt8?, [[UInt8]], [UInt8]?, UInt8?, UInt8?) in
                     let info = try s.deviceInfo()
                     let cur = (try? s.currentConfigId()).flatMap { $0 < 4 ? $0 : nil }
                     let targetSlot = cur ?? rememberedSlot
@@ -99,12 +99,14 @@ final class HelperService: @unchecked Sendable {
                     s.configId = targetSlot
                     let led = (try? s.readBlob(.led))
                     let sleepTime = try? s.screenSleepTime()
+                    let supportsRate = DeviceCatalog.descriptor(for: info.deviceId)?.capabilities.supportsReportRate == true
+                    let reportRate = supportsRate ? (try? s.readJoystickSettings().reportRate) : nil
                     if loadConfigs { try? s.applyConfig(slot: targetSlot) }
                     s.configId = 0
-                    return (HelperDeviceInfo(info), cur, cfgs, led, sleepTime)
+                    return (HelperDeviceInfo(info), cur, cfgs, led, sleepTime, reportRate)
                 }
                 releaseIfIdle()
-                return .snapshot(info: snap.0, currentSlot: snap.1, configs: snap.2, led: snap.3, sleepTime: snap.4)
+                return .snapshot(info: snap.0, currentSlot: snap.1, configs: snap.2, led: snap.3, sleepTime: snap.4, reportRate: snap.5)
             case let .readLED(slot):
                 let led = try withSession { s in s.configId = slot; defer { s.configId = 0 }; return try s.readBlob(.led) }
                 releaseIfIdle(); return .blob(led)

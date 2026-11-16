@@ -320,7 +320,7 @@ public final class DeviceSession: @unchecked Sendable {
         }
     }
 
-    public enum JoystickOption: UInt8, Sendable { case debounce = 0x08, autoCalibration = 0x09, precision = 0x0B, sensitivity = 0x0D, rebound = 0x0E }
+    public enum JoystickOption: UInt8, Sendable { case debounce = 0x08, autoCalibration = 0x09, reportRate = 0x0A, precision = 0x0B, sensitivity = 0x0D, rebound = 0x0E }
     /// Toggles are inverted on the wire (0 = enabled, 1 = disabled); precision / sensitivity take the raw value.
     public func setJoystickOption(_ opt: JoystickOption, value: UInt8) throws {
         switch channel {

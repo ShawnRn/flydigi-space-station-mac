@@ -92,7 +92,8 @@ final class ControllerModel {
             if now == .none {
                 consecutiveTimeouts = 0
                 lastSnapshotHandledSlots = false
-                info = nil; led = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil
+                info = nil; led = nil; joystickSettings = nil; manualReportRate = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil
+                profiles.resetBankOnDisconnect()
                 padPoll?.cancel(); padPoll = nil
             } else {
                 await refresh()
@@ -153,15 +154,15 @@ final class ControllerModel {
         guard connection != .none else {
             consecutiveTimeouts = 0
             lastSnapshotHandledSlots = false
-            info = nil; led = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil; padPoll?.cancel(); padPoll = nil; return
+            info = nil; led = nil; joystickSettings = nil; manualReportRate = nil; firmwareUpdate = nil; firmwareCheckedFor = nil; lastError = nil; padPoll?.cancel(); padPoll = nil; return
         }
         let conn = connection, installed = helperInstalled
         let remembered = UInt8(clamping: UserDefaults.standard.integer(forKey: "activeSlot"))
-        let shouldLoadConfigs = !profiles.isDirty
+        let shouldLoadConfigs = !profiles.isDirty && profiles.profileBank == .pc
         let hadInfo = info != nil
 
         enum RefreshOutcome: Sendable {
-            case classic(HelperDeviceInfo, LEDConfig, UInt8?)
+            case classic(HelperDeviceInfo, LEDConfig, UInt8?, UInt8?)
             case snapshot(HelperClient.Snapshot)
             case identifiedOnly(HelperDeviceInfo)
         }
@@ -176,18 +177,20 @@ final class ControllerModel {
                 let cur = (try? s.currentConfigId()).flatMap { $0 < 4 ? $0 : nil }
                 s.configId = cur ?? remembered
                 let l = try s.readLED()
-                return RefreshOutcome.classic(HelperDeviceInfo(i), l, cur)
+                let supportsRate = DeviceCatalog.descriptor(for: i.deviceId)?.capabilities.supportsReportRate == true
+                let rate = supportsRate ? (try? s.readJoystickSettings().reportRate) : nil
+                return RefreshOutcome.classic(HelperDeviceInfo(i), l, cur, rate)
             case .xinput:
                 guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                 guard installed else { throw HelperClient.shared.status == .requiresApproval ? HelperError.awaitingApproval : HelperError.notInstalled }
                 guard HelperClient.shared.isResponding() else { throw HelperError.notResponding }
-                if (HelperClient.shared.runningProtocolVersion ?? 1) >= 2 {
+                if (HelperClient.shared.runningProtocolVersion ?? 1) >= 3 {
                     let snap = try HelperClient.shared.loadSnapshot(rememberedSlot: remembered, loadConfigs: shouldLoadConfigs)
                     return RefreshOutcome.snapshot(snap)
                 }
                 let i = try HelperClient.shared.deviceInfo()
                 let cur = (try? HelperClient.shared.currentSlot()).flatMap { $0 < 4 ? $0 : nil }
-                return RefreshOutcome.classic(i, try HelperClient.shared.readLED(slot: cur ?? remembered), cur)
+                return RefreshOutcome.classic(i, try HelperClient.shared.readLED(slot: cur ?? remembered), cur, nil)
             case .newXInput:
                 let i = try NewXInputProbe.probeDeviceInfo()
                 return RefreshOutcome.identifiedOnly(HelperDeviceInfo(i))
@@ -197,8 +200,9 @@ final class ControllerModel {
         } onSuccess: { (outcome: RefreshOutcome) in
             self.consecutiveTimeouts = 0
             switch outcome {
-            case let .classic(i, l, cur):
+            case let .classic(i, l, cur, rate):
                 self.info = i; self.led = l; self.padSlot = cur
+                self.manualReportRate = rate.flatMap(ReportRate.init(rawValue:))
                 if conn == .xinput { self.helperResponding = true }
                 if let cur { UserDefaults.standard.set(Int(cur), forKey: "activeSlot") }
             case let .snapshot(snap):
@@ -206,6 +210,7 @@ final class ControllerModel {
                 self.padSlot = snap.currentSlot
                 if let l = snap.led { self.led = l }
                 if let s = snap.sleepTime { self.sleepMinutes = s }
+                self.manualReportRate = snap.reportRate.flatMap(ReportRate.init(rawValue:))
                 self.helperResponding = true
                 let effectiveSlot = snap.currentSlot ?? remembered
                 if let cur = snap.currentSlot { UserDefaults.standard.set(Int(cur), forKey: "activeSlot") }
@@ -214,7 +219,7 @@ final class ControllerModel {
                     self.profiles.applySnapshot(current: effectiveSlot, blobs: snap.configs)
                 }
             case let .identifiedOnly(i):
-                self.info = i; self.led = nil; self.padSlot = nil
+                self.info = i; self.led = nil; self.padSlot = nil; self.manualReportRate = nil
             }
         }
         if let fw = info?.firmware, firmwareCheckedFor != fw { firmwareCheckedFor = fw; Task { await checkFirmware() } }
@@ -233,7 +238,7 @@ final class ControllerModel {
     func padWentSilent() {
         guard connection != .none else { return }
         batteryReread?.cancel(); batteryReread = nil
-        info = nil; led = nil; firmwareUpdate = nil; firmwareCheckedFor = nil
+        info = nil; led = nil; joystickSettings = nil; manualReportRate = nil; firmwareUpdate = nil; firmwareCheckedFor = nil
         // In XInput every request goes through the helper: when it is the reason, say so instead of blaming the pad.
         // The poll below keeps running, so the pad still shows up by itself once the helper works.
         if let why = helperProblem { lastError = why } else {
@@ -583,6 +588,22 @@ final class ControllerModel {
     // MARK: Calibration & joystick hardware switches
 
     var joystickSettings: JoystickSettings?
+    private var manualReportRate: ReportRate?
+    var reportRate: ReportRate? { manualReportRate ?? joystickSettings.flatMap { ReportRate(rawValue: $0.reportRate) } }
+
+    func setReportRate(_ rate: ReportRate) async {
+        let conn = connection
+        await run({
+            switch conn {
+            case .dinput: let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }; try s.setJoystickOption(.reportRate, value: rate.rawValue)
+            case .xinput: guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }; try HelperClient.shared.setJoystickOption(.reportRate, value: rate.rawValue)
+            case .none, .newXInput: throw HelperError.transport("no controller")
+            }
+        }, onSuccess: { (_: Void) in
+            self.manualReportRate = rate
+            self.joystickSettings?.reportRate = rate.rawValue
+        })
+    }
 
     func loadJoystickSettings() async {
         let conn = connection
@@ -592,7 +613,10 @@ final class ControllerModel {
             case .xinput: return try HelperClient.shared.readJoystickSettings()
             case .none, .newXInput: throw HelperError.transport("no controller")
             }
-        }, onSuccess: { (j: JoystickSettings) in self.joystickSettings = j })
+        }, onSuccess: { (j: JoystickSettings) in
+            self.joystickSettings = j
+            if let r = ReportRate(rawValue: j.reportRate) { self.manualReportRate = r }
+        })
     }
 
     func setJoystickToggle(_ opt: DeviceSession.JoystickOption, enabled: Bool) async {

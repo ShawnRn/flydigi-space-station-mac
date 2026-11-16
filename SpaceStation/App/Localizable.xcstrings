@@ -1761,6 +1761,16 @@
         }
       }
     },
+    "Current polling rate: %lld Hz": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前硬件回报率：%lld Hz"
+          }
+        }
+      }
+    },
     "Curve cannot be adjusted in current mode — X: stick position, Y: output": {
       "localizations": {
         "pt-BR": {
@@ -2421,6 +2431,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "编辑宏"
+          }
+        }
+      }
+    },
+    "Editing Nintendo Switch onboard slots (NS 1–4); saved to flash on Apply. Keyboard/mouse mappings are omitted in NS mode.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前正在编辑手柄板载 Switch 专用槽位（NS 1–4），点击“应用”即写入闪存；NS 模式下自动忽略键盘/鼠标映射。"
           }
         }
       }
@@ -4761,6 +4781,16 @@
         }
       }
     },
+    "NS Slot %lld": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NS 配置 %lld"
+          }
+        }
+      }
+    },
     "Name": {
       "localizations": {
         "pt-BR": {
@@ -6289,6 +6319,16 @@
         }
       }
     },
+    "Report rate": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回报率"
+          }
+        }
+      }
+    },
     "Report rate %lld Hz": {
       "localizations": {
         "pt-BR": {
@@ -6365,6 +6405,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "立即重启应用"
+          }
+        }
+      }
+    },
+    "Restore Xbox A/B/X/Y": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复 A/B/X/Y"
+          }
+        }
+      }
+    },
+    "Restore Xbox A/B/X/Y layout": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复 Xbox 原生 A/B/X/Y 布局"
           }
         }
       }
@@ -7585,6 +7645,66 @@
         }
       }
     },
+    "Swap A↔B / X↔Y": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "互换 A↔B / X↔Y"
+          }
+        }
+      }
+    },
+    "Swap A↔B / X↔Y (Switch layout)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "互换 A↔B / X↔Y（Switch 布局）"
+          }
+        }
+      }
+    },
+    "Swap A↔B and X↔Y for Nintendo Switch layout, or switch to the NS slots in the top bar.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可一键互换 A↔B / X↔Y 为任天堂 Switch 布局，或在右上角切换至 NS 槽位单独配置。"
+          }
+        }
+      }
+    },
+    "Switch (NS) mode slots": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch (NS) 模式专用槽位"
+          }
+        }
+      }
+    },
+    "Switch between PC slots (1–4) and Nintendo Switch mode slots (NS 1–4)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换 PC 模式槽位（配置 1–4）与 Nintendo Switch 模式专用槽位（NS 1–4）"
+          }
+        }
+      }
+    },
+    "Switch face layout": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch (NS) 键位布局"
+          }
+        }
+      }
+    },
     "Switch to DInput": {
       "localizations": {
         "pt-BR": {
@@ -8529,6 +8649,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "开启手柄电源——设备将自动连接"
+          }
+        }
+      }
+    },
+    "USB / 2.4 GHz hardware polling rate.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USB / 2.4 GHz 硬件轮询率。"
           }
         }
       }

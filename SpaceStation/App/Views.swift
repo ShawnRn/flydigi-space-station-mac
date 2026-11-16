@@ -376,6 +376,7 @@ struct HeroView: View {
     @State private var showShare = false
     @State private var showImport = false
     @State private var confirmNS = false
+    @State private var pendingBank: ProfileStore.ProfileBank?
 
     var body: some View {
         GeometryReader { g in
@@ -410,10 +411,49 @@ struct HeroView: View {
                     PrimaryButton(title: "Apply", icon: "checkmark", enabled: !profiles.busy) { Task { await profiles.apply() } }
                         .help("Write this profile to the controller and save it (⌘S)")
                 }
+                if model.connection == .xinput || model.connection == .dinput {
+                    bankPicker
+                }
                 profileMenu
             }
             Spacer()
         }
+        .confirmationDialog("Discard unsaved changes to this profile?", isPresented: Binding(get: { pendingBank != nil }, set: { if !$0 { pendingBank = nil } })) {
+            Button("Discard and Switch", role: .destructive) {
+                if let b = pendingBank { profiles.revert(); Task { await profiles.switchBank(b) } }
+                pendingBank = nil
+            }
+            Button("Cancel", role: .cancel) { pendingBank = nil }
+        }
+    }
+
+    private var bankPicker: some View {
+        HStack(spacing: 2) {
+            bankPill(.pc, title: "PC")
+            bankPill(.switchMode, title: "NS")
+        }
+        .padding(3)
+        .background(SS.n700.opacity(0.9), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(SS.n500))
+        .help("Switch between PC slots (1–4) and Nintendo Switch mode slots (NS 1–4)")
+    }
+
+    private func bankPill(_ bank: ProfileStore.ProfileBank, title: String) -> some View {
+        let on = profiles.profileBank == bank
+        return Button {
+            guard bank != profiles.profileBank, !profiles.busy else { return }
+            if profiles.isDirty { pendingBank = bank } else { Task { await profiles.switchBank(bank) } }
+        } label: {
+            Text(title)
+                .font(.system(size: 12, weight: on ? .semibold : .medium))
+                .foregroundStyle(on ? .white : SS.n300)
+                .padding(.horizontal, 10)
+                .frame(height: 28)
+                .background(on ? SS.brand500 : .clear, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(profiles.busy)
     }
 
     private var profileMenu: some View {
@@ -422,15 +462,22 @@ struct HeroView: View {
                 Button {
                     if profiles.isDirty { pendingSlot = s.index } else { profiles.select(slot: s.index) }
                 } label: {
-                    let slotBase = String(localized: "Slot \(s.index + 1)")
-                    let name = s.config.title.isEmpty ? slotBase : "\(s.index + 1) · \(s.config.title)"
+                    let num = profiles.displayNumber(for: s.index)
+                    let slotBase = profiles.profileBank == .switchMode ? String(localized: "NS Slot \(num)") : String(localized: "Slot \(num)")
+                    let name = s.config.title.isEmpty ? slotBase : (profiles.profileBank == .switchMode ? "NS \(num) · \(s.config.title)" : "\(num) · \(s.config.title)")
                     if s.index == profiles.activeSlot { Label(name, systemImage: "checkmark") } else { Text(name) }
                 }
             }
             Divider()
+            Button(profiles.isSwitchFaceLayoutActive ? "Restore Xbox A/B/X/Y layout" : "Swap A↔B / X↔Y (Switch layout)") {
+                profiles.toggleSwitchFaceLayout()
+            }
+            .disabled(profiles.draft == nil)
             Button("Rename profile…") { renaming = true }.disabled(profiles.draft == nil)
             Button("Restore default configuration…") { confirmReset = true }.disabled(profiles.draft == nil)
-            Button("Apply to NS mode…") { confirmNS = true }.disabled(profiles.draft == nil || model.connection == .none)
+            if profiles.profileBank == .pc {
+                Button("Apply to NS mode…") { confirmNS = true }.disabled(profiles.draft == nil || model.connection == .none)
+            }
             Divider()
             Button("Saved profiles…") { showLibrary = true }
             Divider()
@@ -471,7 +518,13 @@ struct HeroView: View {
     private var profileTitle: String {
         guard profiles.draft != nil else { return String(localized: "No profile") }
         let t = profiles.draft?.title ?? ""
-        let base = t.isEmpty ? String(localized: "Slot \(profiles.shownSlot + 1)") : t
+        let num = profiles.displayNumber(for: profiles.shownSlot)
+        let base: String
+        if profiles.profileBank == .switchMode {
+            base = t.isEmpty ? String(localized: "NS Slot \(num)") : "NS · \(t)"
+        } else {
+            base = t.isEmpty ? String(localized: "Slot \(num)") : t
+        }
         return profiles.temporarySlot != nil ? String(localized: "\(base) · game") : base
     }
 }
@@ -590,6 +643,15 @@ struct ControllerPanel: View {
                 DarkSelect(selection: Binding(get: { Int(model.sleepMinutes ?? 15) }, set: { v in Task { await model.setSleepTime(UInt8(v)) } }),
                            options: [(1, "1 min"), (5, "5 min"), (15, "15 min"), (60, "1 h"), (180, "3 h"), (0, "Never")], disabled: model.connection == .none || model.busy)
                 Text("Idle time before the controller sleeps; Home wakes it.").font(.system(size: 11)).foregroundStyle(SS.n400)
+            }
+            if model.capabilities.supportsReportRate || model.reportRate != nil {
+                Field("Report rate") {
+                    DarkSelect(selection: Binding<ReportRate?>(get: { model.reportRate }, set: { if let rate = $0 { Task { await model.setReportRate(rate) } } }),
+                               options: ReportRate.sortedAscending.map { (Optional($0), "\($0.hz) Hz") },
+                               disabled: (model.connection != .xinput && model.connection != .dinput) || model.busy)
+                    Text(model.reportRate.map { String(localized: "Current polling rate: \($0.hz) Hz") } ?? String(localized: "USB / 2.4 GHz hardware polling rate."))
+                        .font(.system(size: 11)).foregroundStyle(SS.n400)
+                }
             }
             Field("Fast swap") {
                 SwitchRow(title: "SELECT + A / B / X / Y switches profiles", isOn: Binding(get: { UserDefaults.standard.bool(forKey: "quickSwitch.\(mac)") }, set: { on in Task { await model.setQuickSwitch(on) } }))
@@ -754,19 +816,51 @@ struct VibrationPanel: View {
 
 struct ButtonTab: View {
     @Environment(ProfileStore.self) private var profiles
+    @Environment(ControllerModel.self) private var model
     @Binding var tab: HomeTab
     var body: some View {
-        if let key = profiles.selectedKey, let mapping = profiles.draft?.keys[key] {
-            KeyEditor(key: key, mapping: mapping, tab: $tab)
-        } else {
-            HStack(spacing: 10) {
-                Image(systemName: "hand.tap").font(.system(size: 18)).foregroundStyle(.white)
-                Text("Click any button on the controller image above to modify its mapping.").font(.system(size: 13)).foregroundStyle(.white)
+        VStack(spacing: 20) {
+            switchBanner
+            if let key = profiles.selectedKey, let mapping = profiles.draft?.keys[key] {
+                KeyEditor(key: key, mapping: mapping, tab: $tab)
+            } else {
+                HStack(spacing: 10) {
+                    Image(systemName: "hand.tap").font(.system(size: 18)).foregroundStyle(.white)
+                    Text("Click any button on the controller image above to modify its mapping.").font(.system(size: 13)).foregroundStyle(.white)
+                }
+                .padding(.horizontal, 20).frame(height: 44)
+                .background(SS.n700, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .frame(maxWidth: .infinity)
             }
-            .padding(.horizontal, 20).frame(height: 44)
-            .background(SS.n700, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .frame(maxWidth: .infinity)
         }
+    }
+
+    private var switchBanner: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "gamecontroller.fill")
+                .font(.system(size: 14))
+                .foregroundStyle(profiles.profileBank == .switchMode ? SS.brand500 : SS.n300)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(profiles.profileBank == .switchMode ? "Switch (NS) mode slots" : "Switch face layout")
+                    .font(.system(size: 12, weight: .semibold)).foregroundStyle(.white)
+                Text(profiles.profileBank == .switchMode
+                     ? "Editing Nintendo Switch onboard slots (NS 1–4); saved to flash on Apply. Keyboard/mouse mappings are omitted in NS mode."
+                     : "Swap A↔B and X↔Y for Nintendo Switch layout, or switch to the NS slots in the top bar.")
+                    .font(.system(size: 11)).foregroundStyle(SS.n400)
+            }
+            Spacer()
+            GhostButton(
+                title: profiles.isSwitchFaceLayoutActive ? "Restore Xbox A/B/X/Y" : "Swap A↔B / X↔Y",
+                icon: "arrow.left.arrow.right",
+                enabled: profiles.draft != nil && !model.busy
+            ) {
+                profiles.toggleSwitchFaceLayout()
+            }
+        }
+        .padding(.horizontal, 14).padding(.vertical, 10)
+        .background(SS.n700.opacity(0.65), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(profiles.profileBank == .switchMode ? SS.brand500.opacity(0.55) : SS.n600))
+        .frame(maxWidth: 920)
     }
 }
 
@@ -785,15 +879,19 @@ struct KeyEditor: View {
     }
 
     enum Kind: Hashable { case click, turbo, macro, special }
-    private var kind: Kind { switch mapping { case .identity, .key: .click; case .turbo: .turbo; case .macro: .macro; case .keyboardMouse: .special } }
+    private var kindOptions: [(Kind, String)] {
+        profiles.profileBank == .switchMode
+            ? [(.click, "Click"), (.turbo, "Turbo"), (.macro, "Macro")]
+            : [(.click, "Click"), (.turbo, "Turbo"), (.macro, "Macro"), (.special, "Special")]
+    }
+    private var kind: Kind { switch mapping { case .identity, .key: .click; case .turbo: .turbo; case .macro: .macro; case .keyboardMouse: profiles.profileBank == .switchMode ? .click : .special } }
     private var target: ControllerKey { switch mapping { case .key(let t), .turbo(let t, _, _): t; default: key } }
     private var turboEnable: GamepadConfig.TurboEnable { if case .turbo(_, let en, _) = mapping { return en }; return .press }
     private var turboFreq: Double { if case .turbo(_, _, let f) = mapping { return Double(f) }; return 15 }
 
     var body: some View {
         VStack(spacing: 28) {
-            PillSegmented(selection: Binding(get: { kind }, set: { setKind($0) }),
-                          options: [(.click, "Click"), (.turbo, "Turbo"), (.macro, "Macro"), (.special, "Special")])
+            PillSegmented(selection: Binding(get: { kind }, set: { setKind($0) }), options: kindOptions)
             switch kind {
             case .click: clickEditor
             case .turbo: turboEditor

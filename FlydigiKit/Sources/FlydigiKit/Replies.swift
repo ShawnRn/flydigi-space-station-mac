@@ -156,6 +156,25 @@ public struct BlobAssembler: Sendable {
 }
 
 
+/// Polling-rate enum values used by `A5 50 07` (read) and `A5 50 0A` / `05 50 0A` (write).
+public enum ReportRate: UInt8, Codable, Sendable, Hashable, CaseIterable {
+    case hz1000 = 1
+    case hz500 = 2
+    case hz250 = 4
+    case hz125 = 8
+
+    public var hz: Int {
+        switch self {
+        case .hz1000: 1000
+        case .hz500: 500
+        case .hz250: 250
+        case .hz125: 125
+        }
+    }
+
+    public static let sortedAscending: [ReportRate] = [.hz125, .hz250, .hz500, .hz1000]
+}
+
 /// Hardware "function" switches Space Station exposes under Controller Settings (docs/protocol.md §11).
 public struct JoystickSettings: Sendable, Hashable {
     public var debounce: Bool           // "joystick debounce": filters ±0.001 jitter at rest

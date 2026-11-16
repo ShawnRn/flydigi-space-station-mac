@@ -32,6 +32,7 @@ public struct DeviceDescriptor: Sendable, Hashable, Identifiable {
         public var triggerVibration: Bool
         public var backPaddles: Int
         public var hasCZButtons: Bool
+        public var supportsReportRate: Bool
 
         public init(
             ledGroups: Int,
@@ -42,7 +43,8 @@ public struct DeviceDescriptor: Sendable, Hashable, Identifiable {
             grip: Bool,
             triggerVibration: Bool,
             backPaddles: Int = 4,
-            hasCZButtons: Bool = false
+            hasCZButtons: Bool = false,
+            supportsReportRate: Bool = false
         ) {
             self.ledGroups = ledGroups
             self.screen = screen
@@ -53,6 +55,7 @@ public struct DeviceDescriptor: Sendable, Hashable, Identifiable {
             self.triggerVibration = triggerVibration
             self.backPaddles = backPaddles
             self.hasCZButtons = hasCZButtons
+            self.supportsReportRate = supportsReportRate
         }
 
         public static func == (a: Capabilities, b: Capabilities) -> Bool {
@@ -66,6 +69,7 @@ public struct DeviceDescriptor: Sendable, Hashable, Identifiable {
             && a.triggerVibration == b.triggerVibration
             && a.backPaddles == b.backPaddles
             && a.hasCZButtons == b.hasCZButtons
+            && a.supportsReportRate == b.supportsReportRate
         }
         public func hash(into h: inout Hasher) {
             h.combine(ledGroups)
@@ -77,6 +81,7 @@ public struct DeviceDescriptor: Sendable, Hashable, Identifiable {
             h.combine(triggerVibration)
             h.combine(backPaddles)
             h.combine(hasCZButtons)
+            h.combine(supportsReportRate)
         }
     }
 
@@ -98,9 +103,9 @@ public enum DeviceCatalog {
     public static let apex4Capabilities = DeviceDescriptor.Capabilities(
         ledGroups: 4, screen: (160, 80, 35), configSlots: 4, forceAdaptTriggers: true, gyro: true, grip: true, triggerVibration: false, backPaddles: 4, hasCZButtons: false)
     public static let vader4ProCapabilities = DeviceDescriptor.Capabilities(
-        ledGroups: 1, screen: nil, configSlots: 4, forceAdaptTriggers: false, gyro: true, grip: true, triggerVibration: true, backPaddles: 4, hasCZButtons: true)
+        ledGroups: 1, screen: nil, configSlots: 4, forceAdaptTriggers: false, gyro: true, grip: true, triggerVibration: true, backPaddles: 4, hasCZButtons: true, supportsReportRate: true)
     public static let direwolfCapabilities = DeviceDescriptor.Capabilities(
-        ledGroups: 0, screen: nil, configSlots: 4, forceAdaptTriggers: false, gyro: true, grip: true, triggerVibration: false, backPaddles: 2, hasCZButtons: false)
+        ledGroups: 0, screen: nil, configSlots: 4, forceAdaptTriggers: false, gyro: true, grip: true, triggerVibration: false, backPaddles: 2, hasCZButtons: false, supportsReportRate: true)
     public static let genericCapabilities = DeviceDescriptor.Capabilities(
         ledGroups: 0, screen: nil, configSlots: 4, forceAdaptTriggers: false, gyro: true, grip: true, triggerVibration: false, backPaddles: 2, hasCZButtons: false)
 

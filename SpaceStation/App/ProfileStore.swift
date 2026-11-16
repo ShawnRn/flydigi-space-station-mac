@@ -10,14 +10,31 @@ import FlydigiHelperProtocol
 
 @MainActor @Observable
 final class ProfileStore {
+    enum ProfileBank: String, CaseIterable, Hashable {
+        case pc
+        case switchMode
+    }
+
     struct Slot: Identifiable { let index: UInt8; var config: GamepadConfig; var id: UInt8 { index } }
 
+    var profileBank: ProfileBank = .pc
     var slots: [Slot] = []
-    /// The slot the pad should run. Remembered per controller because `A5 20` reports the last slot *read*
-    /// (a cursor), not the active one — trusting it after reads would silently activate the wrong profile.
-    var activeSlot: UInt8 = 0 { didSet { UserDefaults.standard.set(Int(activeSlot), forKey: "activeSlot"); temporarySlot = nil } }
+    private(set) var pcActiveSlot: UInt8 = UInt8(clamping: min(3, max(0, UserDefaults.standard.integer(forKey: "activeSlot"))))
+    /// The slot the pad should run (0…3 for PC bank, 4…7 for Switch NS bank).
+    var activeSlot: UInt8 = 0 {
+        didSet {
+            if activeSlot < 4 {
+                pcActiveSlot = activeSlot
+                UserDefaults.standard.set(Int(activeSlot), forKey: "activeSlot")
+            }
+            temporarySlot = nil
+        }
+    }
     /// Slot currently on the pad (a game rule may have moved it temporarily).
     var shownSlot: UInt8 { temporarySlot ?? activeSlot }
+    func displayNumber(for slotIndex: UInt8) -> Int {
+        Int(slotIndex >= 4 ? slotIndex - 4 : slotIndex) + 1
+    }
     var draft: GamepadConfig?                 // edited copy of the active slot
     /// Set by the Buttons tab's "Edit macro" arrow; the Macros page opens this macro when it appears, then clears it.
     var macroToOpen: Int?
@@ -40,12 +57,20 @@ final class ProfileStore {
         }
     }
 
+    func resetBankOnDisconnect() {
+        profileBank = .pc
+        slots = []
+        draft = nil
+        activeSlot = pcActiveSlot
+    }
+
     /// Applies pre-fetched config blobs from a batched XInput snapshot without triggering another USB capture.
     func applySnapshot(current: UInt8, blobs: [[UInt8]]) {
+        guard profileBank == .pc else { return }
         let mapped = blobs.enumerated().compactMap { i, b in GamepadConfig(bytes: b).map { Slot(index: UInt8(i), config: $0) } }
         guard !mapped.isEmpty else { return }
         slots = mapped
-        activeSlot = current
+        activeSlot = current < 4 ? current : pcActiveSlot
         if !isDirty { draft = slots.first { $0.index == activeSlot }?.config }
         lastError = nil
     }
@@ -66,28 +91,36 @@ final class ProfileStore {
         }
         busy = true; defer { busy = false }
         let conn = controller.connection
-        // The slot the pad was on, captured by ControllerModel.refresh before any read moved the cursor.
-        let wanted = controller.padSlot ?? UInt8(clamping: UserDefaults.standard.integer(forKey: "activeSlot"))
+        let bank = profileBank
+        let startSlot: UInt8 = bank == .pc ? 0 : 4
+        // Re-apply the active PC slot after reading so reading Switch slots (4…7) or other PC slots never shifts the pad cursor.
+        let restorePC = controller.padSlot.flatMap { $0 < 4 ? $0 : nil } ?? pcActiveSlot
+        let targetDefault = bank == .pc ? restorePC : (activeSlot >= 4 ? activeSlot : 4)
         let result: Result<(UInt8, [(UInt8, [UInt8])]), Error> = await Task.detached {
             Result {
                 switch conn {
                 case .dinput:
                     let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }
-                    // Quirk: a config read whose id equals the last LED read's id returns the *previous* config
-                    // instead (docs/protocol.md §10) — burn one read of that slot first.
-                    s.configId = wanted; _ = try? s.readBlob(.config)
+                    s.configId = targetDefault; _ = try? s.readBlob(.config)
                     var out: [(UInt8, [UInt8])] = []
-                    for i in 0..<4 { s.configId = UInt8(i); out.append((UInt8(i), try s.readBlob(.config))) }
-                    try? s.applyConfig(slot: wanted)               // reads move the pad's cursor; put the chosen profile back
-                    return (wanted, out)
+                    for offset in 0..<UInt8(4) {
+                        let id = startSlot + offset
+                        s.configId = id
+                        out.append((id, try s.readBlob(.config)))
+                    }
+                    try? s.applyConfig(slot: restorePC)
+                    return (targetDefault, out)
                 case .xinput:
                     guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                     let h = HelperClient.shared
-                    _ = try? h.readConfig(slot: wanted)             // same quirk as above: burn one read
+                    _ = try? h.readConfig(slot: targetDefault)
                     var out: [(UInt8, [UInt8])] = []
-                    for i in 0..<4 { out.append((UInt8(i), try h.readConfig(slot: UInt8(i)))) }
-                    try h.applySlot(wanted)                        // reads move the pad's cursor; put the chosen profile back
-                    return (wanted, out)
+                    for offset in 0..<UInt8(4) {
+                        let id = startSlot + offset
+                        out.append((id, try h.readConfig(slot: id)))
+                    }
+                    try h.applySlot(restorePC)
+                    return (targetDefault, out)
                 case .none, .newXInput: throw HelperError.transport("no controller")
                 }
             }
@@ -106,16 +139,50 @@ final class ProfileStore {
         }
     }
 
+    func switchBank(_ bank: ProfileBank) async {
+        guard bank != profileBank, !busy else { return }
+        profileBank = bank
+        activeSlot = bank == .pc ? pcActiveSlot : 4
+        slots = []
+        draft = nil
+        await loadAll(force: true)
+    }
+
+    var isSwitchFaceLayoutActive: Bool {
+        guard let keys = draft?.keys else { return false }
+        return keys[.a] == .key(.b) && keys[.b] == .key(.a) && keys[.x] == .key(.y) && keys[.y] == .key(.x)
+    }
+
+    /// Toggles Nintendo Switch face button swap (`A↔B` and `X↔Y`) on the current draft.
+    func toggleSwitchFaceLayout() {
+        guard var cfg = draft else { return }
+        if isSwitchFaceLayoutActive {
+            cfg.keys[.a] = .identity
+            cfg.keys[.b] = .identity
+            cfg.keys[.x] = .identity
+            cfg.keys[.y] = .identity
+        } else {
+            cfg.keys[.a] = .key(.b)
+            cfg.keys[.b] = .key(.a)
+            cfg.keys[.x] = .key(.y)
+            cfg.keys[.y] = .key(.x)
+        }
+        draft = cfg
+    }
+
     // MARK: Nintendo Switch mode
 
     /// "Apply to NS mode": the pad keeps a second set of four profiles (config ids 4…7) used in Switch mode.
-    /// Like Space Station's old-protocol path, this copies the current draft — keyboard/mouse mappings
-    /// stripped back to identity — plus its lighting into slot `activeSlot + 4`. No separate save command.
+    /// Copies the current draft — keyboard/mouse mappings stripped back to identity — plus its lighting into
+    /// slot `activeSlot + 4` (for PC slots 0…3) and saves to flash.
     func applyToSwitchMode() async {
         guard var cfg = draft else { return }
         busy = true; defer { busy = false }
         for (k, m) in cfg.keys { if case .keyboardMouse = m { cfg.keys[k] = .identity } }
-        let conn = controller.connection, target = activeSlot + 4, bytes = cfg.bytes, led = controller.led
+        let baseSlot = activeSlot < 4 ? activeSlot : (activeSlot - 4)
+        let target = baseSlot + 4
+        let bytes = cfg.bytes, led = controller.led
+        let conn = controller.connection
         let result: Result<Void, Error> = await Task.detached {
             Result {
                 switch conn {
@@ -124,10 +191,11 @@ final class ProfileStore {
                     s.configId = target
                     try s.writeBlob(bytes, kind: .config)
                     if let led { try s.writeBlob(led.bytes, kind: .led) }
+                    try s.saveToFlash()
                 case .xinput:
                     guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
-                    try HelperClient.shared.writeConfig(slot: target, bytes: bytes, persist: false)
-                    if let led { try HelperClient.shared.applyLED(led, slot: target, persist: false) }
+                    try HelperClient.shared.writeConfig(slot: target, bytes: bytes, persist: true)
+                    if let led { try HelperClient.shared.applyLED(led, slot: target, persist: true) }
                 case .none, .newXInput: throw HelperError.transport("no controller")
                 }
             }
@@ -165,7 +233,10 @@ final class ProfileStore {
         guard !isDirty || slot == activeSlot else { return }   // UI asks before discarding
         activeSlot = slot
         draft = slots.first { $0.index == slot }?.config
-        Task { await activateOnPad(slot); await controller.loadLED(slot: slot) }
+        Task {
+            if profileBank == .pc, slot < 4 { await activateOnPad(slot) }
+            await controller.loadLED(slot: slot)
+        }
     }
 
     func revert() { draft = slots.first { $0.index == activeSlot }?.config }
@@ -225,9 +296,14 @@ final class ProfileStore {
     // MARK: Apply
 
     func apply() async {
-        guard let draft, isDirty else { return }
+        guard var cfg = draft, isDirty else { return }
+        if profileBank == .switchMode {
+            for (k, m) in cfg.keys { if case .keyboardMouse = m { cfg.keys[k] = .identity } }
+            self.draft = cfg
+        }
         busy = true; defer { busy = false }
-        let conn = controller.connection, slot = activeSlot, bytes = draft.bytes
+        let conn = controller.connection, slot = activeSlot, bytes = cfg.bytes
+        let shouldActivate = profileBank == .pc && slot < 4
         let result: Result<Void, Error> = await Task.detached {
             Result {
                 switch conn {
@@ -238,7 +314,7 @@ final class ProfileStore {
                 case .xinput:
                     guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                     try HelperClient.shared.writeConfig(slot: slot, bytes: bytes, persist: true)
-                    try HelperClient.shared.applySlot(slot)
+                    if shouldActivate { try HelperClient.shared.applySlot(slot) }
                 case .none, .newXInput: throw HelperError.transport("no controller")
                 }
             }

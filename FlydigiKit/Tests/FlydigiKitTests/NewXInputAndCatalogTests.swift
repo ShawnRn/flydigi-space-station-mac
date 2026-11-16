@@ -12,6 +12,7 @@ import Foundation
         #expect(d.capabilities.forceAdaptTriggers == false)
         #expect(d.capabilities.backPaddles == 2)
         #expect(d.capabilities.hasCZButtons == false)
+        #expect(d.capabilities.supportsReportRate == true)
     }
 
     @Test func vader4ProCapabilities() throws {
@@ -24,6 +25,7 @@ import Foundation
         #expect(d.capabilities.triggerVibration == true)
         #expect(d.capabilities.backPaddles == 4)
         #expect(d.capabilities.hasCZButtons == true)
+        #expect(d.capabilities.supportsReportRate == true)
     }
 
     @Test func apex4Capabilities() throws {
@@ -33,6 +35,14 @@ import Foundation
         #expect(d.capabilities.forceAdaptTriggers == true)
         #expect(d.capabilities.backPaddles == 4)
         #expect(d.capabilities.hasCZButtons == false)
+        #expect(d.capabilities.supportsReportRate == false)
+    }
+
+    @Test func reportRateWireValues() {
+        #expect(ReportRate(rawValue: 1)?.hz == 1000)
+        #expect(ReportRate(rawValue: 2)?.hz == 500)
+        #expect(ReportRate(rawValue: 4)?.hz == 250)
+        #expect(ReportRate(rawValue: 8)?.hz == 125)
     }
 }
 

@@ -122,14 +122,15 @@ final class HelperClient: @unchecked Sendable {
         let configs: [[UInt8]]
         let led: LEDConfig?
         let sleepTime: UInt8?
+        let reportRate: UInt8?
     }
 
     func loadSnapshot(rememberedSlot: UInt8, loadConfigs: Bool) throws -> Snapshot {
-        guard case let .snapshot(info, cur, cfgs, ledBytes, sleepTime) = try send(.loadSnapshot(rememberedSlot: rememberedSlot, loadConfigs: loadConfigs)) else {
+        guard case let .snapshot(info, cur, cfgs, ledBytes, sleepTime, reportRate) = try send(.loadSnapshot(rememberedSlot: rememberedSlot, loadConfigs: loadConfigs)) else {
             throw HelperError.transport("unexpected reply")
         }
         let led = ledBytes.flatMap { LEDConfig(bytes: $0) }
-        return Snapshot(info: info, currentSlot: cur, configs: cfgs, led: led, sleepTime: sleepTime)
+        return Snapshot(info: info, currentSlot: cur, configs: cfgs, led: led, sleepTime: sleepTime, reportRate: reportRate)
     }
 
     func readLED(slot: UInt8) throws -> LEDConfig {
