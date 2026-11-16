@@ -79,7 +79,10 @@ public final class DeviceSession: @unchecked Sendable {
                     asm.add(index: parcel.index, data: parcel.data)
                 }
                 Thread.sleep(forTimeInterval: 0.03); link.discardPending()   // trailing duplicates the pad sometimes appends
-                return asm.assemble()!
+                guard let data = asm.assemble() else {
+                    throw TransportError.protocolError("incomplete blob assembly")
+                }
+                return data
             } catch {
                 lastError = error
                 if attempt == 0 { Thread.sleep(forTimeInterval: 0.15) }

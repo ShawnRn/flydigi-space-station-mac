@@ -97,9 +97,10 @@ final class HelperService: @unchecked Sendable {
                         for i in 0..<4 { s.configId = UInt8(i); cfgs.append(try s.readBlob(.config)) }
                     }
                     s.configId = targetSlot
-                    let led = (try? s.readBlob(.led))
+                    let caps = DeviceCatalog.descriptor(for: info.deviceId)?.capabilities
+                    let led = (caps?.ledGroups ?? 1) > 0 ? (try? s.readBlob(.led)) : nil
                     let sleepTime = try? s.screenSleepTime()
-                    let supportsRate = DeviceCatalog.descriptor(for: info.deviceId)?.capabilities.supportsReportRate == true
+                    let supportsRate = caps?.supportsReportRate == true
                     let reportRate = supportsRate ? (try? s.readJoystickSettings().reportRate) : nil
                     if loadConfigs { try? s.applyConfig(slot: targetSlot) }
                     s.configId = 0

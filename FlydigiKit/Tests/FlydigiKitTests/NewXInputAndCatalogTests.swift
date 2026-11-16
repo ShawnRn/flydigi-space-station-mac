@@ -44,6 +44,22 @@ import Foundation
         #expect(ReportRate(rawValue: 4)?.hz == 250)
         #expect(ReportRate(rawValue: 8)?.hz == 125)
     }
+
+    @Test func blobAssemblerIgnoresOutOfRangeParcels() {
+        var asm = BlobAssembler(expectedLength: 20)   // parcelCount == 2 (indices 0, 1)
+        asm.add(index: 0, data: [UInt8](repeating: 0xAA, count: 10))
+        asm.add(index: 5, data: [UInt8](repeating: 0xFF, count: 10))   // trailing/out-of-range parcel
+        asm.add(index: -1, data: [UInt8](repeating: 0x00, count: 10))
+        #expect(!asm.isComplete)
+        #expect(asm.assemble() == nil)
+
+        asm.add(index: 1, data: [UInt8](repeating: 0xBB, count: 10))
+        #expect(asm.isComplete)
+        let bytes = asm.assemble()
+        #expect(bytes?.count == 20)
+        #expect(bytes?.prefix(10).allSatisfy { $0 == 0xAA } == true)
+        #expect(bytes?.suffix(10).allSatisfy { $0 == 0xBB } == true)
+    }
 }
 
 @Suite struct NewXInputProtocol {
