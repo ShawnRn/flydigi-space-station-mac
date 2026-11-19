@@ -83,11 +83,17 @@ public final class DeviceSession: @unchecked Sendable {
                 }
                 Thread.sleep(forTimeInterval: 0.03); link.discardPending()   // trailing duplicates the pad sometimes appends
                 guard let data = asm.assemble() else {
-                    throw TransportError.protocolError("incomplete blob assembly (\(asm.receivedCount)/\(asm.parcelCount))")
+                    throw TransportError.protocolError("incomplete blob assembly (\(asm.receivedCount)/\(asm.requiredParcelCount), missing=\(asm.missingIndices.prefix(5)))")
                 }
                 return data
             } catch {
-                lastError = TransportError.timeout("blob read stalled (\(asm.receivedCount)/\(asm.parcelCount)): \(error)")
+                // If a firmware only ever transmits parcels 0..<78 (780 B) across multiple full reads and only
+                // parcel 78 (trailing 10 B of the 20-byte title field) is absent, pad it so config editing works.
+                if kind == .config, attempt >= 1, asm.missingIndices == [78] {
+                    asm.add(index: 78, data: [UInt8](repeating: 0, count: 10))
+                    if let data = asm.assemble() { return data }
+                }
+                lastError = TransportError.timeout("blob read stalled (\(asm.receivedCount)/\(asm.requiredParcelCount), missing=\(asm.missingIndices.prefix(5)), declared=\(asm.declaredParcelCount ?? -1)): \(error)")
                 if attempt < 3 { Thread.sleep(forTimeInterval: 0.20) }
             }
         }

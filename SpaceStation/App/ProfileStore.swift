@@ -49,9 +49,10 @@ final class ProfileStore {
     private func report(_ e: Error) {
         let text = "\(e)"
         if text.contains("no matching report") || text.contains("timeout") {
-            lastError = nil
-            // Keep existing profile/UI intact on a single transient RF drop; let ControllerModel escalate only on repeated misses.
-            controller.noteTransientTimeout()
+            // Do not wipe an already-connected controller back to "waiting for controller" on a single profile read miss;
+            // keep the device live and let the user retry reading the slot.
+            lastError = controller.info == nil ? nil : String(localized: "Failed to read controller profile.")
+            if controller.info == nil { controller.noteTransientTimeout() }
         } else {
             lastError = text
         }

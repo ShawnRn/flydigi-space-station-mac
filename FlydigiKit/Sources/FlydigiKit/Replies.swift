@@ -144,7 +144,15 @@ public struct BlobAssembler: Sendable {
 
     public var parcelCount: Int { (expectedLength + 9) / 10 }
     public var receivedCount: Int { parcels.count }
-    public var isComplete: Bool { (0..<parcelCount).allSatisfy { parcels[$0] != nil } }
+    /// For 790-byte config blobs, byte 2 of parcel 0 declares the firmware's parcel count (e.g. 78 on Direwolf 4, 79 on Apex 4).
+    public var declaredParcelCount: Int? {
+        guard expectedLength == GamepadConfig.length, let p0 = parcels[0], p0.count > 2 else { return nil }
+        let n = Int(p0[2])
+        return (50..<parcelCount).contains(n) ? n : nil
+    }
+    public var requiredParcelCount: Int { declaredParcelCount ?? parcelCount }
+    public var missingIndices: [Int] { (0..<requiredParcelCount).filter { parcels[$0] == nil } }
+    public var isComplete: Bool { (0..<requiredParcelCount).allSatisfy { parcels[$0] != nil } }
 
     public mutating func add(index: Int, data: [UInt8]) {
         guard (0..<parcelCount).contains(index) else { return }
@@ -154,7 +162,10 @@ public struct BlobAssembler: Sendable {
     public func assemble() -> [UInt8]? {
         guard isComplete else { return nil }
         var out: [UInt8] = []
-        for i in 0..<parcelCount { guard let p = parcels[i] else { return nil }; out += p }
+        for i in 0..<requiredParcelCount { guard let p = parcels[i] else { return nil }; out += p }
+        if out.count < expectedLength {
+            out += [UInt8](repeating: 0, count: expectedLength - out.count)
+        }
         return Array(out.prefix(expectedLength))
     }
 }

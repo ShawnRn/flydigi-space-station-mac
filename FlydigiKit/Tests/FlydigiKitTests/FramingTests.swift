@@ -166,4 +166,18 @@ func fixture(_ name: String) throws -> [UInt8] {
         #expect(again.keys[.a] == .key(.b) && again.title == "Test" && again.leftStick.deadZone == 10)
         #expect(again.keys[.c] == .key(.thumbL))   // untouched fields survive
     }
+    @Test func blobAssemblerSupports78ParcelConfig() throws {
+        var asm = BlobAssembler(expectedLength: GamepadConfig.length)
+        var p0 = [UInt8](repeating: 0, count: 10)
+        p0[0] = 0x00; p0[1] = 0x03; p0[2] = 78
+        asm.add(index: 0, data: p0)
+        for i in 1..<78 {
+            asm.add(index: i, data: [UInt8](repeating: UInt8(i & 0xFF), count: 10))
+        }
+        #expect(asm.declaredParcelCount == 78)
+        #expect(asm.isComplete)
+        let assembled = try #require(asm.assemble())
+        #expect(assembled.count == GamepadConfig.length)
+        #expect(assembled[780..<790].allSatisfy { $0 == 0 })
+    }
 }

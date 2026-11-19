@@ -15,18 +15,15 @@ struct DeviceCenterPage: View {
     var body: some View {
         GeometryReader { g in
             ZStack {
-                SS.n900
-                // SS4's diagonal blue wash in the top-right corner.
-                Ellipse().fill(SS.brand.opacity(0.35)).frame(width: g.size.width * 0.6, height: g.size.height * 1.2)
-                    .rotationEffect(.degrees(35)).blur(radius: 120).offset(x: g.size.width * 0.35, y: -g.size.height * 0.35)
-
-                VStack(spacing: 0) {
-                    Text("Welcome to Space Station for Mac").font(.system(size: 40, weight: .semibold)).foregroundStyle(.white)
-                        .padding(.top, max(80, g.size.height * 0.16))
-                    Spacer()
+                VStack(spacing: 36) {
+                    Spacer(minLength: 36)
+                    Text("Welcome to Space Station for Mac")
+                        .font(.system(size: 36, weight: .semibold))
+                        .foregroundStyle(.white)
                     if connected { deviceCard } else { emptyCard }
-                    Spacer()
+                    Spacer(minLength: 72)
                 }
+                .frame(width: g.size.width, height: g.size.height)
 
                 VStack {
                     Spacer()
@@ -70,7 +67,22 @@ struct DeviceCenterPage: View {
                     }
                     .padding(24)
                 }
+                .frame(width: g.size.width, height: g.size.height)
             }
+            .frame(width: g.size.width, height: g.size.height)
+            .background {
+                ZStack {
+                    SS.n900
+                    // SS4's diagonal blue wash in the top-right corner.
+                    Ellipse()
+                        .fill(SS.brand.opacity(0.35))
+                        .frame(width: g.size.width * 0.6, height: g.size.height * 1.2)
+                        .rotationEffect(.degrees(35))
+                        .blur(radius: 120)
+                        .offset(x: g.size.width * 0.35, y: -g.size.height * 0.35)
+                }
+            }
+            .clipped()
         }
         .ignoresSafeArea()
     }
@@ -126,7 +138,7 @@ struct DeviceCenterPage: View {
                 }
                 Spacer().frame(height: 18)
             }
-            .frame(width: 360, height: 450)
+            .frame(width: 348, height: 416)
             .background {
                 ZStack {
                     LinearGradient(colors: [SS.n700.opacity(0.95), SS.n800.opacity(0.9)], startPoint: .top, endPoint: .bottom)
