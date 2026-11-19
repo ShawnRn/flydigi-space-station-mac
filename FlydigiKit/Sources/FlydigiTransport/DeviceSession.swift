@@ -59,7 +59,7 @@ public final class DeviceSession: @unchecked Sendable {
         let length = kind == .config ? 790 : LEDConfig.length
         var asm = BlobAssembler(expectedLength: length)
         var lastError: Error?
-        for attempt in 0..<3 {
+        for attempt in 0..<4 {
             do {
                 link.discardPending()                                   // parcels left over from a previous read must not leak in
                 switch channel {
@@ -70,9 +70,9 @@ public final class DeviceSession: @unchecked Sendable {
                 while !asm.isComplete {
                     let remaining = deadline.timeIntervalSinceNow
                     guard remaining > 0 else { throw TransportError.timeout("blob read incomplete") }
-                    // Over 2.4 GHz, if a single parcel drops, detect the stall after 1.4 s instead of wasting 4 s,
+                    // Over 2.4 GHz, if a single parcel drops, detect the stall after 1.0 s instead of wasting 4 s,
                     // keeping already-received parcels in `asm` so the next attempt fills any gaps immediately.
-                    let stepTimeout = min(remaining, 1.4)
+                    let stepTimeout = min(remaining, 1.0)
                     let parcel: (index: Int, data: [UInt8]) = try link.waitForReport(timeout: stepTimeout) { r in
                         switch self.channel {
                         case .xinput: return XInputReply.blobParcel(r, kind: kind)
@@ -83,12 +83,12 @@ public final class DeviceSession: @unchecked Sendable {
                 }
                 Thread.sleep(forTimeInterval: 0.03); link.discardPending()   // trailing duplicates the pad sometimes appends
                 guard let data = asm.assemble() else {
-                    throw TransportError.protocolError("incomplete blob assembly")
+                    throw TransportError.protocolError("incomplete blob assembly (\(asm.receivedCount)/\(asm.parcelCount))")
                 }
                 return data
             } catch {
-                lastError = error
-                if attempt < 2 { Thread.sleep(forTimeInterval: 0.12) }
+                lastError = TransportError.timeout("blob read stalled (\(asm.receivedCount)/\(asm.parcelCount)): \(error)")
+                if attempt < 3 { Thread.sleep(forTimeInterval: 0.20) }
             }
         }
         throw lastError ?? TransportError.timeout("blob read incomplete")

@@ -96,19 +96,21 @@ final class HelperService: @unchecked Sendable {
                     let targetSlot = cur ?? rememberedSlot
                     var cfgs: [[UInt8]] = []
                     if loadConfigs {
-                        s.configId = targetSlot; _ = try? s.readBlob(.config)   // burn quirk read
-                        if !info.isWired { usleep(60_000) }
-                        for i in 0..<4 {
-                            if !info.isWired { usleep(35_000) }
-                            s.configId = UInt8(i)
+                        var bySlot = [[UInt8]](repeating: [], count: 4)
+                        // Over 2.4 GHz wireless, read only the active slot during startup snapshot so the UI
+                        // (vibration, buttons, sticks, triggers) becomes ready in ~1 s; other slots load on demand.
+                        let indices: [UInt8] = info.isWired ? [0, 1, 2, 3] : [min(3, targetSlot)]
+                        for i in indices {
+                            if !info.isWired, i != indices.first { usleep(35_000) }
+                            s.configId = i
                             do {
-                                cfgs.append(try s.readBlob(.config))
+                                bySlot[Int(i)] = try s.readBlob(.config)
                             } catch {
                                 helperLog.error("loadSnapshot slot \(i) failed (wired=\(info.isWired)): \(String(describing: error), privacy: .public)")
-                                cfgs.removeAll()
                                 break
                             }
                         }
+                        if bySlot.contains(where: { !$0.isEmpty }) { cfgs = bySlot }
                     }
                     s.configId = targetSlot
                     let caps = DeviceCatalog.descriptor(for: info.deviceId)?.capabilities

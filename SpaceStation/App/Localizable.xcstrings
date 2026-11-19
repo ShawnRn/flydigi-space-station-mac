@@ -1562,7 +1562,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "连接手柄以调节震动。"
+            "value": "连接手柄以调节振动。"
           }
         }
       }
@@ -3206,7 +3206,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "扳机抵达起始位置后触发震动所需的按压力度。"
+            "value": "扳机抵达起始位置后触发振动所需的按压力度。"
           }
         }
       }
@@ -3408,7 +3408,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "握把震动"
+            "value": "握把振动"
           }
         }
       }
@@ -3424,7 +3424,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "握把震动强度"
+            "value": "握把振动强度"
           }
         }
       }
@@ -4638,7 +4638,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "编辑器中的按键映射、摇杆、扳机、体感、震动与宏设置将全部恢复默认值。在点击“应用”前不会写入手柄。"
+            "value": "编辑器中的按键映射、摇杆、扳机、体感、振动与宏设置将全部恢复默认值。在点击“应用”前不会写入手柄。"
           }
         }
       }
@@ -5648,7 +5648,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "达到破壁起点后开始输出震动反馈"
+            "value": "达到破壁起点后开始输出振动反馈"
           }
         }
       }
@@ -5664,7 +5664,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "达到起始位置后开始输出震动反馈"
+            "value": "达到起始位置后开始输出振动反馈"
           }
         }
       }
@@ -6780,7 +6780,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "正在震动测试…"
+            "value": "正在振动测试…"
           }
         }
       }
@@ -7548,7 +7548,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "起始震动强度"
+            "value": "起始振动强度"
           }
         }
       }
@@ -7960,7 +7960,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "测试震动"
+            "value": "测试振动"
           }
         }
       }
@@ -8316,7 +8316,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "扳机马达随握把震动（游戏内震动）同步共振。"
+            "value": "扳机马达随握把振动（游戏内振动）同步共振。"
           }
         }
       }
@@ -8572,7 +8572,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "持续提供震动反馈的扳机行程范围。"
+            "value": "持续提供振动反馈的扳机行程范围。"
           }
         }
       }
@@ -8620,7 +8620,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "激活震动反馈所需的扳机按压行程。"
+            "value": "激活振动反馈所需的扳机按压行程。"
           }
         }
       }
@@ -9066,7 +9066,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "将当前配置（含按键、摇杆、扳机、体感、震动、宏与灯光）上传至飞智分享服务并生成分享码；任何 Windows 或 Mac 空间站用户均可通过分享码导入。"
+            "value": "将当前配置（含按键、摇杆、扳机、体感、振动、宏与灯光）上传至飞智分享服务并生成分享码；任何 Windows 或 Mac 空间站用户均可通过分享码导入。"
           }
         }
       }
@@ -9220,7 +9220,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "震动"
+            "value": "振动"
           }
         }
       }
@@ -9236,7 +9236,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "震动频率"
+            "value": "振动频率"
           }
         }
       }
@@ -9252,7 +9252,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "震动强度"
+            "value": "振动强度"
           }
         }
       }
@@ -9268,7 +9268,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "扳机马达的震动强度。"
+            "value": "扳机马达的振动强度。"
           }
         }
       }
@@ -9284,7 +9284,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "测试震动"
+            "value": "测试振动"
           }
         }
       }
@@ -9300,7 +9300,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "震动触发阈值"
+            "value": "振动触发阈值"
           }
         }
       }
@@ -9406,7 +9406,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "当握把震动强度低于此阈值时，扳机将不会跟随震动。"
+            "value": "当握把振动强度低于此阈值时，扳机将不会跟随振动。"
           }
         }
       }
@@ -9743,6 +9743,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "等待激活键"
+          }
+        }
+      }
+    },
+    "Failed to read controller profile.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读取手柄配置失败，请重试。"
           }
         }
       }

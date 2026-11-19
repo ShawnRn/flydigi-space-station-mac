@@ -99,23 +99,51 @@ public final class USBLink: Link, @unchecked Sendable {
             guard kr == kIOReturnSuccess else { teardownDevice(reattach: true); throw Self.err("SetConfiguration(1)", kr) }
         }
 
-        do {
-            let ifService = try Self.interfaceService(of: device, number: 0)
-            defer { IOObjectRelease(ifService) }
-            interface = try Self.interfaceInterface(for: ifService)
-        } catch {
+        // Claim interface 0. On macOS DriverKit (`Xbox360Gamepad`), if the dext still owns interface 0 after
+        // capture, retrying USBInterfaceOpenSeize on the same handle keeps returning 0xe00002c5; re-applying
+        // SetConfiguration(1) (and re-capturing on a second miss) tears down the dext and creates a clean interface.
+        var openKR = kIOReturnExclusiveAccess
+        for round in 0..<3 {
+            if round == 1 {
+                _ = device.pointee!.pointee.SetConfiguration(device, 1)
+                usleep(60_000)
+            } else if round == 2 {
+                _ = device.pointee!.pointee.USBDeviceReEnumerate(device, captureMask)
+                _ = device.pointee!.pointee.USBDeviceClose(device)
+                for _ in 0..<20 {
+                    if device.pointee!.pointee.USBDeviceOpenSeize(device) == kIOReturnSuccess { break }
+                    usleep(25_000)
+                }
+                _ = device.pointee!.pointee.SetConfiguration(device, 1)
+                usleep(60_000)
+            }
+            let intf: InterfacePtr
+            do {
+                let ifService = try Self.interfaceService(of: device, number: 0)
+                defer { IOObjectRelease(ifService) }
+                intf = try Self.interfaceInterface(for: ifService)
+            } catch {
+                if round == 2 { teardownDevice(reattach: true); throw error }
+                usleep(50_000)
+                continue
+            }
+            openKR = kIOReturnExclusiveAccess
+            for _ in 0..<6 {
+                openKR = intf.pointee!.pointee.USBInterfaceOpenSeize(intf)
+                if openKR == kIOReturnSuccess { break }
+                guard openKR == kIOReturnExclusiveAccess || openKR == kIOReturnNotReady || openKR == kIOReturnBusy else { break }
+                usleep(25_000)
+            }
+            if openKR == kIOReturnSuccess {
+                interface = intf
+                break
+            }
+            Self.release(intf)
+        }
+        guard let intf = interface, openKR == kIOReturnSuccess else {
             teardownDevice(reattach: true)
-            throw error
+            throw Self.err("USBInterfaceOpenSeize", openKR)
         }
-        let intf = interface!
-        kr = kIOReturnExclusiveAccess
-        for attempt in 0..<30 {
-            kr = intf.pointee!.pointee.USBInterfaceOpenSeize(intf)
-            if kr == kIOReturnSuccess { break }
-            guard kr == kIOReturnExclusiveAccess || kr == kIOReturnNotReady || kr == kIOReturnBusy else { break }
-            usleep(attempt < 15 ? 25_000 : 40_000)
-        }
-        guard kr == kIOReturnSuccess else { Self.release(intf); interface = nil; teardownDevice(reattach: true); throw Self.err("USBInterfaceOpenSeize", kr) }
 
         // Map endpoint addresses to pipe references.
         var numEndpoints: UInt8 = 0

@@ -67,11 +67,14 @@ final class ProfileStore {
     /// Applies pre-fetched config blobs from a batched XInput snapshot without triggering another USB capture.
     func applySnapshot(current: UInt8, blobs: [[UInt8]]) {
         guard profileBank == .pc else { return }
-        let mapped = blobs.enumerated().compactMap { i, b in GamepadConfig(bytes: b).map { Slot(index: UInt8(i), config: $0) } }
+        let mapped = blobs.enumerated().compactMap { i, b -> Slot? in
+            guard !b.isEmpty, let cfg = GamepadConfig(bytes: b) else { return nil }
+            return Slot(index: UInt8(i), config: cfg)
+        }
         guard !mapped.isEmpty else { return }
         slots = mapped
         activeSlot = current < 4 ? current : pcActiveSlot
-        if !isDirty { draft = slots.first { $0.index == activeSlot }?.config }
+        if !isDirty { draft = slots.first { $0.index == activeSlot }?.config ?? mapped.first?.config }
         lastError = nil
     }
 
@@ -96,15 +99,16 @@ final class ProfileStore {
         // Re-apply the active PC slot after reading so reading Switch slots (4…7) or other PC slots never shifts the pad cursor.
         let restorePC = controller.padSlot.flatMap { $0 < 4 ? $0 : nil } ?? pcActiveSlot
         let targetDefault = bank == .pc ? restorePC : (activeSlot >= 4 ? activeSlot : 4)
+        let isWired = controller.info?.wired == true
+        let slotsToRead: [UInt8] = isWired ? (0..<UInt8(4)).map { startSlot + $0 } : [targetDefault]
         let result: Result<(UInt8, [(UInt8, [UInt8])]), Error> = await Task.detached {
             Result {
                 switch conn {
                 case .dinput:
                     let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }
-                    s.configId = targetDefault; _ = try? s.readBlob(.config)
+                    if startSlot != 0 { s.configId = targetDefault; _ = try? s.readBlob(.config) }
                     var out: [(UInt8, [UInt8])] = []
-                    for offset in 0..<UInt8(4) {
-                        let id = startSlot + offset
+                    for id in slotsToRead {
                         s.configId = id
                         out.append((id, try s.readBlob(.config)))
                     }
@@ -113,13 +117,12 @@ final class ProfileStore {
                 case .xinput:
                     guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
                     let h = HelperClient.shared
-                    _ = try? h.readConfig(slot: targetDefault)
+                    if isWired, startSlot != 0 { _ = try? h.readConfig(slot: targetDefault) }
                     var out: [(UInt8, [UInt8])] = []
-                    for offset in 0..<UInt8(4) {
-                        let id = startSlot + offset
+                    for id in slotsToRead {
                         out.append((id, try h.readConfig(slot: id)))
                     }
-                    try h.applySlot(restorePC)
+                    try? h.applySlot(restorePC)
                     return (targetDefault, out)
                 case .none, .newXInput: throw HelperError.transport("no controller")
                 }
@@ -127,12 +130,16 @@ final class ProfileStore {
         }.value
         switch result {
         case .success(let (current, blobs)):
-            slots = blobs.compactMap { i, b in GamepadConfig(bytes: b).map { Slot(index: i, config: $0) } }
-            if slots.isEmpty { lastError = String(localized: "Could not decode the controller's profiles"); return }
+            let decoded = blobs.compactMap { i, b in GamepadConfig(bytes: b).map { Slot(index: i, config: $0) } }
+            if decoded.isEmpty { lastError = String(localized: "Could not decode the controller's profiles"); return }
+            for s in decoded {
+                if let idx = slots.firstIndex(where: { $0.index == s.index }) { slots[idx] = s } else { slots.append(s) }
+            }
+            slots.sort { $0.index < $1.index }
             activeSlot = current
-            draft = slots.first { $0.index == activeSlot }?.config
+            draft = slots.first { $0.index == activeSlot }?.config ?? decoded.first?.config
             lastError = nil
-            if conn == .dinput || controller.led == nil {
+            if controller.capabilities.ledGroups > 0, (conn == .dinput || controller.led == nil) {
                 await controller.loadLED(slot: current)
             }
         case .failure(let e): report(e)
@@ -232,10 +239,57 @@ final class ProfileStore {
     func select(slot: UInt8) {
         guard !isDirty || slot == activeSlot else { return }   // UI asks before discarding
         activeSlot = slot
-        draft = slots.first { $0.index == slot }?.config
-        Task {
-            if profileBank == .pc, slot < 4 { await activateOnPad(slot) }
-            await controller.loadLED(slot: slot)
+        if let existing = slots.first(where: { $0.index == slot }) {
+            draft = existing.config
+            Task {
+                if profileBank == .pc, slot < 4 { await activateOnPad(slot) }
+                if controller.capabilities.ledGroups > 0 { await controller.loadLED(slot: slot) }
+            }
+        } else {
+            draft = nil
+            Task { await loadSlot(slot) }
+        }
+    }
+
+    /// Reads a single slot on demand (used for lazy wireless slot switching).
+    func loadSlot(_ slot: UInt8) async {
+        guard controller.info != nil, !busy else { return }
+        let conn = controller.connection
+        guard conn == .dinput || conn == .xinput else { return }
+        busy = true; defer { busy = false }
+        let restorePC = controller.padSlot.flatMap { $0 < 4 ? $0 : nil } ?? pcActiveSlot
+        let shouldActivate = profileBank == .pc && slot < 4
+        let result: Result<[UInt8], Error> = await Task.detached {
+            Result {
+                switch conn {
+                case .dinput:
+                    let s = try DeviceSession.open(preferring: .dinput); defer { s.close() }
+                    s.configId = slot
+                    let bytes = try s.readBlob(.config)
+                    try? s.applyConfig(slot: shouldActivate ? slot : restorePC)
+                    return bytes
+                case .xinput:
+                    guard #available(macOS 14.0, *) else { throw HelperError.notInstalled }
+                    let h = HelperClient.shared
+                    let bytes = try h.readConfig(slot: slot)
+                    try? h.applySlot(shouldActivate ? slot : restorePC)
+                    return bytes
+                case .none, .newXInput: throw HelperError.transport("no controller")
+                }
+            }
+        }.value
+        switch result {
+        case .success(let bytes):
+            guard let cfg = GamepadConfig(bytes: bytes) else {
+                lastError = String(localized: "Could not decode the controller's profiles")
+                return
+            }
+            if let idx = slots.firstIndex(where: { $0.index == slot }) { slots[idx] = Slot(index: slot, config: cfg) }
+            else { slots.append(Slot(index: slot, config: cfg)); slots.sort { $0.index < $1.index } }
+            if activeSlot == slot { draft = cfg }
+            lastError = nil
+            if controller.capabilities.ledGroups > 0 { await controller.loadLED(slot: slot) }
+        case .failure(let e): report(e)
         }
     }
 

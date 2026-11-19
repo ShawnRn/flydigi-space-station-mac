@@ -360,8 +360,18 @@ struct HomeView: View {
             if model.connection == .newXInput {
                 Text("NewXInput (0x37D7) controller detected. Identification and live input work; profile read/write on this protocol is not yet supported.")
                     .font(.system(size: 13)).foregroundStyle(SS.n300).multilineTextAlignment(.center).frame(maxWidth: 460)
+            } else if model.connection == .none {
+                Text("Connect the controller to edit its profiles.").font(.system(size: 13)).foregroundStyle(SS.n300)
+            } else if profiles.busy || model.busy {
+                HStack(spacing: 8) {
+                    ProgressView().controlSize(.small)
+                    Text("Loading profiles…").font(.system(size: 13)).foregroundStyle(SS.n300)
+                }
             } else {
-                Text(model.connection == .none ? LocalizedStringKey("Connect the controller to edit its profiles.") : LocalizedStringKey("Loading profiles…")).font(.system(size: 13)).foregroundStyle(SS.n300)
+                Text("Failed to read controller profile.").font(.system(size: 13)).foregroundStyle(SS.n300)
+                Button("Retry") { Task { await profiles.loadAll(force: true) } }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
             }
         }
         .frame(maxWidth: .infinity, minHeight: 160)
@@ -461,15 +471,17 @@ struct HeroView: View {
     }
 
     private var profileMenu: some View {
-        Menu {
-            ForEach(profiles.slots) { s in
+        let bankSlots: [UInt8] = profiles.profileBank == .switchMode ? [4, 5, 6, 7] : [0, 1, 2, 3]
+        return Menu {
+            ForEach(bankSlots, id: \.self) { slotIndex in
                 Button {
-                    if profiles.isDirty { pendingSlot = s.index } else { profiles.select(slot: s.index) }
+                    if profiles.isDirty { pendingSlot = slotIndex } else { profiles.select(slot: slotIndex) }
                 } label: {
-                    let num = profiles.displayNumber(for: s.index)
+                    let num = profiles.displayNumber(for: slotIndex)
                     let slotBase = profiles.profileBank == .switchMode ? String(localized: "NS Slot \(num)") : String(localized: "Slot \(num)")
-                    let name = s.config.title.isEmpty ? slotBase : (profiles.profileBank == .switchMode ? "NS \(num) · \(s.config.title)" : "\(num) · \(s.config.title)")
-                    if s.index == profiles.activeSlot { Label(name, systemImage: "checkmark") } else { Text(name) }
+                    let loadedTitle = profiles.slots.first(where: { $0.index == slotIndex })?.config.title ?? ""
+                    let name = loadedTitle.isEmpty ? slotBase : (profiles.profileBank == .switchMode ? "NS \(num) · \(loadedTitle)" : "\(num) · \(loadedTitle)")
+                    if slotIndex == profiles.activeSlot { Label(name, systemImage: "checkmark") } else { Text(name) }
                 }
             }
             Divider()
@@ -826,8 +838,20 @@ struct VibrationPanel: View {
                 .opacity(vib.enabled ? 1 : 0.4).disabled(!vib.enabled)
                 GhostButton(title: "Vibration test", icon: "waveform.path", enabled: model.connection == .xinput && !model.busy) { Task { await test() } }
                 if model.connection == .dinput { Text("The test needs XInput mode.").font(.system(size: 12)).foregroundStyle(SS.n400) }
-            } else {
+            } else if model.connection == .none {
                 Text("Connect the controller to edit vibration.").font(.system(size: 13)).foregroundStyle(SS.n300)
+            } else if profiles.busy || model.busy {
+                HStack(spacing: 8) {
+                    ProgressView().controlSize(.small)
+                    Text("Loading profiles…").font(.system(size: 13)).foregroundStyle(SS.n300)
+                }
+            } else {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Failed to read controller profile.").font(.system(size: 13)).foregroundStyle(SS.n300)
+                    Button("Retry") { Task { await profiles.loadAll(force: true) } }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                }
             }
         }
     }

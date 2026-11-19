@@ -143,6 +143,7 @@ public struct BlobAssembler: Sendable {
     public init(expectedLength: Int) { self.expectedLength = expectedLength }
 
     public var parcelCount: Int { (expectedLength + 9) / 10 }
+    public var receivedCount: Int { parcels.count }
     public var isComplete: Bool { (0..<parcelCount).allSatisfy { parcels[$0] != nil } }
 
     public mutating func add(index: Int, data: [UInt8]) {
