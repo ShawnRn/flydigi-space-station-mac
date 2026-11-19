@@ -109,13 +109,13 @@ public final class USBLink: Link, @unchecked Sendable {
         }
         let intf = interface!
         kr = kIOReturnExclusiveAccess
-        for _ in 0..<10 {
-            kr = intf.pointee!.pointee.USBInterfaceOpen(intf)
+        for attempt in 0..<30 {
+            kr = intf.pointee!.pointee.USBInterfaceOpenSeize(intf)
             if kr == kIOReturnSuccess { break }
             guard kr == kIOReturnExclusiveAccess || kr == kIOReturnNotReady || kr == kIOReturnBusy else { break }
-            usleep(20_000)
+            usleep(attempt < 15 ? 25_000 : 40_000)
         }
-        guard kr == kIOReturnSuccess else { Self.release(intf); interface = nil; teardownDevice(reattach: true); throw Self.err("USBInterfaceOpen", kr) }
+        guard kr == kIOReturnSuccess else { Self.release(intf); interface = nil; teardownDevice(reattach: true); throw Self.err("USBInterfaceOpenSeize", kr) }
 
         // Map endpoint addresses to pipe references.
         var numEndpoints: UInt8 = 0

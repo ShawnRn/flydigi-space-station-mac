@@ -97,8 +97,9 @@ final class HelperService: @unchecked Sendable {
                     var cfgs: [[UInt8]] = []
                     if loadConfigs {
                         s.configId = targetSlot; _ = try? s.readBlob(.config)   // burn quirk read
+                        if !info.isWired { usleep(60_000) }
                         for i in 0..<4 {
-                            if !info.isWired { usleep(25_000) }
+                            if !info.isWired { usleep(35_000) }
                             s.configId = UInt8(i)
                             do {
                                 cfgs.append(try s.readBlob(.config))

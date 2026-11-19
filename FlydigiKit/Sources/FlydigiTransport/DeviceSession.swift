@@ -70,9 +70,9 @@ public final class DeviceSession: @unchecked Sendable {
                 while !asm.isComplete {
                     let remaining = deadline.timeIntervalSinceNow
                     guard remaining > 0 else { throw TransportError.timeout("blob read incomplete") }
-                    // Over 2.4 GHz, if a single parcel drops, detect the stall after 0.9 s instead of wasting 4 s,
+                    // Over 2.4 GHz, if a single parcel drops, detect the stall after 1.4 s instead of wasting 4 s,
                     // keeping already-received parcels in `asm` so the next attempt fills any gaps immediately.
-                    let stepTimeout = min(remaining, 0.9)
+                    let stepTimeout = min(remaining, 1.4)
                     let parcel: (index: Int, data: [UInt8]) = try link.waitForReport(timeout: stepTimeout) { r in
                         switch self.channel {
                         case .xinput: return XInputReply.blobParcel(r, kind: kind)
